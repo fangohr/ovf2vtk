@@ -1,0 +1,16 @@
+recursive-include tools *.py
+recursive-include Demo *.py *.ovf *.omf *.sh
+include Demo/cantedvortex.omf
+include Demo/runme.sh
+include bin/ovf2vtk
+include bin/winovf2vtk.py
+recursive-include Lib *.py
+include doc/*.html
+#include BUGS.txt
+#include TODO.txt
+#include NEWS.txt
+include MANIFEST.in
+include GPL.txt
+exclude CVSLOG
+exclude makedist.sh
+recursive-exclude Test

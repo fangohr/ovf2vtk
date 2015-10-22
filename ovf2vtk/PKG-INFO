@@ -1,0 +1,60 @@
+Metadata-Version: 1.0
+Name: ovf2vtk
+Version: 0.1.23
+Summary: OVF2VTK -- File format conversion from OVF to VTK.
+
+Home-page: http://www.soton.ac.uk/~fangohr/software/ovf2vtk
+Author: Hans Fangohr
+Author-email: hans.fangohr@physics.org
+License: GPL
+Download-URL: http://www.soton.ac.uk/~fangohr/software/ovf2vtk
+Description: 
+        OVF2VTK -- File format conversion from OVF to VTK.
+        
+        Hans Fangohr
+        University of Southampton 2002 - 2006
+        
+        Richard Boardman
+        University of Southampton 2004
+        
+        ovf2vtk -- data conversion from OOMMF's ovf/ovf file format to VTK.
+        
+        This program reads ovf files keeping vector data from the OOMMF
+        simulation package, extracts the data, optionally adds derived
+        observables (mainly curl and divergence) and saves the input data and
+        any derived entities into VTK files.
+        
+        Supported file formats are:
+        
+        input files:
+        
+        ovf files(v1.0), rectangular mesh only
+        data can be ascii, binary4 or binary 8
+        
+        output files:
+        
+        VTK File Formats Standard 2.0. (This depends on PyVTK.)
+        
+        
+        Related information:
+        
+        VTK is the Visualisation ToolKit (http://www.vtk.org/)
+        
+        OOMMF is the Object Oriented MicroMagnetic Framework
+        (http://math.nist.gov/oommf/)
+        
+        PyVTK is used to write Python data structures into VTK data
+        file. (http://cens.ioc.ee/projects/pyvtk/)
+        
+Keywords: OOMMF,VTK,visualisation,conversion
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: Topic :: Scientific/Engineering :: Visualization
