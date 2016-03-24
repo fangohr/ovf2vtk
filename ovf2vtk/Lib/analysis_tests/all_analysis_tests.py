@@ -12,8 +12,21 @@ one place. By Harry Wilson. Last updated 04/11/15"""
 
 
 def test_magnitude_n():
+    "function expects an array of N by 3D vectors"
 
-    # n = 3
+    shapes = (5, 50, 500, 5000)
+    for shapeval in shapes:
+        array = np.random.random_sample(shapeval, 3)
+    # to include negative + larger values
+    newarray = (array - 0.5) * 1000
+    # ensure array of required shape
+    assert newarray.shape == (long(shapeval), long(3))
+    # compute expected result
+    exp = (newarray.sum(1) ** 2) ** 0.5
+    # compute actual result
+    act = analysis.magnitude(newarray)
+    # code works?
+    assert exp == act
 
     x = np.array([[1, 2, 3.]])
     # requirement for magnitude:
