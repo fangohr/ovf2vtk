@@ -12,15 +12,16 @@ one place. By Harry Wilson. Last updated 04/11/15"""
 
 
 def test_magnitude_n():
-    "function expects an array of N by 3D vectors"
+    "function expects an array of 1xN 3D vectors"
 
-    shapes = (5, 50, 500, 5000)
+    # test bordercases and other arbitrary shapes
+    shapes = (0, 1, 6, 60, 600, 6000)
     for shapeval in shapes:
-        array = np.random.random_sample(shapeval, 3)
+        array = np.random.random_sample(1, shapeval)
     # to include negative + larger values
     newarray = (array - 0.5) * 1000
     # ensure array of required shape
-    assert newarray.shape == (long(shapeval), long(3))
+    assert newarray.shape == (long(1), long(shapeval))
     # compute expected result
     exp = (newarray.sum(1) ** 2) ** 0.5
     # compute actual result
