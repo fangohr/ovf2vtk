@@ -33,27 +33,6 @@ def test_magnitude():
     assert exp == act
 
 
-def test_magnitude_return_type():
-    x = np.array([[1]])
-    y = analysis.magnitude(x)
-
-    # make sure return value is numpy array
-    assert isinstance(y, np.ndarray)
-
-    # assert shape is as expected
-    assert y.shape == (1,)
-
-    for N in range(0, 10):
-        x = np.array([[1] * N])
-        y = analysis.magnitude(x)
-
-        # make sure return value is numpy array
-        assert isinstance(y, np.ndarray)
-
-        # assert shape is as expected
-        assert y.shape == (1,)
-
-
 """flat_fortran_to_3Dmatrix"""
 
 
