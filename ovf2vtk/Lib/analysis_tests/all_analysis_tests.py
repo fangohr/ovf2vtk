@@ -17,13 +17,14 @@ def test_magnitude_n():
     # test bordercases and other arbitrary shapes
     shapes = (0, 1, 6, 60, 600, 6000)
     for shapeval in shapes:
-        array = np.random.random_sample(1, shapeval)
+        array = np.random.random_sample((1, shapeval))
     # to include negative + larger values
     newarray = (array - 0.5) * 1000
     # ensure array of required shape
     assert newarray.shape == (long(1), long(shapeval))
     # compute expected result
-    exp = (newarray.sum(1) ** 2) ** 0.5
+    newarraysq = newarray ** 2
+    exp = newarraysq.sum(1) ** 0.5
     # compute actual result
     act = analysis.magnitude(newarray)
     # code works?
