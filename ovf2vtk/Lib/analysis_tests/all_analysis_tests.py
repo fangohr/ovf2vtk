@@ -27,6 +27,8 @@ def test_magnitude():
     exp = newarraysq.sum(1) ** 0.5
     # compute actual result
     act = analysis.magnitude(newarray)
+    # ensure result is a numpy array
+    assert isinstance(act, np.ndarray)
     # code works?
     assert exp == act
 
