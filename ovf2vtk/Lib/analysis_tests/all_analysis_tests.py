@@ -11,7 +11,7 @@ one place. By Harry Wilson. Last updated 04/11/15"""
 """magnitude"""
 
 
-def test_magnitude_n():
+def test_magnitude():
     "function expects an array of 1xN 3D vectors"
 
     # test bordercases and other arbitrary shapes
@@ -29,34 +29,6 @@ def test_magnitude_n():
     act = analysis.magnitude(newarray)
     # code works?
     assert exp == act
-
-
-def test_magnitude_bordercase():
-    # n = 1
-
-    x = np.array([[1.34]])
-    # requirement for magnitude:
-    assert x.shape == (1, 1)
-
-    # compute result we expect
-    y1 = math.sqrt(1.34 ** 2)
-
-    # compute actual result from analysis.magnitude
-    y2 = analysis.magnitude(x)
-    assert y1 == float(y2)
-
-    # n = 0
-
-    x = np.array([[]])
-    # requirement for magnitude:
-    assert x.shape == (1, 0)
-
-    # compute result we expect
-    y1 = 0
-
-    # compute actual result from analysis.magnitude
-    y2 = analysis.magnitude(x)
-    assert y1 == float(y2)
 
 
 def test_magnitude_return_type():
