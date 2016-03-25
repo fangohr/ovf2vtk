@@ -12,7 +12,7 @@ one place. By Harry Wilson. Last updated 04/11/15"""
 
 
 def test_magnitude():
-    "function expects an array of 1xN 3D vectors"
+    """function expects an array of 1xN 3D vectors"""
 
     # test bordercases and other arbitrary shapes
     shapes = (0, 1, 6, 60, 600, 6000)
@@ -33,10 +33,9 @@ def test_magnitude():
     assert exp == act
 
 
-"""flat_fortran_to_3Dmatrix"""
-
-
-def test_ff23Dm():
+def test_convert_flat_fortran_to_3Dmatrix():
+    """vf is expected to be a flat matri; Nx, Ny, and Nz are expected to be
+    positive integers"""
 
     # shape = (1, 3)
 
