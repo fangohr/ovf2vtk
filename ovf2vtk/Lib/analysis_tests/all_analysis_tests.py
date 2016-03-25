@@ -55,36 +55,6 @@ def test_convert_flat_fortran_to_3Dmatrix():
                 assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]), long(3))
 
 
-def test_ff23Dm_bordercase():
-
-    # shape = (1, 1)
-
-    vf = np.array([1])
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 10, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (0)
-
-    vf = np.array([])
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 10, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-
-"""fortran_3Dmatrix_to_flat"""
-
-
 def test_f3D2f():
 
     # shape = (1, 2)
