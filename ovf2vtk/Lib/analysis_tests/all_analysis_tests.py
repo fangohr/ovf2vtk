@@ -37,65 +37,22 @@ def test_convert_flat_fortran_to_3Dmatrix():
     """vf is expected to be a flat matrix; Nx, Ny, and Nz are expected to be
     positive integers"""
 
-    vfs = (0, 1, 10, 100, 1000, 10000, 100000)
+    vfs = 0, 1, 10, 100, 1000, 10000, 100000
     Nxs = 0, 1, 5, 15, 35
     Nys = 0, 1, 6, 15, 30
     Nzs = 0, 1, 7, 15, 25
     for vf in vfs:
         for i in range(5):
             # compute actual result
-            act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)), (Nxs[i], Nys[i], Nzs[i]))
+            act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)), Nxs[i], Nys[i], Nzs[i])
             # check returned array of expected type and shape
             assert isinstance(act, np.ndarray)
-            assert act.shape == (long(Nxs[i]), long(Nys[i]), long(Nzs[i]), long(3))
-
-    # shape = (1, 3)
-
-    vf = np.array([1, 2, 3])
-    # select arbitrary node values
-    Nx, Ny, Nz = 10, 10, 10
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (5, 1)
-
-    vf = np.array([[1], [2], [3], [4], [5]])
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 5, 5
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (3, 7, 2)
-
-    vf = np.random.random_sample((3, 7, 2))
-    # select arbitrary node values
-    Nx, Ny, Nz = 15, 15, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (3, 7, 4, 2), different node values
-
-    vf = np.random.random_sample((3, 7, 4, 2))
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 10, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
+            if i == 0 and vf != 0:
+                # shape returned differs under these conditions
+                assert act.shape == (long(0),)
+            else:
+                # expected shape returned
+                assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]), long(3))
 
 
 def test_ff23Dm_bordercase():
