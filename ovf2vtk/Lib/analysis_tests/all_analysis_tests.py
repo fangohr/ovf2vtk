@@ -34,8 +34,20 @@ def test_magnitude():
 
 
 def test_convert_flat_fortran_to_3Dmatrix():
-    """vf is expected to be a flat matri; Nx, Ny, and Nz are expected to be
+    """vf is expected to be a flat matrix; Nx, Ny, and Nz are expected to be
     positive integers"""
+
+    vfs = (0, 1, 10, 100, 1000, 10000, 100000)
+    Nxs = 0, 1, 5, 15, 35
+    Nys = 0, 1, 6, 15, 30
+    Nzs = 0, 1, 7, 15, 25
+    for vf in vfs:
+        for i in range(5):
+            # compute actual result
+            act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)), (Nxs[i], Nys[i], Nzs[i]))
+            # check returned array of expected type and shape
+            assert isinstance(act, np.ndarray)
+            assert act.shape == (long(Nxs[i]), long(Nys[i]), long(Nzs[i]), long(3))
 
     # shape = (1, 3)
 
