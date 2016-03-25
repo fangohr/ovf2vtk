@@ -55,7 +55,8 @@ def test_convert_flat_fortran_to_3Dmatrix():
                 assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]), long(3))
 
 
-def test_f3D2f():
+def test_fortran_3dmatrix_to_flat():
+    """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order"""
 
     # shape = (1, 2)
 
