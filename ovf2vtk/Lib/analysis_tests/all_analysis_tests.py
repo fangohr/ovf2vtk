@@ -42,7 +42,7 @@ def test_magnitude():
     assert exp == act
 
 
-def test_convert_flat_fortran_to_3Dmatrix():
+def test_convert_flat_fortran_to_3dmatrix():
     """vf is expected to be a flat matrix; Nx, Ny, and Nz are expected to be
     positive integers"""
 
@@ -100,9 +100,26 @@ def test_convert_fortran_3dmatrix_to_flat_vector():
         assert flatv.shape == (long(length)/3, long(3))
 
 
-def test_f2c():
+def test_convert_fortan_to_c():
+    """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
+    or shape (Nx, Ny, Nz, 3) -> C order"""
 
-    # check values return as expected
+    for i in range(5):
+        a = np.random.random_sample((Nzs[i], Nys[i], Nxs[i], 3))
+        # to include negative + larger values
+        a1 = (a - 0.5) * 1000
+        # compute expected shape result
+        exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
+        # compute expected shape result
+        act = analysis.convert_fortran_to_C(a1)
+        # check act and exp have same shape
+        assert exp.shape == act.shape
+        # check values transpose correctly
+        for x in range(Nxs[i]):
+            for y in range(Nys[i]):
+                for z in range(Nzs[i]):
+                    for w in range(3):
+                        assert a1[z, y, x, w] == act[x, y, z, w]
 
     # shape = (3, 1, 3)
 
