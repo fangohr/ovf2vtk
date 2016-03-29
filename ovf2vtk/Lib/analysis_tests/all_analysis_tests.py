@@ -60,7 +60,8 @@ def test_convert_flat_fortran_to_3Dmatrix():
 
 
 def test_convert_fortran_3dmatrix_to_flat():
-    """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order"""
+    """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
+    or shape (Nx, Ny, Nz, 3) -> C order"""
 
     for i in range(5):
         M = np.ndarray((Nzs[i], Nys[i], Nxs[i], 3))
@@ -76,41 +77,9 @@ def test_convert_fortran_3dmatrix_to_flat():
         assert (long(length),) == Mflat.shape
 
 
-def test_f3D2f_bordercase():
-
-    # shape = (1, 1)
-
-    M = np.ones((1, 1))
-    # compute actual result from tested function
-    Mrav = analysis.convert_fortran_3dmatrix_to_flat(M)
-    # test computed result is a numpy array
-    assert isinstance(Mrav, np.ndarray)
-    # compute length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # test actual result is 1D with same length as expected
-    assert (long(x),) == Mrav.shape
-
-    # shape = (0)
-
-    M = np.ones((0))
-    # compute actual result from tested function
-    Mrav = analysis.convert_fortran_3dmatrix_to_flat(M)
-    # test computed result is a numpy array
-    assert isinstance(Mrav, np.ndarray)
-    # compute length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # test actual result is 1D with same length as expected
-    assert (long(x),) == Mrav.shape
-
-
-"""fortran_3Dmatrix_to_flat_vector"""
-
-
-def test_f3Dm2fv():
+def test_convert_fortran_3dmatrix_to_flat_vector():
+    """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
+    or shape (Nx, Ny, Nz, 3) -> C order"""
 
     # shape = (2, 3)
 
