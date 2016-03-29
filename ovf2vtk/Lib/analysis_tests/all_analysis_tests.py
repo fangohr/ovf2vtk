@@ -25,7 +25,7 @@ def test_magnitude():
 
     # test bordercases and other arbitrary shapes
     for vf in vfs:
-        array = np.random.random_sample((vf, long(3)))
+        array = np.random.random_sample((vf, 3))
     # to include negative + larger values
     newarray = (array - 0.5) * 1000
     # ensure array of required shape
@@ -144,6 +144,27 @@ def test_convert_c_to_fortran():
 
 
 def test_components():
+    "input is an array of N 3d vectors"""
+
+    for vf in vfs:
+        d = np.random.random_sample((vf, 3))
+        # to include negative + larger values
+        d1 = (d - 0.5) * 1000
+        # compute expected result
+        vfi = vfj = vfk = np.ndarray((1, vf))
+        if vf == 0:
+            vfi = vfj = vfk = np.ndarray((0, 3))
+        else:
+            for i in range(vf):
+                vfi[0, i], vfj[0, i], vfk[0, i], = d1[i, 0], d1[i, 1], d1[i, 2]
+        exp = (vfi, vfj, vfk)
+        # compute actual result
+        act = analysis.components(d1)
+        # check returned value is tuple
+        assert isinstance(act, tuple)
+        # check results are identical
+        for f in range(3):
+            assert exp[f].all() == act[f].all()
 
     shapes = [(2, 3), (2, 3, 4), (2, 3, 4, 5), (2, 3, 4, 5, 6)]
 
