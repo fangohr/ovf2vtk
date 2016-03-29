@@ -21,16 +21,16 @@ Nzs = 0, 1, 7, 15, 25
 
 
 def test_magnitude():
-    """function expects an array of 1xN 3D vectors"""
+    """function expects an array of N 3D vectors"""
 
     # test bordercases and other arbitrary shapes
     shapes = (0, 1, 6, 60, 600, 6000)
     for shapeval in shapes:
-        array = np.random.random_sample((1, shapeval))
+        array = np.random.random_sample((shapeval, long(3)))
     # to include negative + larger values
     newarray = (array - 0.5) * 1000
     # ensure array of required shape
-    assert newarray.shape == (long(1), long(shapeval))
+    assert newarray.shape == (long(shapeval), long(3))
     # compute expected result
     newarraysq = newarray ** 2
     exp = newarraysq.sum(1) ** 0.5
@@ -39,7 +39,7 @@ def test_magnitude():
     # ensure result is a numpy array
     assert isinstance(act, np.ndarray)
     # code works?
-    assert exp == act
+    assert exp.all() == act.all()
 
 
 def test_convert_flat_fortran_to_3dmatrix():
