@@ -7,8 +7,17 @@ from ovf2vtk import analysis
 """all the tests developed for the analysis.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 04/11/15"""
 
+# ************************** Global Variables ************************** #
 
-"""magnitude"""
+# vf is a flat matrix of shape (1xN), where the values listed are possible...
+# ...values of N
+vfs = 0, 1, 10, 100, 1000, 10000, 100000
+# Selection of values possible for the cells Nx, Ny and Nz.
+Nxs = 0, 1, 5, 15, 35
+Nys = 0, 1, 6, 15, 30
+Nzs = 0, 1, 7, 15, 25
+
+# ******************************* Tests ******************************** #
 
 
 def test_magnitude():
@@ -37,10 +46,7 @@ def test_convert_flat_fortran_to_3Dmatrix():
     """vf is expected to be a flat matrix; Nx, Ny, and Nz are expected to be
     positive integers"""
 
-    vfs = 0, 1, 10, 100, 1000, 10000, 100000
-    Nxs = 0, 1, 5, 15, 35
-    Nys = 0, 1, 6, 15, 30
-    Nzs = 0, 1, 7, 15, 25
+    
     for vf in vfs:
         for i in range(5):
             # compute actual result
@@ -55,7 +61,7 @@ def test_convert_flat_fortran_to_3Dmatrix():
                 assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]), long(3))
 
 
-def test_fortran_3dmatrix_to_flat():
+def test_convert_fortran_3dmatrix_to_flat():
     """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order"""
 
     # shape = (1, 2)
