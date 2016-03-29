@@ -45,8 +45,6 @@ def test_magnitude():
 def test_convert_flat_fortran_to_3Dmatrix():
     """vf is expected to be a flat matrix; Nx, Ny, and Nz are expected to be
     positive integers"""
-
-    
     for vf in vfs:
         for i in range(5):
             # compute actual result
@@ -64,7 +62,18 @@ def test_convert_flat_fortran_to_3Dmatrix():
 def test_convert_fortran_3dmatrix_to_flat():
     """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order"""
 
-    # shape = (1, 2)
+    for i in range(5):
+        M = np.ndarray((Nzs[i], Nys[i], Nxs[i], 3))
+        # compute actual result from tested function
+        Mflat = analysis.convert_fortran_3dmatrix_to_flat(M)
+        # test computed result is a numpy array
+        assert isinstance(Mflat, np.ndarray)
+        # compute length of flattened array by finding product of array shape
+        length = 1
+        for j in M.shape:
+            length = length * j
+        # test actual result is 1D with same length as expected
+        assert (long(length),) == Mflat.shape
 
     M = np.ones((1, 2))
     # compute actual result from tested function
