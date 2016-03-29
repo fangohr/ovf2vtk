@@ -100,7 +100,7 @@ def test_convert_fortran_3dmatrix_to_flat_vector():
         assert flatv.shape == (long(length)/3, long(3))
 
 
-def test_convert_fortan_to_c():
+def test_convert_fortran_to_c():
     """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
     or shape (Nx, Ny, Nz, 3) -> C order"""
 
@@ -122,9 +122,26 @@ def test_convert_fortan_to_c():
                         assert a1[z, y, x, w] == act[x, y, z, w]
 
 
-def test_c2f():
+def test_convert_c_to_fortran():
+    """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
+    or shape (Nx, Ny, Nz, 3) -> C order"""
 
-    # check values return as expected
+    for i in range(5):
+        a = np.random.random_sample((Nzs[i], Nys[i], Nxs[i], 3))
+        # to include negative + larger values
+        a1 = (a - 0.5) * 1000
+        # compute expected shape result
+        exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
+        # compute expected shape result
+        act = analysis.convert_C_to_fortran(a1)
+        # check act and exp have same shape
+        assert exp.shape == act.shape
+        # check values transpose correctly
+        for x in range(Nxs[i]):
+            for y in range(Nys[i]):
+                for z in range(Nzs[i]):
+                    for w in range(3):
+                        assert a1[z, y, x, w] == act[x, y, z, w]
 
     # shape (3, 1, 3)
 
