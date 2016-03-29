@@ -9,8 +9,8 @@ one place. By Harry Wilson. Last updated 04/11/15"""
 
 # ************************** Global Variables ************************** #
 
-# vf is a flat matrix of shape (1xN), where the values listed are possible...
-# ...values of N
+# vf (vector field) is a flat matrix of shape (Nx3), where the values...
+# ...listed are possible values of N
 vfs = 0, 1, 10, 100, 1000, 10000, 100000
 # Selection of values possible for the cells Nx, Ny and Nz.
 Nxs = 0, 1, 5, 15, 35
@@ -24,13 +24,12 @@ def test_magnitude():
     """function expects an array of N 3D vectors"""
 
     # test bordercases and other arbitrary shapes
-    shapes = (0, 1, 6, 60, 600, 6000)
-    for shapeval in shapes:
-        array = np.random.random_sample((shapeval, long(3)))
+    for vf in vfs:
+        array = np.random.random_sample((vf, long(3)))
     # to include negative + larger values
     newarray = (array - 0.5) * 1000
     # ensure array of required shape
-    assert newarray.shape == (long(shapeval), long(3))
+    assert newarray.shape == (long(vf), long(3))
     # compute expected result
     newarraysq = newarray ** 2
     exp = newarraysq.sum(1) ** 0.5
@@ -43,8 +42,8 @@ def test_magnitude():
 
 
 def test_convert_flat_fortran_to_3dmatrix():
-    """vf is expected to be a flat matrix; Nx, Ny, and Nz are expected to be
-    positive integers"""
+    """vf is expected to be an array of N 3D vectors; Nx, Ny, and Nz are
+    expected to be positive integers"""
 
     for vf in vfs:
         for i in range(5):
