@@ -165,3 +165,9 @@ def test_components():
         # check results are identical
         for f in range(3):
             assert exp[f].all() == act[f].all()
+
+
+def test_plane_angles():
+    """input is an array of N 3d vectors"""
+
+    
