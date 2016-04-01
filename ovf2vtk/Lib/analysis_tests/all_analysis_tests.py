@@ -26,19 +26,19 @@ def test_magnitude():
     # test bordercases and other arbitrary shapes
     for vf in vfs:
         array = np.random.random_sample((vf, 3))
-    # to include negative + larger values
-    newarray = (array - 0.5) * 1000
-    # ensure array of required shape
-    assert newarray.shape == (long(vf), long(3))
-    # compute expected result
-    newarraysq = newarray ** 2
-    exp = newarraysq.sum(1) ** 0.5
-    # compute actual result
-    act = analysis.magnitude(newarray)
-    # ensure result is a numpy array
-    assert isinstance(act, np.ndarray)
-    # code works?
-    assert exp.all() == act.all()
+        # to include negative + larger values
+        newarray = (array - 0.5) * 1000
+        # ensure array of required shape
+        assert newarray.shape == (long(vf), long(3))
+        # compute expected result
+        newarraysq = newarray ** 2
+        exp = newarraysq.sum(1) ** 0.5
+        # compute actual result
+        act = analysis.magnitude(newarray)
+        # ensure result is a numpy array
+        assert isinstance(act, np.ndarray)
+        # code works?
+        assert exp.all() == act.all()
 
 
 def test_convert_flat_fortran_to_3dmatrix():
@@ -169,5 +169,9 @@ def test_components():
 
 def test_plane_angles():
     """input is an array of N 3d vectors"""
+
+    for vf in vfs:
+        # compute actual result
+        act = analysis.plane_angles()    
 
     
