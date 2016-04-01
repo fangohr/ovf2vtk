@@ -11,7 +11,7 @@ one place. By Harry Wilson. Last updated 04/11/15"""
 
 # vf (vector field) is a flat matrix of shape (Nx3), where the values...
 # ...listed are possible values of N
-vfs = 0, 1, 10, 100, 1000, 10000, 100000
+vfshapes = 0, 1, 10, 100, 1000, 10000, 100000
 # Selection of values possible for the cells Nx, Ny and Nz.
 Nxs = 0, 1, 5, 15, 35
 Nys = 0, 1, 6, 15, 30
@@ -24,7 +24,7 @@ def test_magnitude():
     """function expects an array of N 3D vectors"""
 
     # test bordercases and other arbitrary shapes
-    for vf in vfs:
+    for vf in vfshapes:
         array = np.random.random_sample((vf, 3))
         # to include negative + larger values
         newarray = (array - 0.5) * 1000
@@ -45,7 +45,7 @@ def test_convert_flat_fortran_to_3dmatrix():
     """vf is expected to be an array of N 3D vectors; Nx, Ny, and Nz are
     expected to be positive integers"""
 
-    for vf in vfs:
+    for vf in vfshapes:
         for i in range(5):
             # compute actual result
             act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)), Nxs[i], Nys[i], Nzs[i])
@@ -146,7 +146,7 @@ def test_convert_c_to_fortran():
 def test_components():
     "input is an array of N 3d vectors"""
 
-    for vf in vfs:
+    for vf in vfshapes:
         d = np.random.random_sample((vf, 3))
         # to include negative + larger values
         d1 = (d - 0.5) * 1000
@@ -170,8 +170,11 @@ def test_components():
 def test_plane_angles():
     """input is an array of N 3d vectors"""
 
-    for vf in vfs:
+    for vf in vfshapes:
+        array = np.random.random_sample((vf, 3))
+        # to include negative + larger values
+        newarray = (array - 0.5) * 1000
         # compute actual result
-        act = analysis.plane_angles()    
+        act = analysis.plane_angles(newarray)
 
     
