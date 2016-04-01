@@ -173,11 +173,19 @@ def test_components():
 def test_plane_angles():
     """input is an array of N 3d vectors"""
 
+    # test random samples first
     for vf in vfshapes:
         array = np.random.random_sample((vf, 3))
         # to include negative + larger values
         newarray = (array - 0.5) * 1000
         # compute actual result
         act = analysis.plane_angles(newarray)
+        # check return type is tuple of length 3 and that each item in tuple...
+        # ...is an array of expected length
+        assert isinstance(act, tuple)
+        assert len(act) == int(3)
+        for i in range(act):
+            assert isinstance(i, np.ndarray)
+            assert len(act[i]) == len(vf)
 
     
