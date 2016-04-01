@@ -188,4 +188,23 @@ def test_plane_angles():
             assert isinstance(act[i], np.ndarray)
             assert len(act[i]) == vf
 
-    
+    # test specific example to ensure values of array are as expected
+    # compute actual result
+    act = analysis.plane_angles(vfexample1)
+    # check return type is tuple of length 3 and that each item in tuple...
+    # ...is an array of expected length
+    assert isinstance(act, tuple)
+    assert len(act) == int(3)
+    for i in range(len(act)):
+        assert isinstance(act[i], np.ndarray)
+        assert len(act[i]) == len(vfexample1)
+    # check end values as expected
+    expected = (array([1.57072894, -1.57079631, 0., -0.01544705,  0., 0.,
+                       -0.78539816, -0.78539816]),
+                array([6.76499291e-13, -2.64975088e+00, 0.00000000e+00,
+                       1.79115875e+00, 0.00000000e+00, 0.00000000e+00,
+                       2.35619449e+00, 2.35619449e+00]),
+                array([1.00395257e-08, -1.57079629e+00, 0.00000000e+00,
+                       6.88564893e-02, 0.00000000e+00, 0.00000000e+00,
+                       7.85398163e-01, 7.85398163e-01]))
+    assert act.all() == expected.all()
