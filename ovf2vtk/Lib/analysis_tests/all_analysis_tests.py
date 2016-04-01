@@ -184,8 +184,8 @@ def test_plane_angles():
         # ...is an array of expected length
         assert isinstance(act, tuple)
         assert len(act) == int(3)
-        for i in range(act):
-            assert isinstance(i, np.ndarray)
-            assert len(act[i]) == len(vf)
+        for i in range(len(act)):
+            assert isinstance(act[i], np.ndarray)
+            assert len(act[i]) == vf
 
     
