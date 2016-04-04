@@ -21,8 +21,8 @@ vfexample1 = np.array([[2.53, 37546.233, 254e-10], [1e-6, -55.333, -29.645],
                        [1e-9, 1e-9, 1e-9], [0., 0., 0.], [1e-6, -1e-6, 1e-6],
                        [5.7735e-6, -5.7735e-6, 5.7735e-6]])
 M_example_shapes = (3, 3, 3, 3), (4, 4, 4, 4)
-obs_example_shapes = (3, 3), (3, 3, 3), (3, 4, 3), (3, 3, 4, 5),
-(3, 3, 4, 5, 6)
+obs_example_shapes = ((3, 3), (3, 3, 3), (3, 4, 3), (3, 3, 3, 3),
+                      (3, 3, 4, 5, 3))
 M_shape_obs_shape_assertion = ['equal', 'notequal', 'equal', 'notequal',
                                'notequal', 'notequal', 'equal', 'notequal',
                                'equal', 'notequal']
@@ -235,9 +235,10 @@ def test_clean_surfaces():
         try:
             # test devised such that obs that pass assertion test will have...
             # ...initial shape dimensions (3, 3) and therefore only match...
-            # ...with initial shape dims of Mshape[0] (3, 3),...
-            # ...not Mshape[1] (4, 4)
-            analysis.clean_surfaces(pass_obs, Mshape[0])
+            # ...with initial shape dims of M_example_shapes[0] (3, 3),...
+            # ...not M_example_shapes[1] (4, 4)
+            analysis.clean_surfaces(pass_obs,
+                                    np.random.random(M_example_shapes[0]))
             is_3d_or_4d.append(pass_obs.shape)
         except NotImplementedError:
             not_3d_or_4d.append(pass_obs.shape)
