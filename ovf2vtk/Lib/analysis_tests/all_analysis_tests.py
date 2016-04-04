@@ -205,4 +205,8 @@ def test_plane_angles():
         
 
 def test_clean_surfaces():
+    """input, obs, is a 3d or 4d matrix that whose two outermost shape
+    dimesions must be equal to those of the other input, matrix M.
+    i.e. obs.shape[0:2] == M.shape[0:2]"""
+    
     
