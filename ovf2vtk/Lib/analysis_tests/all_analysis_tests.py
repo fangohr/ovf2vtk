@@ -26,6 +26,30 @@ obs_example_shapes = ((3, 3), (3, 3, 3), (3, 4, 3), (3, 3, 3, 3),
 M_shape_obs_shape_assertion = ['equal', 'notequal', 'equal', 'notequal',
                                'notequal', 'notequal', 'equal', 'notequal',
                                'equal', 'notequal']
+
+obs_example_input = np.array([[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
+                              [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]]
+                              [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]])
+
+M_example_input = np.array([[[[2.53, 3756.2, 254e-10], [1e-6, -55.33, -29.64],
+                              [1.45e-22, 22.4e-9, 1e-7]],
+                             [[1.45e-6, -22.4e-9, 1e-7], [1e-9, 1e-9, 1e-9],
+                              [0., 0., 0.]],
+                             [[1e-6, -1e-6, 1e-6], [-45.656, -50000, -6e-100]
+                              [5.7735e-6, -5.7735e-6, 5.7735e-6]]],
+                            [[[2.53, 3756.2, 254e-10], [1e-6, -55.33, -29.64],
+                              [1.45e-22, 22.4e-9, 1e-7]],
+                             [[1.45e-6, -22.4e-9, 1e-7], [1e-9, 1e-9, 1e-9],
+                              [0., 0., 0.]],
+                             [[1e-6, -1e-6, 1e-6], [-45.656, -50000, -6e-100]
+                              [5.7735e-6, -5.7735e-6, 5.7735e-6]]],
+                            [[[2.53, 3756.2, 254e-10], [1e-6, -55.33, -29.64],
+                              [1.45e-22, 22.4e-9, 1e-7]],
+                             [[1.45e-6, -22.4e-9, 1e-7], [1e-9, 1e-9, 1e-9],
+                              [0., 0., 0.]],
+                             [[1e-6, -1e-6, 1e-6], [-45.656, -50000, -6e-100]
+                              [5.7735e-6, -5.7735e-6, 5.7735e-6]]]])
+
 # ******************************* Tests ******************************** #
 
 
@@ -233,7 +257,7 @@ def test_clean_surfaces():
     # test that obs that pass assertion test have either 3d or 4d shapes.
     for pass_obs in pass_assertion_obs:
         try:
-            # test devised such that obs that pass assertion test will have...
+            # test devised such that obs' that pass assertion test will have...
             # ...initial shape dimensions (3, 3) and therefore only match...
             # ...with initial shape dims of M_example_shapes[0] (3, 3),...
             # ...not M_example_shapes[1] (4, 4)
@@ -244,4 +268,10 @@ def test_clean_surfaces():
             not_3d_or_4d.append(pass_obs.shape)
     assert is_3d_or_4d == [obs_example_shapes[1], obs_example_shapes[3]]
     assert not_3d_or_4d == [obs_example_shapes[0], obs_example_shapes[-1]]
+
+    # whenever analysis.clean_surfaces() is called, wipe=1. Therefore no...
+    # ...to test different values of wipe.
+
+    # test whether output matrix returns expected values
+    
             
