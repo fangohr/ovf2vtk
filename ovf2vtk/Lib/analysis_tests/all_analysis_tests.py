@@ -104,8 +104,7 @@ def test_convert_fortran_3dmatrix_to_flat_vector():
 
 
 def test_convert_fortran_to_c():
-    """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
-    or shape (Nx, Ny, Nz, 3) -> C order"""
+    """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order"""
 
     for i in range(5):
         a = np.random.random_sample((Nzs[i], Nys[i], Nxs[i], 3))
@@ -126,8 +125,7 @@ def test_convert_fortran_to_c():
 
 
 def test_convert_c_to_fortran():
-    """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
-    or shape (Nx, Ny, Nz, 3) -> C order"""
+    """input, a, is a matrix of shape (Nx, Ny, Nz, 3) -> C order"""
 
     for i in range(5):
         a = np.random.random_sample((Nzs[i], Nys[i], Nxs[i], 3))
@@ -208,5 +206,6 @@ def test_clean_surfaces():
     """input, obs, is a 3d or 4d matrix that whose two outermost shape
     dimesions must be equal to those of the other input, matrix M.
     i.e. obs.shape[0:2] == M.shape[0:2]"""
-    
+    for obsshape in obs_example_shapes:
+        
     
