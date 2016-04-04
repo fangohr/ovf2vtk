@@ -28,10 +28,13 @@ M_shape_obs_shape_assertion = ['equal', 'notequal', 'equal', 'notequal',
                                'equal', 'notequal']
 
 # example inputs and outputs for obs and M
+
+# shape (3, 3, 3)
 obs_example_input1 = np.array([[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
                               [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]],
                               [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]])
 
+# shape (3, 3, 3, 3)
 obs_example_input2 = np.array([[[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
                                 [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]],
                                 [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]],
@@ -42,6 +45,7 @@ obs_example_input2 = np.array([[[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
                                 [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]],
                                 [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]]])
 
+# shape (3, 3, 3, 3)
 M_example_input = np.array([[[[2.53, 3756.2, 254e-10], [1e-6, -55.33, -29.64],
                               [1.45e-22, 22.4e-9, 1e-7]],
                              [[1.45e-6, -22.4e-9, 1e-7], [1e-9, 1e-9, 1e-9],
@@ -318,3 +322,9 @@ def test_clean_surfaces():
             == clean_surfaces_output1.all())
     assert (analysis.clean_surfaces(obs_example_input2, M_example_input).all()
             == clean_surfaces_output2.all())
+
+
+def test_divergence_and_curl():
+    """function takes inputs vf (a Nx3 array), SurfaceEffects (a boolean), and
+    ovf_run (a dictionary of keyword pairs)"""
+
