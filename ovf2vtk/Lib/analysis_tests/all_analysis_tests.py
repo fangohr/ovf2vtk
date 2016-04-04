@@ -22,6 +22,8 @@ vfexample1 = np.array([[2.53, 37546.233, 254e-10], [1e-6, -55.333, -29.645],
                        [5.7735e-6, -5.7735e-6, 5.7735e-6]])
 M_example_shapes = (3, 3, 3, 3), (4, 4, 4, 4)
 obs_example_shapes = (3, 3), (3, 4, 3), (3, 3, 4, 5), (3, 3, 4, 5, 6)
+M_shape_obs_shape_assertion = ['equal', 'notequal', 'notequal', 'notequal',
+                               'equal', 'notequal', 'equal', 'notequal']
 # ******************************* Tests ******************************** #
 
 
@@ -207,14 +209,14 @@ def test_clean_surfaces():
     """input, obs, is a 3d or 4d matrix that whose two outermost shape
     dimesions must be equal to those of the other input, matrix M.
     i.e. obs.shape[0:2] == M.shape[0:2]"""
+    equal_notequal = []
     for obsshape in obs_example_shapes:
         for Mshape in M_example_shapes:
             obs = np.random.random(obsshape)
             M = np.random.random(Mshape)
             try:
                 assert obs.shape[0:2] == M.shape[0:2]
-                print 'first two dimesnions equal'
-                print obsshape, Mshape
+                equal_notequal.append('equal')
             except AssertionError:
-                print 'first two dimension not equal'
-                print obsshape, Mshape
+                equal_notequal.append('notequal')
+    assert equal_notequal == M_shape_obs_shape_assertion
