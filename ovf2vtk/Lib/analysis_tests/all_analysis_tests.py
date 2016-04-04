@@ -20,7 +20,8 @@ vfexample1 = np.array([[2.53, 37546.233, 254e-10], [1e-6, -55.333, -29.645],
                        [1.45e-22, 22.4e-9, 1e-7], [1.45e-6, -22.4e-9, 1e-7],
                        [1e-9, 1e-9, 1e-9], [0., 0., 0.], [1e-6, -1e-6, 1e-6],
                        [5.7735e-6, -5.7735e-6, 5.7735e-6]])
-obs_example_shapes = (3, 3), (3, 3, 3), (3, 3, 3, 3), (3, 3, 3, 3, 3)
+M_example_shapes = (3, 3, 3, 3), (4, 4, 4, 4)
+obs_example_shapes = (3, 3), (3, 4, 3), (3, 3, 4, 5), (3, 3, 4, 5, 6)
 # ******************************* Tests ******************************** #
 
 
@@ -200,12 +201,20 @@ def test_plane_angles():
                           7.85398163e-01, 7.85398163e-01]))
     for j in range(len(act)):
         assert act[j].all() == expected[j].all()
-        
+
 
 def test_clean_surfaces():
     """input, obs, is a 3d or 4d matrix that whose two outermost shape
     dimesions must be equal to those of the other input, matrix M.
     i.e. obs.shape[0:2] == M.shape[0:2]"""
     for obsshape in obs_example_shapes:
-        
-    
+        for Mshape in M_example_shapes:
+            obs = np.random.random(obsshape)
+            M = np.random.random(Mshape)
+            try:
+                assert obs.shape[0:2] == M.shape[0:2]
+                print 'first two dimesnions equal'
+                print obsshape, Mshape
+            except AssertionError:
+                print 'first two dimension not equal'
+                print obsshape, Mshape
