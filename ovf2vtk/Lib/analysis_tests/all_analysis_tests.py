@@ -283,5 +283,5 @@ def test_clean_surfaces():
     # ...to test different values of wipe.
 
     # test whether output matrix returns expected values
-    
-            
+    assert (analysis.clean_surfaces(obs_example_input1, M_example_input1).all()
+            == clean_surfaces_output1.all())
