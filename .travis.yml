@@ -9,8 +9,8 @@ python:
   - "3.5-dev" # 3.5 development branch
   - "nightly" # currently points to 3.6-dev
 # command to install dependencies
-install: "pip install numpy"
-"pip install pyvtk"
-"pip install ovf2vtk"
+install: 
+ - pip install pyvtk
+ - python setup.py -q install
 # command to run tests
 script: nosetests
