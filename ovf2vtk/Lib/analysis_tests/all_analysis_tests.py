@@ -89,8 +89,6 @@ clean_surfaces_output2 = np.array([[[[1., 2., 3.], [4.5, 7.7, 123.4],
                                      [0., 0., 0.]],
                                     [[0., 0., 0.], [0., 1.2, 5.],
                                      [0., 0., 0.]]]])
-                                     
-
 
 
 # ******************************* Tests ******************************** #
@@ -325,4 +323,3 @@ def test_clean_surfaces():
 def test_divergence_and_curl():
     """function takes inputs vf (a Nx3 array), SurfaceEffects (a boolean), and
     ovf_run (a dictionary of keyword pairs)"""
-
