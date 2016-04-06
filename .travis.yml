@@ -8,6 +8,7 @@ python:
   - "3.5"
 # command to install dependencies
 script: ovf2vtk\Lib\analysis_tests\all_analysis_tests.py
-install: ovf2vtk
+install: 
+ - pip install ovf2vtk
 # command to run tests
 script: nosetests
