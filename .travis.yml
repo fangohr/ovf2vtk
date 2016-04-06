@@ -9,8 +9,6 @@ python:
   - "3.5-dev" # 3.5 development branch
   - "nightly" # currently points to 3.6-dev
 # command to install dependencies
-install: 
- - pip install pyvtk
- - python setup.py -q install
+script: ovf2vtk\Lib\analysis_tests\all_analysis_tests.py
 # command to run tests
 script: nosetests
