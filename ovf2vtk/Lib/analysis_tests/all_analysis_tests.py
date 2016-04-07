@@ -1,5 +1,3 @@
-import math
-
 import numpy as np
 
 from ovf2vtk import analysis
@@ -7,742 +5,321 @@ from ovf2vtk import analysis
 """all the tests developed for the analysis.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 04/11/15"""
 
+# ************************** Global Variables ************************** #
 
-"""magnitude"""
+# vf (vector field) is a flat matrix of shape (Nx3), where the values...
+# ...listed are possible values of N
+vfshapes = 0, 1, 10, 100, 1000, 10000, 100000
+# Selection of values possible for the cells Nx, Ny and Nz.
+Nxs = 0, 1, 5, 15, 35
+Nys = 0, 1, 6, 15, 30
+Nzs = 0, 1, 7, 15, 25
+vfexample1 = np.array([[2.53, 37546.233, 254e-10], [1e-6, -55.333, -29.645],
+                       [1.45e-22, 22.4e-9, 1e-7], [1.45e-6, -22.4e-9, 1e-7],
+                       [1e-9, 1e-9, 1e-9], [0., 0., 0.], [1e-6, -1e-6, 1e-6],
+                       [5.7735e-6, -5.7735e-6, 5.7735e-6]])
+M_example_shapes = (3, 3, 3, 3), (4, 4, 4, 4)
+obs_example_shapes = ((3, 3), (3, 3, 3), (3, 4, 3), (3, 3, 3, 3),
+                      (3, 3, 4, 5, 3))
+M_shape_obs_shape_assertion = ['equal', 'notequal', 'equal', 'notequal',
+                               'notequal', 'notequal', 'equal', 'notequal',
+                               'equal', 'notequal']
 
+# example inputs and outputs for obs and M
 
-def test_magnitude_n():
+# shape (3, 3, 3)
+obs_example_input1 = np.array([[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
+                              [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]],
+                              [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]])
 
-    # n = 3
+# shape (3, 3, 3, 3)
+obs_example_input2 = np.array([[[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
+                                [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]],
+                                [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]],
+                               [[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
+                                [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]],
+                                [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]],
+                               [[[1, 2, 3], [4.5, 7.7, 123.4], [0, 33, -46]],
+                                [[-10, -25, -1223], [0, 0, 0], [1, 1, 1]],
+                                [[-2, 1, 4.5], [0, 1.2, 5], [7., 1.5, -7.6]]]])
 
-    x = np.array([[1, 2, 3.]])
-    # requirement for magnitude:
-    assert x.shape == (1, 3)
+# shape (3, 3, 3, 3)
+M_example_input = np.array([[[[2.53, 3756.2, 254e-10], [1e-6, -55.33, -29.64],
+                              [1.45e-22, 22.4e-9, 1e-7]],
+                             [[1.45e-6, -22.4e-9, 1e-7], [1e-9, 1e-9, 1e-9],
+                              [0., 0., 0.]],
+                             [[1e-6, -1e-6, 1e-6], [-45.656, -50000, -6e-100],
+                              [5.7735e-6, -5.7735e-6, 5.7735e-6]]],
+                            [[[2.53, 3756.2, 254e-10], [1e-6, -55.33, -29.64],
+                              [1.45e-22, 22.4e-9, 1e-7]],
+                             [[1.45e-6, -22.4e-9, 1e-7], [1e-9, 1e-9, 1e-9],
+                              [0., 0., 0.]],
+                             [[1e-6, -1e-6, 1e-6], [-45.656, -50000, -6e-100],
+                              [5.7735e-6, -5.7735e-6, 5.7735e-6]]],
+                            [[[2.53, 3756.2, 254e-10], [1e-6, -55.33, -29.64],
+                              [1.45e-22, 22.4e-9, 1e-7]],
+                             [[1.45e-6, -22.4e-9, 1e-7], [1e-9, 1e-9, 1e-9],
+                              [0., 0., 0.]],
+                             [[1e-6, -1e-6, 1e-6], [-45.656, -50000, -6e-100],
+                              [5.7735e-6, -5.7735e-6, 5.7735e-6]]]])
 
-    # compute result we expect
-    y1 = math.sqrt(1 ** 2 + 2 ** 2 + 3 ** 2)
-
-    # compute actual result from analysis.magnitude
-    y2 = analysis.magnitude(x)
-    assert y1 == float(y2)
-
-    # n = 5
-    x = np.array([[1, 2, 3., 0.1, 0]])
-    # requirement for magnitude:
-    assert x.shape == (1, 5)
-
-    # compute result we expect
-    y1 = math.sqrt(1 ** 2 + 2 ** 2 + 3 ** 2 + 0.1 ** 2 + 0 ** 2)
-
-    # compute actual result from analysis.magnitude
-    y2 = analysis.magnitude(x)
-    assert y1 == float(y2)
-
-    # n = 3, with negative entries
-
-    x = np.array([[-1, -2, 3.]])
-    # requirement for magnitude:
-    assert x.shape == (1, 3)
-
-    # compute result we expect
-    y1 = math.sqrt((-1) ** 2 + (-2) ** 2 + 3. ** 2)
-
-    # compute actual result from analysis.magnitude
-    y2 = analysis.magnitude(x)
-    assert y1 == float(y2)
-
-
-def test_magnitude_bordercase():
-    # n = 1
-
-    x = np.array([[1.34]])
-    # requirement for magnitude:
-    assert x.shape == (1, 1)
-
-    # compute result we expect
-    y1 = math.sqrt(1.34 ** 2)
-
-    # compute actual result from analysis.magnitude
-    y2 = analysis.magnitude(x)
-    assert y1 == float(y2)
-
-    # n = 0
-
-    x = np.array([[]])
-    # requirement for magnitude:
-    assert x.shape == (1, 0)
-
-    # compute result we expect
-    y1 = 0
-
-    # compute actual result from analysis.magnitude
-    y2 = analysis.magnitude(x)
-    assert y1 == float(y2)
-
-
-def test_magnitude_return_type():
-    x = np.array([[1]])
-    y = analysis.magnitude(x)
-
-    # make sure return value is numpy array
-    assert isinstance(y, np.ndarray)
-
-    # assert shape is as expected
-    assert y.shape == (1,)
-
-    for N in range(0, 10):
-        x = np.array([[1] * N])
-        y = analysis.magnitude(x)
-
-        # make sure return value is numpy array
-        assert isinstance(y, np.ndarray)
-
-        # assert shape is as expected
-        assert y.shape == (1,)
+# example output for clean_surfaces() function using example obs and M above.
+clean_surfaces_output1 = np. array([[[1., 2., 0.], [0., 0., 0.],
+                                     [0., 33., 0.]],
+                                    [[-10., -25., 0.], [0., 0., 0.],
+                                     [0., 1., 0.]],
+                                    [[-2., 1., 0.], [0., 0., 0.],
+                                     [0., 1.5, 0.]]])
+                                     
+clean_surfaces_output2 = np.array([[[[1., 2., 3.], [4.5, 7.7, 123.4],
+                                     [0., 0., 0.]],
+                                    [[0., 0., 0.], [0., 0., 0.],
+                                     [0., 0., 0.]],
+                                    [[0., 0., 0.], [0., 1.2, 5.],
+                                     [0., 0., 0.]]],
+                                   [[[1., 2., 3.], [4.5, 7.7, 123.4],
+                                     [0., 0., 0.]],
+                                    [[0., 0., 0.], [0., 0., 0.],
+                                     [0., 0., 0.]],
+                                    [[0., 0., 0.], [0., 1.2, 5.],
+                                     [0., 0., 0.]]],
+                                   [[[1., 2., 3.], [4.5, 7.7, 123.4],
+                                     [0., 0., 0.]],
+                                    [[0., 0., 0.], [0., 0., 0.],
+                                     [0., 0., 0.]],
+                                    [[0., 0., 0.], [0., 1.2, 5.],
+                                     [0., 0., 0.]]]])
 
 
-"""flat_fortran_to_3Dmatrix"""
+# ******************************* Tests ******************************** #
 
 
-def test_ff23Dm():
+def test_magnitude():
+    """function expects an array of N 3D vectors"""
 
-    # shape = (1, 3)
-
-    vf = np.array([1, 2, 3])
-    # select arbitrary node values
-    Nx, Ny, Nz = 10, 10, 10
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (5, 1)
-
-    vf = np.array([[1], [2], [3], [4], [5]])
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 5, 5
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (3, 7, 2)
-
-    vf = np.random.random_sample((3, 7, 2))
-    # select arbitrary node values
-    Nx, Ny, Nz = 15, 15, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (3, 7, 4, 2), different node values
-
-    vf = np.random.random_sample((3, 7, 4, 2))
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 10, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
+    # test bordercases and other arbitrary shapes
+    for vf in vfshapes:
+        array = np.random.random_sample((vf, 3))
+        # to include negative + larger values
+        newarray = (array - 0.5) * 1000
+        # ensure array of required shape
+        assert newarray.shape == (long(vf), long(3))
+        # compute expected result
+        newarraysq = newarray ** 2
+        exp = newarraysq.sum(1) ** 0.5
+        # compute actual result
+        act = analysis.magnitude(newarray)
+        # ensure result is a numpy array
+        assert isinstance(act, np.ndarray)
+        # code works?
+        assert exp.all() == act.all()
 
 
-def test_ff23Dm_bordercase():
+def test_convert_flat_fortran_to_3dmatrix():
+    """vf is expected to be an array of N 3D vectors; Nx, Ny, and Nz are
+    expected to be positive integers"""
 
-    # shape = (1, 1)
-
-    vf = np.array([1])
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 10, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
-
-    # shape = (0)
-
-    vf = np.array([])
-    # select arbitrary node values
-    Nx, Ny, Nz = 5, 10, 15
-    # compute actual result from tested function
-    A = analysis.convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    # ensure returned value A is numpy array
-    assert isinstance(A, np.ndarray)
-    # compare expected shape to one computed
-    assert A.shape == (long(Nz), long(Ny), long(Nx), 3)
+    for vf in vfshapes:
+        for i in range(5):
+            # compute actual result
+            act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)), Nxs[i], Nys[i], Nzs[i])
+            # check returned array of expected type and shape
+            assert isinstance(act, np.ndarray)
+            if i == 0 and vf != 0:
+                # shape returned differs under these conditions
+                assert act.shape == (long(0),)
+            else:
+                # expected shape returned
+                assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]), long(3))
 
 
-"""fortran_3Dmatrix_to_flat"""
+def test_convert_fortran_3dmatrix_to_flat():
+    """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
+    or shape (Nx, Ny, Nz, 3) -> C order"""
 
-
-def test_f3D2f():
-
-    # shape = (1, 2)
-
-    M = np.ones((1, 2))
-    # compute actual result from tested function
-    Mrav = analysis.convert_fortran_3dmatrix_to_flat(M)
-    # test computed result is a numpy array
-    assert isinstance(Mrav, np.ndarray)
-    # compute length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # test actual result is 1D with same length as expected
-    assert (long(x),) == Mrav.shape
-
-    # shape = (1, 2, 3)
-
-    M = np.ones((1, 2, 3))
-    # compute actual result from tested function
-    Mrav = analysis.convert_fortran_3dmatrix_to_flat(M)
-    # test computed result is a numpy array
-    assert isinstance(Mrav, np.ndarray)
-    # compute length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # test actual result is 1D with same length as expected
-    assert (long(x),) == Mrav.shape
-
-    # test shapes between 4D and 10D
-
-    for S in range(4, 11, 1):
-        M = np.ones(tuple(range(1, S+1, 1)))
+    for i in range(5):
+        M = np.ndarray((Nzs[i], Nys[i], Nxs[i], 3))
         # compute actual result from tested function
-        Mrav = analysis.convert_fortran_3dmatrix_to_flat(M)
+        Mflat = analysis.convert_fortran_3dmatrix_to_flat(M)
         # test computed result is a numpy array
-        assert isinstance(Mrav, np.ndarray)
-        # compute length of flattened array
-        x = 1
-        for i in M.shape:
-            x = x * i
+        assert isinstance(Mflat, np.ndarray)
+        # compute length of flattened array by finding product of array shape
+        length = 1
+        for j in M.shape:
+            length = length * j
         # test actual result is 1D with same length as expected
-        assert (long(x),) == Mrav.shape
-
-
-def test_f3D2f_bordercase():
-
-    # shape = (1, 1)
-
-    M = np.ones((1, 1))
-    # compute actual result from tested function
-    Mrav = analysis.convert_fortran_3dmatrix_to_flat(M)
-    # test computed result is a numpy array
-    assert isinstance(Mrav, np.ndarray)
-    # compute length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # test actual result is 1D with same length as expected
-    assert (long(x),) == Mrav.shape
-
-    # shape = (0)
-
-    M = np.ones((0))
-    # compute actual result from tested function
-    Mrav = analysis.convert_fortran_3dmatrix_to_flat(M)
-    # test computed result is a numpy array
-    assert isinstance(Mrav, np.ndarray)
-    # compute length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # test actual result is 1D with same length as expected
-    assert (long(x),) == Mrav.shape
-
-
-"""fortran_3Dmatrix_to_flat_vector"""
-
-
-def test_f3Dm2fv():
-
-    # shape = (2, 3)
-
-    M = np.ones((2, 3))
-    # compute expected length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # compute actual length of flattened array
-    Mrav = M.ravel()
-    # compare expected vs actual
-    assert int(x) == len(Mrav)
-    # compute actual returned function
-    flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
-    # check if returned value is a numpy array
-    assert isinstance(flatv, np.ndarray)
-    # assert returned array of required shape
-    assert flatv.shape == (long(x)/3, long(3))
-
-    # shape = (4, 7)
-
-    M = np.ones((4, 7))
-    # compute expected length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # compute actual length of flattened array
-    Mrav = M.ravel()
-    # compare expected vs actual
-    assert int(x) == len(Mrav)
-    # compute actual returned function
-    flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
-    # check if returned value is a numpy array
-    assert isinstance(flatv, np.ndarray)
-    # assert returned array of required shape
-    assert flatv.shape == (long(x)/3, long(3))
-
-    # shape = (20, 35) with negative entries
-
-    M = np.ones((20, 35))
-    # compute expected length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # compute actual length of flattened array
-    Mrav = M.ravel()
-    # compare expected vs actual
-    assert int(x) == len(Mrav)
-
-    # compute actual returned function
-    flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
-    # check if returned value is a numpy array
-    assert isinstance(flatv, np.ndarray)
-    # assert returned array of required shape
-    assert flatv.shape == (long(x)/3, long(3))
-
-
-def test_f3Dm2fv_bordercase():
-
-    # shape = (1, 1)
-
-    M = np.ones((1, 1))
-    # compute expected length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # compute actual length of flattened array
-    Mrav = M.ravel()
-    # compare expected vs actual
-    assert int(x) == len(Mrav)
-
-    # compute actual returned function
-    flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
-    # check if returned value is a numpy array
-    assert isinstance(flatv, np.ndarray)
-    # assert returned array of required shape
-    assert int(x) < 3
-    assert flatv.shape == (long(x)/3,)
-
-    # shape = (0)
-
-    M = np.ones((0))
-    # compute expected length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # compute actual length of flattened array
-    Mrav = M.ravel()
-    # compare expected vs actual
-    assert int(x) == len(Mrav)
-
-    # compute actual returned function
-    flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
-    # check if returned value is a numpy array
-    assert isinstance(flatv, np.ndarray)
-    # assert returned array of required shape
-    assert int(x) < 3
-    assert flatv.shape == (long(x)/3, long(3))
-
-    # shape = (1, 2):
-
-    M = np.ones((1, 2))
-    # compute expected length of flattened array
-    x = 1
-    for i in M.shape:
-        x = x * i
-    # compute actual length of flattened array
-    Mrav = M.ravel()
-    # compare expected vs actual
-    assert int(x) == len(Mrav)
-
-    # compute actual returned function
-    flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
-    # check if returned value is a numpy array
-    assert isinstance(flatv, np.ndarray)
-    # assert returned array of required shape
-    assert int(x) < 3
-    assert flatv.shape == (long(x)/3,)
-
-
-"""fortran_to_c"""
-
-
-def test_f2c():
-
-    # check values return as expected
-
-    # shape = (3, 1, 3)
-
-    a = np.array([[[1, 2, 3]], [[4, 5, 6]], [[7, 8, 9]]])
-    # input required to be a 3D matrix at minimum
-    assert a.shape[0] >= long(3)
-    # check matrix contains 3D vectors only
-    assert a.shape[-1] == long(3)
-    # compute actual result
-    Cact = analysis.convert_fortran_to_C(a)
-    # check array shape is correct
-    assert Cact.shape == (a.shape[2], a.shape[1], a.shape[0])
-    # expected result
-    Cexp = np.array([[[1, 4, 7]], [[2, 5, 8]], [[3, 6, 9]]])
-    # assert expected and actual result are identical
-    assert Cexp.all() == Cact.all()
-
-    # shape = (4, 1, 9, 3). Try with floated values and negatives
-
-    a = np.array([[[[-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5]]],
-                  [[[-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5]]],
-                  [[[-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5]]],
-                  [[[-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5],
-                    [-2.5, -2.0, -1.5], [-1.0, -0.5, 0], [0.5, 1.0, 1.5]]]])
-    # input required to be a 3D matrix at minimum
-    assert a.shape[0] >= long(3)
-    # check matrix contains 3D vectors only
-    assert a.shape[-1] == long(3)
-    # compute actual result
-    Cact = analysis.convert_fortran_to_C(a)
-    # check array shape is correct
-    assert Cact.shape == (a.shape[2], a.shape[1], a.shape[0], a.shape[3])
-    # expected result
-    Cexp = np.array([[[[-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5]]],
-                     [[[-1., -0.5, 0.],
-                       [-1., -0.5, 0.],
-                       [-1., -0.5, 0.],
-                       [-1., -0.5, 0.]]],
-                     [[[0.5, 1., 1.5],
-                       [0.5, 1., 1.5],
-                       [0.5, 1., 1.5],
-                       [0.5, 1., 1.5]]],
-                     [[[-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5]]],
-                     [[[-1., -0.5, 0.],
-                       [-1., -0.5, 0.],
-                       [-1., -0.5, 0.],
-                       [-1., -0.5, 0.]]],
-                     [[[0.5, 1., 1.5],
-                       [0.5, 1., 1.5],
-                       [0.5, 1., 1.5],
-                       [0.5, 1., 1.5]]],
-                     [[[-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5],
-                       [-2.5, -2., -1.5]]],
-                     [[[-1., -0.5, 0.],
-                       [-1., -0.5, 0.],
-                       [-1., -0.5, 0.],
-                       [-1., -0.5, 0.]]],
-                     [[[0.5, 1., 1.5],
-                       [0.5, 1., 1.5],
-                       [0.5, 1., 1.5],
-                       [0.5, 1., 1.5]]]])
-    # assert expected and actual result are identical
-    assert Cexp.all() == Cact.all()
-
-    # check shape returned is as expected
-
-    # shape = (4, 5, 6, 7)
-
-    a = np.ones((4, 5, 6, 7))
-    # compute actual result
-    Cact = analysis.convert_fortran_to_C(a)
-    # check shape of result is as expected
-    assert Cact.shape == (long(6), long(5), long(4), long(7))
-
-    # shape = (5, 1, 9, 8, 5)
-
-    a = np.ones((5, 1, 9, 8, 5))
-    # compute actual result
-    Cact = analysis.convert_fortran_to_C(a)
-    # check shape of result is as expected
-    assert Cact.shape == (long(9), long(1), long(5), long(8), long(5))
-
-
-"""c_to_fortran"""
-
-
-def test_c2f():
-
-    # check values return as expected
-
-    # shape (3, 1, 3)
-
-    a = np.array([[[1, 2, 3]], [[4, 5, 6]], [[7, 8, 9]]])
-    # compute actual result
-    Xact = analysis.convert_C_to_fortran(a)
-    # compute expected result
-    Xexp = analysis.convert_fortran_to_C(a)
-    # ensure actual and expected are identical
-    assert Xact.all() == Xexp.all()
-
-    # check shape returns as expected
-
-    # shape (3, 4, 5)
-
-    a = np.ones((3, 4, 5))
-    # compute actual result
-    Xact = analysis.convert_C_to_fortran(a)
-    # check its shape
-    assert Xact.shape == (long(5), long(4), long(3))
-    # compute expected result
-    Xexp = analysis.convert_fortran_to_C(a)
-    # ensure actual and expected are identical
-    assert Xact.all() == Xexp.all()
-
-    # shape (3, 4, 5)
-
-    a = np.ones((1, 6, 4, 5))
-    # compute actual result
-    Xact = analysis.convert_C_to_fortran(a)
-    # check its shape
-    assert Xact.shape == (long(4), long(6), long(1), long(5))
-    # compute expected result
-    Xexp = analysis.convert_fortran_to_C(a)
-    # ensure actual and expected are identical
-    assert Xact.all() == Xexp.all()
-
-
-"""fortanindex"""
-
-
-def test_fortranindex():
-
-    # Nx, Ny, Nz identical
-    # i, j, k are arrays
-
-    Nx, Ny, Nz = 7.5, 7.5, 7.5
-    i = 10 * np.random.random_sample(size=(1, 3))
-    j = 10 * np.random.random_sample(size=(1, 3))
-    k = 10 * np.random.random_sample(size=(1, 3))
-    # compute expected result
-    exp = i + j * Nx + k * Nx * Ny
-    # check output is array
-    assert isinstance(exp, np.ndarray)
-    # check computed result identical to returned value
-    act = analysis.fortranindex(i, j, k, Nx, Ny, Nz)
-    assert exp.all() == act.all()
-
-    # Nx, Ny, Nz different
-    # i, j, k varying shapes
-
-    Nx, Ny, Nz = 27.3, 8.8, 15.3
-    i = 10 * np.random.random_sample(size=(2, 3))
-    j = 10 * np.random.random_sample(size=(5, 2, 3))
-    k = 10 * np.random.random_sample(size=(3, 5, 2, 3))
-    # compute expected result
-    exp = i + j * Nx + k * Nx * Ny
-    # check output is array
-    assert isinstance(exp, np.ndarray)
-    # check computed result identical to returned value
-    act = analysis.fortranindex(i, j, k, Nx, Ny, Nz)
-    assert exp.all() == act.all()
-
-    # Nx, Ny, Nz different
-    # i, j, k floated values
-
-    Nx, Ny, Nz = float(5), float(26.7), float(2.3)
-    i, j, k = float(31.3), float(1.5), float(16)
-    # compute expected result
-    exp = i + j * Nx + k * Nx * Ny
-    # check output is array
-    assert isinstance(exp, float)
-    # check computed result identical to returned value
-    act = analysis.fortranindex(i, j, k, Nx, Ny, Nz)
-    assert exp == act
-
-
-def test_fortanindex_bordercase():
-
-        # Nx, Ny, Nz = 1
-        # i, j, k = arrays of shape((1))
-
-        Nx, Ny, Nz = 1, 1, 1
-        i = 10 * np.random.random_sample(size=(1))
-        j = 10 * np.random.random_sample(size=(1))
-        k = 10 * np.random.random_sample(size=(1))
-        # compute expected result
-        exp = i + j * Nx + k * Nx * Ny
-        # check output is array
-        assert isinstance(exp, np.ndarray)
-        # check computed result identical to returned value
-        act = analysis.fortranindex(i, j, k, Nx, Ny, Nz)
-        assert exp.all() == act.all()
-
-        # Nx, Ny, Nz = 0
-        # i, j , k = empty arrays
-
-        Nx, Ny, Nz = 0, 0, 0
-        i = 10 * np.random.random_sample(size=(0))
-        j = 10 * np.random.random_sample(size=(0))
-        k = 10 * np.random.random_sample(size=(0))
-        # compute expected result
-        exp = i + j * Nx + k * Nx * Ny
-        # check output is array
-        assert isinstance(exp, np.ndarray)
-        # check computed result identical to returned value
-        act = analysis.fortranindex(i, j, k, Nx, Ny, Nz)
-        assert exp.all() == act.all()
-
-        # Nx, Ny, Nz = 0
-        # i, j, k = 0
-
-        Nx, Ny, Nz = float(0), float(0), float(0)
-        i, j, k = float(0), float(0), float(0)
-        # compute expected result
-        exp = i + j * Nx + k * Nx * Ny
-        # check output is array
-        assert isinstance(exp, float)
-        # check computed result identical to returned value
-        act = analysis.fortranindex(i, j, k, Nx, Ny, Nz)
-        assert exp == act
-
-
-"""Cindex"""
-
-
-def test_Cindex():
-
-    # Nx, Ny, Nz identical
-    # i, j, k are arrays
-
-    Nx, Ny, Nz = 7.5, 7.5, 7.5
-    i = 10 * np.random.random_sample(size=(1, 3))
-    j = 10 * np.random.random_sample(size=(1, 3))
-    k = 10 * np.random.random_sample(size=(1, 3))
-    # compute expected result
-    exp = i * Nz * Ny + j * Nz + k
-    # check output is array
-    assert isinstance(exp, np.ndarray)
-    # check computed result identical to returned value
-    act = analysis.Cindex(i, j, k, Nx, Ny, Nz)
-    assert exp.all() == act.all()
-
-    # Nx, Ny, Nz different
-    # i, j, k varying shapes
-
-    Nx, Ny, Nz = 27.3, 8.8, 15.3
-    i = 10 * np.random.random_sample(size=(2, 3))
-    j = 10 * np.random.random_sample(size=(5, 2, 3))
-    k = 10 * np.random.random_sample(size=(3, 5, 2, 3))
-    # compute expected result
-    exp = i * Nz * Ny + j * Nz + k
-    # check output is array
-    assert isinstance(exp, np.ndarray)
-    # check computed result identical to returned value
-    act = analysis.Cindex(i, j, k, Nx, Ny, Nz)
-    assert exp.all() == act.all()
-
-    # Nx, Ny, Nz different
-    # i, j, k floated values
-
-    Nx, Ny, Nz = float(5), float(26.7), float(2.3)
-    i, j, k = float(31.3), float(1.5), float(16)
-    # compute expected result
-    exp = i * Nz * Ny + j * Nz + k
-    # check output is array
-    assert isinstance(exp, float)
-    # check computed result identical to returned value
-    act = analysis.Cindex(i, j, k, Nx, Ny, Nz)
-    assert exp == act
-
-
-def test_Cindex_bordercase():
-
-        # Nx, Ny, Nz = 1
-        # i, j, k = arrays of shape((1))
-
-        Nx, Ny, Nz = 1, 1, 1
-        i = 10 * np.random.random_sample(size=(1))
-        j = 10 * np.random.random_sample(size=(1))
-        k = 10 * np.random.random_sample(size=(1))
-        # compute expected result
-        exp = i * Nz * Ny + j * Nz + k
-        # check output is array
-        assert isinstance(exp, np.ndarray)
-        # check computed result identical to returned value
-        act = analysis.Cindex(i, j, k, Nx, Ny, Nz)
-        assert exp.all() == act.all()
-
-        # Nx, Ny, Nz = 0
-        # i, j , k = empty arrays
-
-        Nx, Ny, Nz = 0, 0, 0
-        i = 10 * np.random.random_sample(size=(0))
-        j = 10 * np.random.random_sample(size=(0))
-        k = 10 * np.random.random_sample(size=(0))
-        # compute expected result
-        exp = i * Nz * Ny + j * Nz + k
-        # check output is array
-        assert isinstance(exp, np.ndarray)
-        # check computed result identical to returned value
-        act = analysis.Cindex(i, j, k, Nx, Ny, Nz)
-        assert exp.all() == act.all()
-
-        # Nx, Ny, Nz = 0
-        # i, j, k = 0
-
-        Nx, Ny, Nz = float(0), float(0), float(0)
-        i, j, k = float(0), float(0), float(0)
-        # compute expected result
-        exp = i * Nz * Ny + j * Nz + k
-        # check output is array
-        assert isinstance(exp, float)
-        # check computed result identical to returned value
-        act = analysis.Cindex(i, j, k, Nx, Ny, Nz)
-        assert exp == act
-
-
-"""components"""
+        assert (long(length),) == Mflat.shape
+
+
+def test_convert_fortran_3dmatrix_to_flat_vector():
+    """input, M, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order;
+    or shape (Nx, Ny, Nz, 3) -> C order"""
+
+    for i in range(5):
+        M = np.ndarray((Nzs[i], Nys[i], Nxs[i], 3))
+        # compute expected length of flattened array
+        length = 1
+        for i in M.shape:
+            length = length * i
+        # compute actual length of flattened array
+        Mlength = M.ravel()
+        # compare expected vs actual
+        assert int(length) == len(Mlength)
+        # compute actual returned function
+        flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
+        # check if returned value is a numpy array
+        assert isinstance(flatv, np.ndarray)
+        # assert returned array of required shape
+        assert flatv.shape == (long(length)/3, long(3))
+
+
+def test_convert_fortran_to_c():
+    """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order"""
+
+    for i in range(5):
+        a = np.random.random_sample((Nzs[i], Nys[i], Nxs[i], 3))
+        # to include negative + larger values
+        a1 = (a - 0.5) * 1000
+        # compute expected shape result
+        exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
+        # compute expected shape result
+        act = analysis.convert_fortran_to_C(a1)
+        # check act and exp have same shape
+        assert exp.shape == act.shape
+        # check values transpose correctly
+        for x in range(Nxs[i]):
+            for y in range(Nys[i]):
+                for z in range(Nzs[i]):
+                    for w in range(3):
+                        assert a1[z, y, x, w] == act[x, y, z, w]
+
+
+def test_convert_c_to_fortran():
+    """input, a, is a matrix of shape (Nx, Ny, Nz, 3) -> C order"""
+
+    for i in range(5):
+        a = np.random.random_sample((Nzs[i], Nys[i], Nxs[i], 3))
+        # to include negative + larger values
+        a1 = (a - 0.5) * 1000
+        # compute expected shape result
+        exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
+        # compute expected shape result
+        act = analysis.convert_C_to_fortran(a1)
+        # check act and exp have same shape
+        assert exp.shape == act.shape
+        # check values transpose correctly
+        for x in range(Nxs[i]):
+            for y in range(Nys[i]):
+                for z in range(Nzs[i]):
+                    for w in range(3):
+                        assert a1[z, y, x, w] == act[x, y, z, w]
 
 
 def test_components():
+    "input is an array of N 3d vectors"""
 
-    shapes = [(2, 3), (2, 3, 4), (2, 3, 4, 5), (2, 3, 4, 5, 6)]
-
-    for shape in shapes:
-        d = np.random.random_integers(1, 10, shape)
-        # check input is an array
-        assert isinstance(d, np.ndarray)
-        # check array of required shape
-        assert d.shape[-1] >= long(3)
+    for vf in vfshapes:
+        d = np.random.random_sample((vf, 3))
+        # to include negative + larger values
+        d1 = (d - 0.5) * 1000
         # compute expected result
-        dexp = (d[:, 0],  d[:, 1],  d[:, 2])
+        vfi = vfj = vfk = np.ndarray((1, vf))
+        if vf == 0:
+            vfi = vfj = vfk = np.ndarray((0, 3))
+        else:
+            for i in range(vf):
+                vfi[0, i], vfj[0, i], vfk[0, i], = d1[i, 0], d1[i, 1], d1[i, 2]
+        exp = (vfi, vfj, vfk)
         # compute actual result
-        dact = analysis.components(d)
-        # check returned value is array
-        assert isinstance(dact, tuple)
+        act = analysis.components(d1)
+        # check returned value is tuple
+        assert isinstance(act, tuple)
         # check results are identical
-        for i in range(len(dexp)):
-            assert dexp[i].any() == dact[i].any()
+        for f in range(3):
+            assert exp[f].all() == act[f].all()
+
+
+def test_plane_angles():
+    """input is an array of N 3d vectors"""
+
+    # test random samples first
+    for vf in vfshapes:
+        array = np.random.random_sample((vf, 3))
+        # to include negative + larger values
+        newarray = (array - 0.5) * 1000
+        # compute actual result
+        act = analysis.plane_angles(newarray)
+        # check return type is tuple of length 3 and that each item in tuple...
+        # ...is an array of expected length
+        assert isinstance(act, tuple)
+        assert len(act) == int(3)
+        for i in range(len(act)):
+            assert isinstance(act[i], np.ndarray)
+            assert len(act[i]) == vf
+
+    # test specific example to ensure values of array are as expected
+    # compute actual result
+    act = analysis.plane_angles(vfexample1)
+    expected = (np.array([1.57072894, -1.57079631, 0., -0.01544705, 0., 0.,
+                          -0.78539816, -0.78539816]),
+                np.array([6.76499291e-13, -2.64975088e+00, 0.00000000e+00,
+                          1.79115875e+00, 0.00000000e+00, 0.00000000e+00,
+                          2.35619449e+00, 2.35619449e+00]),
+                np.array([1.00395257e-08, -1.57079629e+00, 0.00000000e+00,
+                          6.88564893e-02, 0.00000000e+00, 0.00000000e+00,
+                          7.85398163e-01, 7.85398163e-01]))
+    for j in range(len(act)):
+        assert act[j].all() == expected[j].all()
+
+
+def test_clean_surfaces():
+    """input, obs, is a 3d or 4d matrix whose two outermost shape
+    dimensions must be equal to those of the other input, matrix M.
+    i.e. obs.shape[0:2] == M.shape[0:2]"""
+    equal_notequal = []
+    pass_assertion_obs = []
+    is_3d_or_4d = []
+    not_3d_or_4d = []
+
+    # test assertion that obs.shape[0:2] == M.shape[0:2] from...
+    # ... clean_surfaces function
+    for obsshape in obs_example_shapes:
+        for Mshape in M_example_shapes:
+            obs = np.random.random(obsshape)
+            M = np.random.random(Mshape)
+            try:
+                assert obs.shape[0:2] == M.shape[0:2]
+                equal_notequal.append('equal')
+                pass_assertion_obs.append(obs)
+            except AssertionError:
+                equal_notequal.append('notequal')
+    assert equal_notequal == M_shape_obs_shape_assertion
+
+    # test that obs that pass assertion test have either 3d or 4d shapes.
+    for pass_obs in pass_assertion_obs:
+        try:
+            # test devised such that obs' that pass assertion test will have...
+            # ...initial shape dimensions (3, 3) and therefore only match...
+            # ...with initial shape dims of M_example_shapes[0] (3, 3),...
+            # ...not M_example_shapes[1] (4, 4)
+            analysis.clean_surfaces(pass_obs,
+                                    np.random.random(M_example_shapes[0]))
+            is_3d_or_4d.append(pass_obs.shape)
+        except NotImplementedError:
+            not_3d_or_4d.append(pass_obs.shape)
+    assert is_3d_or_4d == [obs_example_shapes[1], obs_example_shapes[3]]
+    assert not_3d_or_4d == [obs_example_shapes[0], obs_example_shapes[-1]]
+
+    # whenever analysis.clean_surfaces() is called, wipe=1. Therefore no...
+    # ...to test different values of wipe.
+
+    # test whether output matrix returns expected values
+    assert (analysis.clean_surfaces(obs_example_input1, M_example_input).all()
+            == clean_surfaces_output1.all())
+    assert (analysis.clean_surfaces(obs_example_input2, M_example_input).all()
+            == clean_surfaces_output2.all())
+
+
+def test_divergence_and_curl():
+    """function takes inputs vf (a Nx3 array), SurfaceEffects (a boolean), and
+    ovf_run (a dictionary of keyword pairs)"""
