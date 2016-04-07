@@ -9,7 +9,7 @@
 -# command to install dependencies
 -script: ovf2vtk\Lib\analysis_tests\all_analysis_tests
 -install: 
-  -cd ovf2vtk 
-  -python setup.py -q install
+  cd ovf2vtk 
+  python setup.py -q install
 -# command to run tests
 -script: nosetests
