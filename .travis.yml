@@ -9,6 +9,7 @@ python:
 # command to install dependencies
 before_script: cd ovf2vtk
 script: Lib\analysis_tests\all_analysis_tests.py
+before_install: cd ovf2vtk
 install: python setup.py -q install
 # command to run tests
 script: nosetests
