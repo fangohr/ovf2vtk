@@ -7,8 +7,9 @@
 -  - "3.4"
 -  - "3.5"
 -# command to install dependencies
--script: ovf2vtk\Lib\analysis_tests\all_analysis_tests.py
--cd ovf2vtk
--install: python setup.py -q install
+-script: ovf2vtk\Lib\analysis_tests\all_analysis_tests
+-install: 
+  -cd ovf2vtk 
+  -python setup.py -q install
 -# command to run tests
 -script: nosetests
