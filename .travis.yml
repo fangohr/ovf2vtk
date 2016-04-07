@@ -7,7 +7,7 @@ python:
   - "3.4"
   - "3.5"
 # command to install dependencies
-before_script: cd ovf2vtk
+before_install: cd ovf2vtk
 script: Lib\analysis_tests\all_analysis_tests.py
 install: python setup.py -q install
 # command to run tests
