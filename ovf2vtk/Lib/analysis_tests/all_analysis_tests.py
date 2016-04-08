@@ -398,6 +398,13 @@ def test_divergence_and_curl():
     # test special 2d case; Nz = 1
     dic = {"xnodes:": 3, "ynodes:": 3, "znodes:": 1, "xstepsize:": 0.01,
            "ystepsize:": 0.01, "zstepsize:": 0.01}
-    
+    for boolean in surfaceEffects:
+        # actual result
+        act = analysis.divergence_and_curl(vfexample2, boolean, dic)
+        # expected result. The original version of the function...
+        # ... i.e. not refactored
+        exp = original_analysis.divergence_and_curl(vfexample2, boolean, dic)
+        for j in range(len(act)):
+            assert act[j].all() == exp[j].all()
 
                
