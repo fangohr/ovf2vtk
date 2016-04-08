@@ -273,17 +273,11 @@ def test_plane_angles():
 
     # test specific example to ensure values of array are as expected
     # compute actual result
-    act = analysis.plane_angles(vfexample1)
-    expected = (np.array([1.57072894, -1.57079631, 0., -0.01544705, 0., 0.,
-                          -0.78539816, -0.78539816]),
-                np.array([6.76499291e-13, -2.64975088e+00, 0.00000000e+00,
-                          1.79115875e+00, 0.00000000e+00, 0.00000000e+00,
-                          2.35619449e+00, 2.35619449e+00]),
-                np.array([1.00395257e-08, -1.57079629e+00, 0.00000000e+00,
-                          6.88564893e-02, 0.00000000e+00, 0.00000000e+00,
-                          7.85398163e-01, 7.85398163e-01]))
-    for j in range(len(act)):
-        assert act[j].all() == expected[j].all()
+    for vfexample in (vfexample1, vfexample2):
+        act = analysis.plane_angles(vfexample)
+        expected = original_analysis.plane_angles(vfexample)
+        for j in range(len(act)):
+            assert act[j].all() == expected[j].all()
 
 
 def test_clean_surfaces():
@@ -406,5 +400,4 @@ def test_divergence_and_curl():
         exp = original_analysis.divergence_and_curl(vfexample2, boolean, dic)
         for j in range(len(act)):
             assert act[j].all() == exp[j].all()
-
-               
+          
