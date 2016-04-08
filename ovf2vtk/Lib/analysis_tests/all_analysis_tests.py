@@ -122,7 +122,9 @@ def test_convert_flat_fortran_to_3dmatrix():
     for vf in vfshapes:
         for i in range(5):
             # compute actual result
-            act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)), Nxs[i], Nys[i], Nzs[i])
+            act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)),
+                                                            Nxs[i], Nys[i],
+                                                            Nzs[i])
             # check returned array of expected type and shape
             assert isinstance(act, np.ndarray)
             if i == 0 and vf != 0:
@@ -130,7 +132,8 @@ def test_convert_flat_fortran_to_3dmatrix():
                 assert act.shape == (long(0),)
             else:
                 # expected shape returned
-                assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]), long(3))
+                assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]),
+                                     long(3))
 
 
 def test_convert_fortran_3dmatrix_to_flat():
