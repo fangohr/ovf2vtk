@@ -366,4 +366,16 @@ def test_divergence_and_curl():
         for obj in objects:
             assert isinstance(obj, np.ndarray)
 
+    # test returned objects contain correct data values for both...
+    # ...surfaceeffects=true and surfaceeffects=false for each example file.
+
+    surfaceEffects = [True, False]
+    for filename in filenames:
+        for boolean in surfaceEffects:
+            # actual result
+            act = analysis.divergence_and_curl(
+                omfread.read_structured_omf_file(filename), False,
+                omfread.analyze(filename))
+
+
                
