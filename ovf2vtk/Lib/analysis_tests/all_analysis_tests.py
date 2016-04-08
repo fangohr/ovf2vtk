@@ -1,6 +1,6 @@
 import numpy as np
 
-from ovf2vtk import analysis
+from ovf2vtk import analysis, omfread
 
 """all the tests developed for the analysis.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 04/11/15"""
@@ -327,7 +327,32 @@ def test_divergence_and_curl():
     """function takes inputs vf (a Nx3 array), SurfaceEffects (a boolean), and
     ovf_run (a dictionary of keyword pairs)"""
 
-    example_nodes = {'cantedvortex': (32, 32, 32), 'ellipsoidwrap': (24, 8, 4),
-                     'h2hleftedge': (160, 40, 4), 'yoyoleftedge': (500, 6, 2)}
-    filenames = ('cantedvortex', 'ellipsoidwrap', 'h2hleftedge', 
-                 'yoyoleftedge')
+    # takes the filename and connects to the product of the files' Nx, Ny, Nz
+    node_products = {'C:\Users\Harry\Documents\Examples\cantedvortex.omf':
+                     32768,
+                     'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf':
+                     768,
+                     'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf':
+                     25600,
+                     'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf':
+                     6000}
+    filenames = ('C:\Users\Harry\Documents\Examples\cantedvortex.omf',
+                 'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
+                 'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
+                 'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf')
+
+    # test that final shapes of 'divflat' and 'rotflat' (a flat matrix) are...
+    # ...correct length. 'divflat' shape should be Nx x Ny x Nz whereas...
+    # ...rotflat should be Nx x Ny x Nz x 3
+    for filename in filenames:
+        # 'vf' and 'ovf_run' are returned in functions within omfread.py
+        divflat = analysis.divergence_and_curl(
+            omfread.read_structured_omf_file(filename), False,
+            omfread.analyze(filename))[0]
+        rotflat = analysis.divergence_and_curl(
+            omfread.read_structured_omf_file(filename), False,
+            omfread.analyze(filename))[1]
+
+        assert divflat.shape == (long(node_products[filename]),)
+        assert rotflat.shape == (long(node_products[filename]), long(3))
+               
