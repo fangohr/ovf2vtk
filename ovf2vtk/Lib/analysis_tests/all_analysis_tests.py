@@ -2,6 +2,8 @@ import numpy as np
 
 from ovf2vtk import analysis, omfread
 
+import original_analysis
+
 """all the tests developed for the analysis.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 04/11/15"""
 
@@ -374,8 +376,14 @@ def test_divergence_and_curl():
         for boolean in surfaceEffects:
             # actual result
             act = analysis.divergence_and_curl(
-                omfread.read_structured_omf_file(filename), False,
+                omfread.read_structured_omf_file(filename), boolean,
                 omfread.analyze(filename))
-
+            # expected result. The original version of the function...
+            # ... i.e. not refactored
+            exp = original_analysis.divergence_and_curl(
+                omfread.read_structured_omf_file(filename), boolean,
+                omfread.analyze(filename))
+            for j in range(len(act)):
+                assert act[j].all() == exp[j].all()
 
                
