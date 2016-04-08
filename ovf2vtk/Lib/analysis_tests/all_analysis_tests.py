@@ -341,8 +341,8 @@ def test_divergence_and_curl():
                  'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
                  'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf')
 
-    # test that final shapes of 'divflat' and 'rotflat' (a flat matrix) are...
-    # ...correct length. 'divflat' shape should be Nx x Ny x Nz whereas...
+    # test that final shapes of returned objects are correct.
+    # 'divflat' shape should be Nx x Ny x Nz whereas...
     # ...rotflat should be Nx x Ny x Nz x 3
     for filename in filenames:
         # 'vf' and 'ovf_run' are returned in functions within omfread.py
@@ -352,7 +352,18 @@ def test_divergence_and_curl():
         rotflat = analysis.divergence_and_curl(
             omfread.read_structured_omf_file(filename), False,
             omfread.analyze(filename))[1]
+        rotmag = analysis.magnitude(rotflat)
 
         assert divflat.shape == (long(node_products[filename]),)
         assert rotflat.shape == (long(node_products[filename]), long(3))
+        assert rotmag.shape == (long(node_products[filename]),)
+        for i in range(3):
+            assert rotflat[:, i].shape == (long(node_products[filename]),)
+
+        # test the return types are numpy arrays.
+        objects = [divflat, rotflat, rotflat[:, 0], rotflat[:, 1],
+                   rotflat[:, 2], rotmag]
+        for obj in objects:
+            assert isinstance(obj, np.ndarray)
+
                
