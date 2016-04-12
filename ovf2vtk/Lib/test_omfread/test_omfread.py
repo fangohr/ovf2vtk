@@ -30,10 +30,18 @@ filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
 
 
 def test_parse_for_keywords():
-    lines = ['# xmax: 4\n', '# xmin: 5\n', 'xbase: 5\n', 'ybase: 3/n', 
-             '# boundary: 10', '# valueunit: 8', 'znodes: 8', 'meshunit: 4'
-             '# ymax:   34', '# valuemultiplier:  475/n']
-    
+
+    lines = ['# xmax: 4\n', '# xmin: 5\n', 'xbase: 5\n', 'ybase: 3\n',
+             '# boundary: 10', '# valueunit: 8', 'znodes: 8', 'meshunit: 4',
+             '# ymax:   34', '# valuemultiplier:  475\n']
+    # compute actual result
+    act = {}
+    for line in lines:
+        omfread.parse_for_keywords(keywords, line, act)
+    # expected result, dic orders keys in alphabetical order'.
+    exp = {'boundary:': '10', 'valuemultiplier:': '475', 'valueunit:': '8',
+           'xmax:': '4', 'xmin:': '5', 'ymax:': '34'}
+    assert exp == act
 
 
 def test_analyze():
