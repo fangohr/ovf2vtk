@@ -10,6 +10,25 @@ one place. By Harry Wilson. Last updated 09/04/16"""
 
 # *************************** Global Variables ***************************** #
 
+keywords=["Title:",
+          "Desc: Applied field (T):",
+          "Desc: Iteration:",
+          "meshtype:", "meshunit:",
+          "xbase:", "ybase:", "zbase:",
+          "xstepsize:", "ystepsize:", "zstepsize:",
+          "xnodes:", "ynodes:", "znodes:",
+          "xmin:","ymin:","zmin:","xmax:","ymax:","zmax:",
+          "boundary:","valueunit:","valuemultiplier:",
+          "ValueRangeMinMag:","ValueRangeMaxMag:",
+          "End: Head:", "Begin: Data:", "OOMMF:", "Segment count:","Begin: Segme"]
+
+filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf', 
+             'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
+             'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
+             'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf']
+
+def test_parse_for_keywords():
+
 
 def test_analyze():
     # This variable will store everything that is sent to the standard output
