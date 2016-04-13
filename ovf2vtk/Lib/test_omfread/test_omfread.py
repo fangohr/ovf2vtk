@@ -31,12 +31,14 @@ filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
              'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
              'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf']
 
-# list of files that are completely read before encountering data. 
+# list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
-             'C:\Users\Harry\Documents\Examples\spiral.omf']
+             'C:\Users\Harry\Documents\Examples\plate.omf']
 
 
-non_binary_ascii = []
+non_binary_ascii = ['C:\Users\Harry\Documents\Examples\spiral.omf',
+                    'C:\Users\Harry\Documents\Examples\spiral-x.omf',
+                    'C:\Users\Harry\Documents\Examples\spiral-y.omf']
 
 
 def test_parse_for_keywords():
@@ -112,5 +114,5 @@ def test_what_data():
         result_string = result.getvalue()
         assert result_string[0:47] == '***Reached end of file before\
  encountering data'
- 
+
     # test function determines a file that is not binary or ascii correctly.
