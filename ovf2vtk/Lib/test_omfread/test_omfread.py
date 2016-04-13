@@ -37,7 +37,7 @@ filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
              'C:\Users\Harry\Documents\Examples\spiralDataText.omf']
 
 filenames_data_types = ['binary4', 'binary4', 'binary8', 'binary8',
-                        'binary4', 'binary4', 'Text', 'Text', 'Text']
+                        'binary4', 'binary4', 'ascii', 'ascii', 'ascii']
 
 # list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
@@ -142,3 +142,13 @@ def test_what_data():
         assert result_string == """Data file {} appears neither to be a text\
  ora binary file.
 Cowardly stopping here.\n""".format(file)
+
+    # test function determines correct data type of files.
+    actual_data_types = []
+    for filename in filenames:
+        dic = omfread.what_data(filename)
+        # check returned object is a dictionary with 3 keys.
+        assert type(dic) == dict
+        assert len(dic) == 3
+        actual_data_types.append(dic['type'])
+    assert actual_data_types == filenames_data_types
