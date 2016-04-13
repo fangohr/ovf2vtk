@@ -29,7 +29,9 @@ keywords = ["Title:",
 filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
              'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
              'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
-             'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf']
+             'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf',
+             'C:\Users\Harry\Documents\Examples\stdprob3v-reg.omf',
+             'C:\Users\Harry\Documents\Examples\stdproba.omf']
 
 # list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
