@@ -49,6 +49,9 @@ non_binary_ascii = ['C:\Users\Harry\Documents\Examples\smallData.omf',
                     'C:\Users\Harry\Documents\Examples\plateData.omf',
                     'C:\Users\Harry\Documents\Examples\spiralData.omf']
 
+# possible verbose values
+verboses = [0, 1]
+
 
 def test_parse_for_keywords():
     """parse_for_keywords() determines if there is a keyword in a file line,
@@ -70,30 +73,29 @@ def test_parse_for_keywords():
 def test_analyze():
     """analyze() takes a filename as an input and returns a dict of keywords
     within that file."""
-    verbs = [0, 1]
     # test to see if refactored function will produce same results as original
     for filename in filenames:
-        for verb in verbs:
+        for verbose in verboses:
             # actual result
-            act = omfread.analyze(filename, verbose=verb)
+            act = omfread.analyze(filename, verbose)
             assert type(act) == dict
             # expected result
-            exp = original_omfread.analyze(filename, verbose=verb)
+            exp = original_omfread.analyze(filename, verbose)
             assert act == exp
             # test if print statement occurs when verbose=1
             # help with code taken from...
             # ...https://wrongsideofmemphis.wordpress.com/2010/03/01/
             # store-standard-output-on-a-variable-in-python/
-            if verb == 0:
+            if verbose == 0:
                 result = StringIO()
                 sys.stdout = result
-                omfread.analyze(filename, verbose=0)
+                omfread.analyze(filename, verbose)
                 result_string = result.getvalue()
                 assert result_string == ''
-            if verb == 1:
+            if verbose == 1:
                 result = StringIO()
                 sys.stdout = result
-                omfread.analyze(filename, verbose=1)
+                omfread.analyze(filename, verbose)
                 result_string = result.getvalue()
                 assert result_string == "#Analysing {} : Found {} keywords\n"\
                                         .format(filename, len(exp))
@@ -152,3 +154,6 @@ Cowardly stopping here.\n""".format(file)
         assert len(dic) == 3
         actual_data_types.append(dic['type'])
     assert actual_data_types == filenames_data_types
+
+    # test expected effects of setting verbose=1
+    
