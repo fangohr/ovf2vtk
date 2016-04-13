@@ -36,6 +36,9 @@ filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
              'C:\Users\Harry\Documents\Examples\plateDataText.omf',
              'C:\Users\Harry\Documents\Examples\spiralDataText.omf']
 
+filenames_data_types = ['binary4', 'binary4', 'binary8', 'binary8',
+                        'binary4', 'binary4', 'Text', 'Text', 'Text']
+
 # list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
              'C:\Users\Harry\Documents\Examples\plate.omf',
@@ -122,4 +125,20 @@ def test_what_data():
  encountering data'
 
     # test function determines a file that is not binary or ascii correctly.
-    
+    """The what_data() function looks for data type 'Binary' or 'Text'. These
+    files have data type 'text' and therefore arent recognised and the function
+    should return this fact."""
+    for file in non_binary_ascii:
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.what_data(file)
+            x = 0
+        except SystemExit:
+            x = 1
+        assert x == 1
+        result_string = result.getvalue()
+        # check it starts printing correct statements.
+        assert result_string == """Data file {} appears neither to be a text\
+ ora binary file.
+Cowardly stopping here.\n""".format(file)
