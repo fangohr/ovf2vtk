@@ -25,22 +25,26 @@ keywords = ["Title:",
             "End: Head:", "Begin: Data:", "OOMMF:", "Segment count:",
             "Begin: Segme"]
 
-# list of files that can be successfully converted by ovf2vtk
+# list of files that are either binary or ascii format
 filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
              'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
              'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
              'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf',
              'C:\Users\Harry\Documents\Examples\stdprob3v-reg.omf',
-             'C:\Users\Harry\Documents\Examples\stdproba.omf']
+             'C:\Users\Harry\Documents\Examples\stdproba.omf',
+             'C:\Users\Harry\Documents\Examples\smallDataText.omf',
+             'C:\Users\Harry\Documents\Examples\plateDataText.omf',
+             'C:\Users\Harry\Documents\Examples\spiralDataText.omf']
 
 # list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
-             'C:\Users\Harry\Documents\Examples\plate.omf']
+             'C:\Users\Harry\Documents\Examples\plate.omf',
+             'C:\Users\Harry\Documents\Examples\spiral.omf']
 
-
-non_binary_ascii = ['C:\Users\Harry\Documents\Examples\spiral.omf',
-                    'C:\Users\Harry\Documents\Examples\spiral-x.omf',
-                    'C:\Users\Harry\Documents\Examples\spiral-y.omf']
+# list of files whose data is read but is not ascii or binary format
+non_binary_ascii = ['C:\Users\Harry\Documents\Examples\smallData.omf',
+                    'C:\Users\Harry\Documents\Examples\plateData.omf',
+                    'C:\Users\Harry\Documents\Examples\spiralData.omf']
 
 
 def test_parse_for_keywords():
@@ -118,3 +122,4 @@ def test_what_data():
  encountering data'
 
     # test function determines a file that is not binary or ascii correctly.
+    
