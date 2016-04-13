@@ -147,13 +147,21 @@ Cowardly stopping here.\n""".format(file)
 
     # test function determines correct data type of files.
     actual_data_types = []
+    # test expected effects of setting verbose=1
     for filename in filenames:
-        dic = omfread.what_data(filename)
         # check returned object is a dictionary with 3 keys.
+        dic = omfread.what_data(filename)
         assert type(dic) == dict
         assert len(dic) == 3
         actual_data_types.append(dic['type'])
+        for verbose in verboses:
+            result = StringIO()
+            sys.stdout = result
+            omfread.what_data(filename, verbose)
+            result_string = result.getvalue()
+            if verbose:
+                assert result_string[0:7] == 'Data in'
+            else:
+                assert result_string == ''
     assert actual_data_types == filenames_data_types
-
-    # test expected effects of setting verbose=1
-    
+  
