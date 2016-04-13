@@ -25,13 +25,24 @@ keywords = ["Title:",
             "End: Head:", "Begin: Data:", "OOMMF:", "Segment count:",
             "Begin: Segme"]
 
+# list of files that can be successfully converted by ovf2vtk
 filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
              'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
              'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
              'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf']
 
+# list of files that are completely read before encountering data. 
+non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
+             'C:\Users\Harry\Documents\Examples\spiral.omf']
+
+
+non_binary_ascii = []
+
 
 def test_parse_for_keywords():
+    """parse_for_keywords() determines if there is a keyword in a file line,
+    and if so, gets that keyword into the correct format and maps it in a
+    dict."""
     lines = ['# xmax: 4\n', '# xmin: 5\n', 'xbase: 5\n', 'ybase: 3\n',
              '# boundary: 10', '# valueunit: 8', 'znodes: 8', 'meshunit: 4',
              '# ymax:   34', '# valuemultiplier:  475\n']
@@ -46,12 +57,15 @@ def test_parse_for_keywords():
 
 
 def test_analyze():
+    """analyze() takes a filename as an input and returns a dict of keywords
+    within that file."""
     verbs = [0, 1]
     # test to see if refactored function will produce same results as original
     for filename in filenames:
         for verb in verbs:
             # actual result
             act = omfread.analyze(filename, verbose=verb)
+            assert type(act) == dict
             # expected result
             exp = original_omfread.analyze(filename, verbose=verb)
             assert act == exp
@@ -72,3 +86,31 @@ def test_analyze():
                 result_string = result.getvalue()
                 assert result_string == "#Analysing {} : Found {} keywords\n"\
                                         .format(filename, len(exp))
+
+
+def test_what_data():
+    """what_data() takes a file as an input, reads the file until the data
+    begins, and determines whether the file is in ascii, binary4 or binary8
+    format, or none of these. If file is read before data begins -> system
+    exit."""
+
+    # test if file is completely read before encountering data, test...
+    # ...function starts printing statements.
+    """these files are completely read before data because the keyword is
+    "# Begin: Data" whereas in these files it is written as "Begin: data". If
+    this is changed the files are read however none of them are in ascii or
+    binary format"""
+    for non_file in non_files:
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.what_data(non_file)
+            x = 0
+        except SystemExit:
+            x = 1
+        assert x == 1
+        result_string = result.getvalue()
+        assert result_string[0:47] == '***Reached end of file before\
+ encountering data'
+ 
+    # test function determines a file that is not binary or ascii correctly.
