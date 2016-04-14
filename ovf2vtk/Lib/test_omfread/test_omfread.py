@@ -178,4 +178,9 @@ Cowardly stopping here.\n""".format(file)
             else:
                 assert result_string == ''
     assert actual_data_types == filenames_data_types
-  
+
+
+def test_read_structured_ascii_oommf_data():
+    """the actual function takes as inputs, the filename, its byte at which
+    data begins, and its nodes values in a tuple. Returns an array of the
+    vectorfield."""
