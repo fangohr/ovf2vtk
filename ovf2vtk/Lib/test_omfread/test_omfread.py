@@ -39,6 +39,11 @@ filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
 filenames_data_types = ['binary4', 'binary4', 'binary8', 'binary8',
                         'binary4', 'binary4', 'ascii', 'ascii', 'ascii']
 
+# list of node values for each corresponding filename in 'filenames'
+filenames_nodes = [(32, 32, 32), (24, 8, 4), (160, 40, 4), (500, 6, 2),
+                   (15, 15, 15), (50, 100, 1), (5, 3, 1), (3, 2, 1),
+                   (1, 1, 13)]
+
 # lists giving bytes and lines values to corresponding file in 'filenames'
 bytes = [874, 850, 874, 754, 797, 518, 488, 505, 468]
 lines = [34, 34, 34, 34, 30, 29, 28, 28, 28]
@@ -184,3 +189,5 @@ def test_read_structured_ascii_oommf_data():
     """the actual function takes as inputs, the filename, its byte at which
     data begins, and its nodes values in a tuple. Returns an array of the
     vectorfield."""
+    
+    
