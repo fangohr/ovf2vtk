@@ -224,3 +224,21 @@ cowardly stopping here\n"""
                   'C:\Users\Harry\Documents\Examples\spirallittledata.omf']
     unexp_bytes = bytes[6:] * 2
     unexp_nodes = filenames_nodes[6:] * 2
+    for i in range(len(unexp_data)):
+        node_product = unexp_nodes[i][0]*unexp_nodes[i][1]*unexp_nodes[i][2]
+        # the files either have +1 vector or -1 vector than expected
+        if i < 3:
+            actual_nodes = node_product + 1
+        else:
+            actual_nodes = node_product - 1
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.read_structured_ascii_oommf_data(unexp_data[i],
+                                                     unexp_bytes[i],
+                                                     unexp_nodes[i])
+        except TypeError:
+            result_string = result.getvalue()
+            assert result_string == """Hmm, expected nx*ny*ny = {} items, but\
+ got {} .
+Cowardly stopping here.\n""".format(node_product, actual_nodes)
