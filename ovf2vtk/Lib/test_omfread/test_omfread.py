@@ -192,7 +192,24 @@ def test_read_structured_ascii_oommf_data():
 
     # test ascii files that don't end data with '# End: Data Text'.
     # These files instead have '# test'.
+    # contain same data as equivalent files small/spiral/plate.omf
     # function should recognise incorrect format.
-    ascii_test_files = ['C:\Users\Harry\Documents\Examples\spiraltest.omf'
-                        'C:\Users\Harry\Documents\Examples\smalltest.omf'
-                        'C:\Users\Harry\Documents\Examples\platetest.omf']    
+    ascii_test_files = ['C:\Users\Harry\Documents\Examples\smalltest.omf',
+                        'C:\Users\Harry\Documents\Examples\platetest.omf',
+                        'C:\Users\Harry\Documents\Examples\spiraltest.omf']
+    test_bytes = bytes[6:]
+    test_nodes = filenames_nodes[6:]
+    for i in range(len(ascii_test_files)):
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.read_structured_ascii_oommf_data(ascii_test_files[i],
+                                                     test_bytes[i],
+                                                     test_nodes[i])
+        except TypeError:
+            result_string = result.getvalue()
+            assert result_string == """I found a # in the first column.\
+ Complete row is # test
+I only expected '# End: Data Text'.
+cowardly stopping here\n"""
+
