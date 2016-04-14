@@ -1,5 +1,6 @@
-
 from ovf2vtk import omfread
+
+import numpy as np
 
 import sys
 
@@ -242,3 +243,23 @@ cowardly stopping here\n"""
             assert result_string == """Hmm, expected nx*ny*ny = {} items, but\
  got {} .
 Cowardly stopping here.\n""".format(node_product, actual_nodes)
+
+    # test expected output if ascii file correct format.
+    ascii_files = filenames[6:]
+    ascii_nodes = filenames_nodes[6:]
+    ascii_bytes = bytes[6:]
+    for i in range(len(ascii_files)):
+        node_product = ascii_nodes[i][0]*ascii_nodes[i][1]*ascii_nodes[i][2]
+        result = StringIO()
+        sys.stdout = result
+        # actual result
+        act = omfread.read_structured_ascii_oommf_data(ascii_files[i],
+                                                       ascii_bytes[i],
+                                                       ascii_nodes[i])
+        result_string = result.getvalue()
+        # check ouput is a numpy array of correct length
+        assert type(act) == np.ndarray
+        assert len(act) == node_product
+        # check correct print output
+        assert result_string == "Hint: Reading ASCII-OOMMF file is slow (that\
+ could be changed) and the files are large. Why not save data as binary?\n"
