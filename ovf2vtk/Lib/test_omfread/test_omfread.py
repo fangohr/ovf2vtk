@@ -48,6 +48,10 @@ non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
              'C:\Users\Harry\Documents\Examples\plate.omf',
              'C:\Users\Harry\Documents\Examples\spiral.omf']
 
+# lists giving bytes and lines values to corresponding file in 'non_files'
+non_bytes = [1205, 580, 804]
+non_lines = [47, 37, 44]
+
 # list of files whose data is read but is not ascii or binary format
 non_binary_ascii = ['C:\Users\Harry\Documents\Examples\smallData.omf',
                     'C:\Users\Harry\Documents\Examples\plateData.omf',
@@ -117,18 +121,22 @@ def test_what_data():
     "# Begin: Data" whereas in these files it is written as "Begin: data". If
     this is changed the files are read however none of them are in ascii or
     binary format"""
-    for non_file in non_files:
+    for i in range(len(non_files)):
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.what_data(non_file)
+            omfread.what_data(non_files[i])
             x = 0
         except SystemExit:
             x = 1
         assert x == 1
         result_string = result.getvalue()
-        assert result_string[0:47] == '***Reached end of file before\
- encountering data'
+        assert result_string == """***Reached end of file before\
+ encountering data
+   Cowardly stopping here
+   Some debug info:
+   Have read {} lines and
+             {} bytes.\n""".format(non_lines[i], non_bytes[i])
 
     # test function determines a file that is not binary or ascii correctly.
     """The what_data() function looks for data type 'Binary' or 'Text'. These
