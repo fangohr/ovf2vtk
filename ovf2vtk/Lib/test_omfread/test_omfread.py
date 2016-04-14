@@ -189,5 +189,10 @@ def test_read_structured_ascii_oommf_data():
     """the actual function takes as inputs, the filename, its byte at which
     data begins, and its nodes values in a tuple. Returns an array of the
     vectorfield."""
-    
-    
+
+    # test ascii files that don't end data with '# End: Data Text'.
+    # These files instead have '# test'.
+    # function should recognise incorrect format.
+    ascii_test_files = ['C:\Users\Harry\Documents\Examples\spiraltest.omf'
+                        'C:\Users\Harry\Documents\Examples\smalltest.omf'
+                        'C:\Users\Harry\Documents\Examples\platetest.omf']    
