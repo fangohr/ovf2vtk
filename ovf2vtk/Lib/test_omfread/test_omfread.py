@@ -263,3 +263,9 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
         # check correct print output
         assert result_string == "Hint: Reading ASCII-OOMMF file is slow (that\
  could be changed) and the files are large. Why not save data as binary?\n"
+
+
+def test_read_structured_binary_oommf_data():
+    """the actual function takes, as inputs, the filename; its byte at which
+    data begins; its nodes values in a tuple; and the datatype (binary4,
+    binary8 or ascii). Returns an array of the vectorfield."""
