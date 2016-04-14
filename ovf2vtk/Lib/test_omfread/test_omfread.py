@@ -213,3 +213,14 @@ def test_read_structured_ascii_oommf_data():
 I only expected '# End: Data Text'.
 cowardly stopping here\n"""
 
+    # test if too much/too little data is detected and correct output is...
+    # ...returned.
+    # Files created that have too little/too much data
+    unexp_data = ['C:\Users\Harry\Documents\Examples\smallmuchdata.omf',
+                  'C:\Users\Harry\Documents\Examples\platemuchdata.omf',
+                  'C:\Users\Harry\Documents\Examples\spiralmuchdata.omf',
+                  'C:\Users\Harry\Documents\Examples\smalllittledata.omf',
+                  'C:\Users\Harry\Documents\Examples\platelittledata.omf',
+                  'C:\Users\Harry\Documents\Examples\spirallittledata.omf']
+    unexp_bytes = bytes[6:] * 2
+    unexp_nodes = filenames_nodes[6:] * 2
