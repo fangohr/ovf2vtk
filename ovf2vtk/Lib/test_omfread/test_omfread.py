@@ -40,8 +40,8 @@ filenames_data_types = ['binary4', 'binary4', 'binary8', 'binary8',
                         'binary4', 'binary4', 'ascii', 'ascii', 'ascii']
 
 # lists giving bytes and lines values to corresponding file in 'filenames'
-filenames_startbytes = [874, 850, 874, 754, 797, 518, 488, 505, 468]
-filenames_startlines = [34, 34, 34, 34, 30, 29, 28, 28, 28]
+bytes = [874, 850, 874, 754, 797, 518, 488, 505, 468]
+lines = [34, 34, 34, 34, 30, 29, 28, 28, 28]
 
 # list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
@@ -152,19 +152,20 @@ Cowardly stopping here.\n""".format(file)
     # test function determines correct data type of files.
     actual_data_types = []
     # test expected effects of setting verbose=1
-    for filename in filenames:
+    for i in range(len(filenames)):
         # check returned object is a dictionary with 3 keys.
-        dic = omfread.what_data(filename)
+        dic = omfread.what_data(filenames[i])
         assert type(dic) == dict
         assert len(dic) == 3
         actual_data_types.append(dic['type'])
         for verbose in verboses:
             result = StringIO()
             sys.stdout = result
-            omfread.what_data(filename, verbose)
+            omfread.what_data(filenames[i], verbose)
             result_string = result.getvalue()
             if verbose:
-                assert result_string[0:7] == 'Data in'
+                assert result_string[0:7] == 'Data in {} start in line {} at\
+                 byte {} and is {}'.format(filenames[i], bytes[i], lines[i])
             else:
                 assert result_string == ''
     assert actual_data_types == filenames_data_types
