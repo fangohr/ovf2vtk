@@ -39,6 +39,10 @@ filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
 filenames_data_types = ['binary4', 'binary4', 'binary8', 'binary8',
                         'binary4', 'binary4', 'ascii', 'ascii', 'ascii']
 
+# lists giving bytes and lines values to corresponding file in 'filenames'
+filenames_startbytes = [874, 850, 874, 754, 797, 518, 488, 505, 468]
+filenames_startlines = [34, 34, 34, 34, 30, 29, 28, 28, 28]
+
 # list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
              'C:\Users\Harry\Documents\Examples\plate.omf',
