@@ -164,8 +164,9 @@ Cowardly stopping here.\n""".format(file)
             omfread.what_data(filenames[i], verbose)
             result_string = result.getvalue()
             if verbose:
-                assert result_string[0:7] == 'Data in {} start in line {} at\
-                 byte {} and is {}'.format(filenames[i], bytes[i], lines[i])
+                assert result_string == 'Data in {} start in line {} at\
+ byte {} and is {}\n'.format(filenames[i], lines[i], bytes[i],
+                             filenames_data_types[i])
             else:
                 assert result_string == ''
     assert actual_data_types == filenames_data_types
