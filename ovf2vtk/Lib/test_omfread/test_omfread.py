@@ -49,6 +49,11 @@ filenames_nodes = [(32, 32, 32), (24, 8, 4), (160, 40, 4), (500, 6, 2),
 bytes = [874, 850, 874, 754, 797, 518, 488, 505, 468]
 lines = [34, 34, 34, 34, 30, 29, 28, 28, 28]
 
+# ascii filenames and properties
+ascii_files = filenames[6:]
+ascii_nodes = filenames_nodes[6:]
+ascii_bytes = bytes[6:]
+
 # list of files that are completely read before encountering data.
 non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
              'C:\Users\Harry\Documents\Examples\plate.omf',
@@ -245,9 +250,6 @@ cowardly stopping here\n"""
 Cowardly stopping here.\n""".format(node_product, actual_nodes)
 
     # test expected output if ascii file correct format.
-    ascii_files = filenames[6:]
-    ascii_nodes = filenames_nodes[6:]
-    ascii_bytes = bytes[6:]
     for i in range(len(ascii_files)):
         node_product = ascii_nodes[i][0]*ascii_nodes[i][1]*ascii_nodes[i][2]
         result = StringIO()
@@ -269,3 +271,15 @@ def test_read_structured_binary_oommf_data():
     """the actual function takes, as inputs, the filename; its byte at which
     data begins; its nodes values in a tuple; and the datatype (binary4,
     binary8 or ascii). Returns an array of the vectorfield."""
+    
+    # test if ascii file given, exception is raised and print statement sent
+    for i in range(len(ascii_files)):
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.read_structured_binary_oommf_data(ascii_files[i],
+                                                      ascii_bytes[i],
+                                                      ascii_nodes[i], 'ascii')
+        except TypeError:
+            result_string = result.getvalue()
+            assert result_string == "ascii -oommf data not supported here\n"
