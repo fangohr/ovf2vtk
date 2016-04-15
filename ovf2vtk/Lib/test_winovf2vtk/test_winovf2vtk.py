@@ -1,6 +1,8 @@
 
 import subprocess
 
+import ovf2vtk
+
 from ovf2vtk import winovf2vtk
 
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in
@@ -26,8 +28,8 @@ def test_winovf2vtk_no_inputs():
     # zero parameters, therefore error message
     exp = winovf2vtk.__doc__ + "\nERROR: An input file (and an output file \
 need to be specified)."
-    exp1 = exp.splitlines()
-    assert new_doc == exp1
+    exp = exp.splitlines()
+    assert new_doc == exp
 
 
 def test_winovf2vtk_keys_no_parameters():
@@ -39,8 +41,18 @@ def test_winovf2vtk_keys_no_parameters():
             '--surface-effects', '--datascale=', '--posscale=']
     for key in keys:
         # compute actual result
-        command = """python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py'
-+ key"""
+        command = "python.exe C:\Users\Harry\Anaconda\Scripts\
+\winovf2vtk.py" + " {}".format(key)
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
+        # remove '\r\n' characters
+        new_doc = []
+        for i in range(len(doc)):
+            line = doc[i].strip('\r\n')
+            new_doc.append(line)
+        # compute expected result for each key separately
+        if key == '-V' or key == '--version':
+            # the version of ovf2vtk I have installed currently
+            exp = ["This is version {}.".format(ovf2vtk.__version__)]
+            assert new_doc == exp
