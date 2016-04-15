@@ -33,4 +33,14 @@ need to be specified)."
 def test_winovf2vtk_keys_no_parameters():
     """test that the expected output is displayed when the command line
     includes a key, but no files to convert."""
-    
+    # list of keys applicable
+    keys = ['-V', '--version', '-v', '--verbose', '-h', '--help', '--add=',
+            '-b', '--binary', '-t', '--text', '-a', '--ascii',
+            '--surface-effects', '--datascale=', '--posscale=']
+    for key in keys:
+        # compute actual result
+        command = """python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py'
++ key"""
+        p = subprocess.Popen(command, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT)
+        doc = p.stdout.readlines()
