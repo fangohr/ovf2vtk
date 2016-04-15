@@ -355,3 +355,26 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
         exp = original_omfread.read_structured_binary_oommf_data(file, byte,
                                                                  nodes, data)
         assert act.all() == exp.all()
+
+    # test verbose effects
+    for verbose in verboses:
+        for i in range(6):
+            file = filenames[i]
+            byte = bytes[i]
+            nodes = filenames_nodes[i]
+            data = filenames_data_types[i]
+            # the floatsizes of the first six files in 'filenames'
+            floatsizes = [4, 4, 8, 8, 4, 4]
+            floatsize = floatsizes[i]
+            result = StringIO()
+            sys.stdout = result
+            omfread.read_structured_binary_oommf_data(file, byte, nodes, data,
+                                                      verbose)
+            result_string = result.getvalue()
+            if verbose == 0:
+                assert result_string == ''
+            else:
+                assert result_string == """Expect floats of length {} bytes.
+Expect to find data in file {}  at position {} .
+verification_tag is okay (=> reading byte order correctly)\n"""\
+.format(floatsize, file, byte)
