@@ -404,6 +404,17 @@ def test_read_structured_oommf_data():
             exp = omfread.read_structured_ascii_oommf_data(file, byte, nodes)
         assert exp.all() == act.all()
 
+        # test function detects unexpected datatype
+        data_unknown = data+'unknown'
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.read_structured_oommf_data(file, byte, nodes, data)
+        except TypeError:
+            result_string = result.getvalue()
+            assert result_string == """expected ascii or binary4 or binar8 for\
+ datatype, but got {}""".format(data_unknown)
+
 
 def test_read_structured_omf_file():
     """Takes a file as an input and returns the vecorfield of data it contains
