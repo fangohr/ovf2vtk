@@ -252,6 +252,10 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
     # test expected output if ascii file correct format.
     for i in range(len(ascii_files)):
         node_product = ascii_nodes[i][0]*ascii_nodes[i][1]*ascii_nodes[i][2]
+        # expected result
+        exp = original_omfread.read_structured_ascii_oommf_data(ascii_files[i],
+                                                                ascii_bytes[i],
+                                                                ascii_nodes[i])
         result = StringIO()
         sys.stdout = result
         # actual result
@@ -262,6 +266,8 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
         # check ouput is a numpy array of correct length
         assert type(act) == np.ndarray
         assert len(act) == node_product
+        # check data identical to original version
+        assert act.all() == exp.all()
         # check correct print output
         assert result_string == "Hint: Reading ASCII-OOMMF file is slow (that\
  could be changed) and the files are large. Why not save data as binary?\n"
