@@ -336,3 +336,22 @@ Cowardly stopping here.\n""".format(7.27159209092e+31)
 meant to be 123456789012345.0
 but it is not. Instead, I read  {} .
 Cowardly stopping here.\n""".format(4.91466545592e+252)
+
+    # test function output is as expected.
+    # actual result
+    for i in range(6):
+        file = filenames[i]
+        byte = bytes[i]
+        nodes = filenames_nodes[i]
+        data = filenames_data_types[i]
+        act = omfread.read_structured_binary_oommf_data(file, byte, nodes,
+                                                        data)
+        # check result is a numpy array of correct length and shape
+        assert type(act) == np.ndarray
+        assert len(act) == filenames_nodes[i][0] * filenames_nodes[i][1] *\
+            filenames_nodes[i][2]
+        assert act.shape == (long(len(act)), long(3))
+        # check data matches that of of orginal function
+        exp = original_omfread.read_structured_binary_oommf_data(file, byte,
+                                                                 nodes, data)
+        assert act.all() == exp.all()
