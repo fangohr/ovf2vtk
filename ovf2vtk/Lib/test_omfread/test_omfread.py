@@ -439,3 +439,28 @@ def test_read_structured_omf_file():
         else:
             exp = omfread.read_structured_ascii_oommf_data(file, byte, nodes)
         assert exp.all() == act.all()
+
+        # test print statements show if debug
+        debug = [0, 1]
+        for db in debug:
+            result = StringIO()
+            sys.stdout = result
+            omfread.read_structured_omf_file(file, db)
+            result_string = result.getvalue()
+            # binary4 & binary8 files
+            if debug == 1 and i < 6:
+                floatsizes = [4, 4, 8, 8, 4, 4]
+                floatsize = floatsizes[i]
+                assert result_string == """Number of cells \
+(Nx={},Ny={},Nz={})
+Expect floats of length {} bytes.
+Expect to find data in file {}  at position {} .
+verification_tag is okay (=> reading byte order correctly)\n"""\
+.format(nodes[0], nodes[1], nodes[2], floatsize, file, byte)
+            # ascii files
+            elif debug == 1 and i > 5:
+                assert result_string == """Number of cells \
+(Nx={},Ny={},Nz={})\n""".format(nodes[0], nodes[1], nodes[2])
+            # debug = False
+            elif debug == 0:
+                assert result_string == ''
