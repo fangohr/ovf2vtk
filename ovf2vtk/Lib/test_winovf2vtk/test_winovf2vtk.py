@@ -8,10 +8,10 @@ one place. By Harry Wilson. Last updated 15/04/16"""
 
 
 def test_winovf2vtk_no_inputs():
-    # test that the expected docstring is returned with the execution of...
-    # ...the program only and no added keys or files to convert
-    # useful code found at http://stackoverflow.com/questions/4760215/...
-    # ...running-shell-command-from-python-and-capturing-the-output
+    """test that the expected docstring is returned with the execution of...
+    the program only, and no added keys or files to convert.
+    useful code found at http://stackoverflow.com/questions/4760215/...
+    running-shell-command-from-python-and-capturing-the-output"""
     # compute actual result
     command = 'python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py'
     p = subprocess.Popen(command, stdout=subprocess.PIPE,
@@ -28,3 +28,9 @@ def test_winovf2vtk_no_inputs():
 need to be specified)."
     exp1 = exp.splitlines()
     assert new_doc == exp1
+
+
+def test_winovf2vtk_keys_no_parameters():
+    """test that the expected output is displayed when the command line
+    includes a key, but no files to convert."""
+    
