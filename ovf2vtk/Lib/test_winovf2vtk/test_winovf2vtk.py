@@ -38,11 +38,11 @@ def test_winovf2vtk_keys_no_parameters():
     # list of keys that can be used. '--add/--binary/--text/--ascii' are...
     # ...not selected here as these are tested later.
     keys = ['-V', '--version', '-v', '--verbose', '-h', '--help',
-            '--surface-effects', '--datascale=', '--posscale=']
-    for key in keys:
+            '--surface-effects', '--datascale=0.0', '--posscale=0.0']
+    for val in range(len(keys)):
         # compute actual result
         command = "python.exe C:\Users\Harry\Anaconda\Scripts\
-\winovf2vtk.py" + " {}".format(key)
+\winovf2vtk.py" + " {}".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
@@ -52,16 +52,17 @@ def test_winovf2vtk_keys_no_parameters():
             line = doc[i].strip('\r\n')
             new_doc.append(line)
         # compute expected result for each key separately
-        if key == '-V' or '--version':
+        if val < 2:
             exp = ["This is version {}.".format(ovf2vtk.__version__)]
-        elif key == '-v' or '--verbose':
-            exp = ["running in verbose mode\n" + winovf2vtk.__doc__ + "\nERROR:\
- An input file (and an output file need to be specified)."]
+        elif 1 < val < 4:
+            exp = "running in verbose mode\n" + winovf2vtk.__doc__ + "\nERROR:\
+ An input file (and an output file need to be specified)."
             exp = exp.splitlines()
-        elif key == '-h' or '--help':
-            exp = winovf2vtk.__doc__.splitlines()
-        else:
-            exp = winovf2vtk.__doc__ + "\nERROR: An input file (and an output\
- file need to be specified)."
+        elif 3 < val < 6:
+            exp = winovf2vtk.__doc__ + "\n"
             exp = exp.splitlines()
-        assert new_doc == exp
+        elif val > 5:
+            exp = winovf2vtk.__doc__ + "\nERROR: An input file (and an output \
+file need to be specified)."
+            exp = exp.splitlines()
+        assert exp == new_doc
