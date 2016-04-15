@@ -378,3 +378,28 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
 Expect to find data in file {}  at position {} .
 verification_tag is okay (=> reading byte order correctly)\n"""\
 .format(floatsize, file, byte)
+
+
+def test_read_structured_oommf_data():
+    """ function takes a file, the byte at which data starts, the nodes of the
+    data and the data type, returns a vectorfield."""
+    for i in range(len(filenames)):
+        file = filenames[i]
+        byte = bytes[i]
+        nodes = filenames_nodes[i]
+        data = filenames_data_types[i]
+        # actual result
+        act = omfread.read_structured_oommf_data(file, byte, nodes, data)
+        # all files retuned as numpy arrays
+        assert type(act) == np.ndarray
+        assert len(act) == nodes[0] * nodes[1] * nodes[2]
+        assert act.shape == (long(len(act)), long(3))
+
+        # check binary4, binary8 files return expected data values
+        if i < 6:
+            exp = omfread.read_structured_binary_oommf_data(file, byte, nodes,
+                                                            data)
+        # check ascii files return expected data values
+        else:
+            exp = omfread.read_structured_ascii_oommf_data(file, byte, nodes)
+        assert exp.all() == act.all()
