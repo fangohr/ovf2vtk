@@ -271,7 +271,7 @@ def test_read_structured_binary_oommf_data():
     """the actual function takes, as inputs, the filename; its byte at which
     data begins; its nodes values in a tuple; and the datatype (binary4,
     binary8 or ascii). Returns an array of the vectorfield."""
-    
+
     # test if ascii file given, exception is raised and print statement sent
     for i in range(len(ascii_files)):
         result = StringIO()
@@ -298,3 +298,35 @@ def test_read_structured_binary_oommf_data():
             assert result_string == "unknow datatype (expected  'binary4',\
 'binary8' [or 'ascii'], but got  {}"\
 .format(filenames_data_types[i]+'unknown\n')
+
+    # test that incorrect verification tag is detected for binary4 and...
+    # ...binary8 files. Uses edited versions of files from 'filenames'...
+    # ...which have tags 7.27159209092e+31 and 4.91466545592e+252...
+    # ...rather than 1234567.0 and 123456789012345.0 respectively.
+    b4_b8_files = ['C:\Users\Harry\Documents\Examples\cantedvortextest.omf',
+                   'C:\Users\Harry\Documents\Examples\ellipsoidwraptest.omf',
+                   'C:\Users\Harry\Documents\Examples\h2hleftedgetest.ohf',
+                   'C:\Users\Harry\Documents\Examples\yoyoleftedgetest.ohf',
+                   'C:\Users\Harry\Documents\Examples\stdprob3v-regtest.omf',
+                   'C:\Users\Harry\Documents\Examples\stdprobatest.omf']
+    for i in range(len(b4_b8_files)):
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.read_structured_binary_oommf_data(b4_b8_files[i], bytes[i],
+                                                      filenames_nodes[i],
+                                                      filenames_data_types[i])
+        except TypeError:
+            result_string = result.getvalue()
+            # if binary4, tag = 7.27159209092e+31
+            if i < 2 or i > 3:
+                assert result_string == """The first item in a binary file is \
+meant to be 1234567.0
+but it is not. Instead, I read  {} .
+Cowardly stopping here.\n""".format(7.27159209092e+31)
+            # if binary8, tag = 4.91466545592e+252
+            if 1 < i < 4:
+                assert result_string == """The first item in a binary file is \
+meant to be 123456789012345.0
+but it is not. Instead, I read  {} .
+Cowardly stopping here.\n""".format(4.91466545592e+252)
