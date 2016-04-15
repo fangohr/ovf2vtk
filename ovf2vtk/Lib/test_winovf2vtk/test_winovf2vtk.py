@@ -35,9 +35,9 @@ need to be specified)."
 def test_winovf2vtk_keys_no_parameters():
     """test that the expected output is displayed when the command line
     includes a key, but no files to convert."""
-    # list of keys applicable
-    keys = ['-V', '--version', '-v', '--verbose', '-h', '--help', '--add=',
-            '-b', '--binary', '-t', '--text', '-a', '--ascii',
+    # list of keys that can be used. '--add/--binary/--text/--ascii' are...
+    # ...not selected here as these are tested later.
+    keys = ['-V', '--version', '-v', '--verbose', '-h', '--help',
             '--surface-effects', '--datascale=', '--posscale=']
     for key in keys:
         # compute actual result
@@ -52,7 +52,16 @@ def test_winovf2vtk_keys_no_parameters():
             line = doc[i].strip('\r\n')
             new_doc.append(line)
         # compute expected result for each key separately
-        if key == '-V' or key == '--version':
-            # the version of ovf2vtk I have installed currently
+        if key == '-V' or '--version':
             exp = ["This is version {}.".format(ovf2vtk.__version__)]
-            assert new_doc == exp
+        elif key == '-v' or '--verbose':
+            exp = ["running in verbose mode\n" + winovf2vtk.__doc__ + "\nERROR:\
+ An input file (and an output file need to be specified)."]
+            exp = exp.splitlines()
+        elif key == '-h' or '--help':
+            exp = winovf2vtk.__doc__.splitlines()
+        else:
+            exp = winovf2vtk.__doc__ + "\nERROR: An input file (and an output\
+ file need to be specified)."
+            exp = exp.splitlines()
+        assert new_doc == exp
