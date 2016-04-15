@@ -403,3 +403,28 @@ def test_read_structured_oommf_data():
         else:
             exp = omfread.read_structured_ascii_oommf_data(file, byte, nodes)
         assert exp.all() == act.all()
+
+
+def test_read_structured_omf_file():
+    """Takes a file as an input and returns the vecorfield of data it contains
+    """
+    for i in range(len(filenames)):
+        file = filenames[i]
+        byte = bytes[i]
+        nodes = filenames_nodes[i]
+        data = filenames_data_types[i]
+        # actual result
+        act = omfread.read_structured_omf_file(file)
+        # all files should be retuned as numpy arrays
+        assert type(act) == np.ndarray
+        assert len(act) == nodes[0] * nodes[1] * nodes[2]
+        assert act.shape == (long(len(act)), long(3))
+
+        # check binary4, binary8 files return expected data values
+        if i < 6:
+            exp = omfread.read_structured_binary_oommf_data(file, byte, nodes,
+                                                            data)
+        # check ascii files return expected data values
+        else:
+            exp = omfread.read_structured_ascii_oommf_data(file, byte, nodes)
+        assert exp.all() == act.all()
