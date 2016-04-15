@@ -283,3 +283,18 @@ def test_read_structured_binary_oommf_data():
         except TypeError:
             result_string = result.getvalue()
             assert result_string == "ascii -oommf data not supported here\n"
+
+    # test that an unknown data type is detected.
+    for i in range(len(filenames)):
+        result = StringIO()
+        sys.stdout = result
+        try:
+            omfread.read_structured_binary_oommf_data(filenames[i], bytes[i],
+                                                      filenames_nodes[i],
+                                                      filenames_data_types[i] +
+                                                      'unknown')
+        except TypeError:
+            result_string = result.getvalue()
+            assert result_string == "unknow datatype (expected  'binary4',\
+'binary8' [or 'ascii'], but got  {}"\
+.format(filenames_data_types[i]+'unknown\n')
