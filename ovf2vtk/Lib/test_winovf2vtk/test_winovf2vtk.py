@@ -8,6 +8,14 @@ from ovf2vtk import winovf2vtk
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 15/04/16"""
 
+# ****************************** Global Variables ***************************
+
+infiles = []
+
+outfiles = []
+
+# *********************************** Tests *********************************
+
 
 def test_winovf2vtk_no_inputs():
     """test that the expected docstring is returned with the execution of...
@@ -91,14 +99,21 @@ def test_winovf2vtk_keys_one_parameter():
         if val < 2:
             exp = ["This is version {}.".format(ovf2vtk.__version__)]
         elif 1 < val < 4:
-            exp = "running in verbose mode\n" + winovf2vtk.__doc__ + "\nERROR:\
- An input file (and an output file need to be specified)."
+            exp = "running in verbose mode\n" + winovf2vtk.__doc__ + \
+                """\nERROR: An input file AND an output file need to \
+be specified.
+specify output file"""
             exp = exp.splitlines()
         elif 3 < val < 6:
             exp = winovf2vtk.__doc__ + "\n"
             exp = exp.splitlines()
         elif val > 5:
-            exp = winovf2vtk.__doc__ + "\nERROR: An input file (and an output \
-file need to be specified)."
+            exp = winovf2vtk.__doc__ + """\nERROR: An input file AND an\
+ output file need to be specified.
+specify output file"""
             exp = exp.splitlines()
         assert exp == new_doc
+
+
+def test_winovf2vtk_keys_two_parameters():
+    """
