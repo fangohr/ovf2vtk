@@ -34,8 +34,12 @@ outfiles = ['C:\Users\Harry\Documents\Examples\cantedvortex.vtk',
 cells = [32768, 768, 3375, 5000, 25600, 6000, 15, 6, 13]
 
 # % of cells filled for each corresponding infile
-cells_filled = [100.00, 57.29, 100.00, 99.60, 100.00, 100.00, 100.00, 100.00,
-                100.00]
+cells_filled = ['100.00', '57.29', '100.00', '99.60', '100.00', '100.00',
+                '100.00', '100.00', '100.00']
+
+# scale for each corresponding infile
+scale = ['1.000000', '1.000000', '1.000000', '1.000000', '349370.681891',
+         '270851.375948', '1.500000', '21.954498', '1.000000']
 
 # *********************************** Tests *********************************
 
@@ -141,4 +145,53 @@ specify output file"""
 def test_winovf2vtk_keys_two_parameters():
     """test that the expected output is displayed when the command line
     includes a key and two paramters: the infile and outfile"""
-    
+
+    # test two parameters with no keys
+    for i in range(len(infiles)):
+        # actual result
+        command = "python.exe C:\Users\Harry\Anaconda\Scripts\
+\winovf2vtk.py" + " {} {}".format(infiles[i], outfiles[i])
+        p = subprocess.Popen(command, stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT)
+        doc = p.stdout.readlines()
+        # remove '\r\n' characters
+        new_doc = []
+        for j in range(len(doc)):
+            line = doc[j].strip('\r\n')
+            new_doc.append(line)
+        # expected result
+        # binary4 and binary8 files
+        if i < 6:
+            exp = 70 * "-" + \
+                "\novf2vtk --- converting ovf files to vtk files" + "\n" + \
+                """Hans Fangohr, Richard Boardman, University of \
+Southampton\n""" + 70 * "-" + "\n" + \
+                """({}% of {} cells filled)
+Will scale data down by {}
+saving file ({})
+finished conversion (execution time
+VtkData.__init__.skipping:
+\tstriping header string to a length =255""".format(cells_filled[i], cells[i],
+                                                    scale[i], outfiles[i])
+            exp = exp.splitlines()
+
+        # ascii files
+        elif i > 5:
+            exp = 70 * "-" + \
+                "\novf2vtk --- converting ovf files to vtk files" + "\n" + \
+                """Hans Fangohr, Richard Boardman, University of \
+Southampton\n""" + 70 * "-" + "\n" + \
+                """Hint: Reading ASCII-OOMMF file is slow (that could be\
+ changed) and the files are large. Why not save data as binary?
+({}% of {} cells filled)
+Will scale data down by {}
+saving file ({})
+finished conversion (execution time
+VtkData.__init__.skipping:
+\tstriping header string to a length =255""".format(cells_filled[i], cells[i],
+                                                    scale[i], outfiles[i])
+            exp = exp.splitlines()
+        # can't predict execution time
+        new_doc[-3] = new_doc[-3][:35]
+        assert exp == new_doc
+        
