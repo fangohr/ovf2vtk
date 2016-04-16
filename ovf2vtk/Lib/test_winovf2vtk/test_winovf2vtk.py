@@ -142,9 +142,9 @@ specify output file"""
         assert exp == new_doc
 
 
-def test_winovf2vtk_keys_two_parameters():
+def test_winovf2vtk_no_keys_two_parameters():
     """test that the expected output is displayed when the command line
-    includes a key and two paramters: the infile and outfile"""
+    includes two parameters: the infile and outfile"""
 
     # test two parameters with no keys
     for i in range(len(infiles)):
