@@ -10,9 +10,25 @@ one place. By Harry Wilson. Last updated 15/04/16"""
 
 # ****************************** Global Variables ***************************
 
-infiles = []
+infiles = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
+           'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
+           'C:\Users\Harry\Documents\Examples\stdprob3v-reg.omf',
+           'C:\Users\Harry\Documents\Examples\stdproba.omf',
+           'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
+           'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf',
+           'C:\Users\Harry\Documents\Examples\smallDataText.omf',
+           'C:\Users\Harry\Documents\Examples\plateDataText.omf',
+           'C:\Users\Harry\Documents\Examples\spiralDataText.omf']
 
-outfiles = []
+outfiles = ['C:\Users\Harry\Documents\Examples\cantedvortex.vtk',
+            'C:\Users\Harry\Documents\Examples\ellipsoidwrap.vtk',
+            'C:\Users\Harry\Documents\Examples\h2hleftedge.vtk',
+            'C:\Users\Harry\Documents\Examples\yoyoleftedge.vtk',
+            'C:\Users\Harry\Documents\Examples\stdprob3v-reg.vtk',
+            'C:\Users\Harry\Documents\Examples\stdproba.vtk',
+            'C:\Users\Harry\Documents\Examples\smallDataText.vtk',
+            'C:\Users\Harry\Documents\Examples\plateDataText.vtk',
+            'C:\Users\Harry\Documents\Examples\spiralDataText.vtk']
 
 # *********************************** Tests *********************************
 
@@ -116,4 +132,6 @@ specify output file"""
 
 
 def test_winovf2vtk_keys_two_parameters():
-    """
+    """test that the expected output is displayed when the command line
+    includes a key and two paramters: the infile and outfile"""
+    
