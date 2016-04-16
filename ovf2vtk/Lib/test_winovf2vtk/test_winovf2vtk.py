@@ -194,4 +194,10 @@ VtkData.__init__.skipping:
         # can't predict execution time
         new_doc[-3] = new_doc[-3][:35]
         assert exp == new_doc
-        
+
+
+def test_winovf2vtk_keys_two_parameters():
+     """test that the expected output is displayed when the command line
+    includes a key and two parameters: the infile and outfile"""
+    
+    
