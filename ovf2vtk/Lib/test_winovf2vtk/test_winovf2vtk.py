@@ -10,6 +10,14 @@ one place. By Harry Wilson. Last updated 15/04/16"""
 
 # ****************************** Global Variables ***************************
 
+# list of keys that can be implemented in command line
+keys = ['-V', '--version', '-v', '--verbose', '-h', '--help',
+        '--surface-effects', '--datascale=0.0', '--posscale=0.0', '-b',
+        '--binary', '-t', '--text', '--ascii', '--add xy', '--add xy',
+        '--add yz', '--add xz', '--add Mx', '--add My', '--add Mz',
+        '--add divrot', '--add Ms', '--add all', '-a xy', '-a yz', '-a xz',
+        '-a Mx', '-a My', '-a Mz', '-a divrot', '-a Ms', '-a all']
+
 infiles = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
            'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
            'C:\Users\Harry\Documents\Examples\stdprob3v-reg.omf',
@@ -70,10 +78,6 @@ need to be specified)."
 def test_winovf2vtk_keys_no_parameters():
     """test that the expected output is displayed when the command line
     includes a key, but no files to convert."""
-    # list of keys that can be used. '--add/--binary/--text/--ascii' are...
-    # ...not selected here as these are tested later.
-    keys = ['-V', '--version', '-v', '--verbose', '-h', '--help',
-            '--surface-effects', '--datascale=0.0', '--posscale=0.0']
     for val in range(len(keys)):
         # compute actual result
         command = "python.exe C:\Users\Harry\Anaconda\Scripts\
@@ -106,10 +110,6 @@ file need to be specified)."
 def test_winovf2vtk_keys_one_parameter():
     """test that the expected output is displayed when the command line
     includes a key and one parameter but no files to convert."""
-    # list of keys that can be used. '--add/--binary/--text/--ascii' are...
-    # ...not selected here as these are tested later.
-    keys = ['-V', '--version', '-v', '--verbose', '-h', '--help',
-            '--surface-effects', '--datascale=0.0', '--posscale=0.0']
     for val in range(len(keys)):
         # compute actual result with one input file
         command = "python.exe C:\Users\Harry\Anaconda\Scripts\
