@@ -30,6 +30,13 @@ outfiles = ['C:\Users\Harry\Documents\Examples\cantedvortex.vtk',
             'C:\Users\Harry\Documents\Examples\plateDataText.vtk',
             'C:\Users\Harry\Documents\Examples\spiralDataText.vtk']
 
+# product of Nx,Ny,Nz for each corresponding infile
+cells = [32768, 768, 3375, 5000, 25600, 6000, 15, 6, 13]
+
+# % of cells filled for each corresponding infile
+cells_filled = [100.00, 57.29, 100.00, 99.60, 100.00, 100.00, 100.00, 100.00,
+                100.00]
+
 # *********************************** Tests *********************************
 
 
