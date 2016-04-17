@@ -191,41 +191,27 @@ def test_winovf2vtk_no_keys_two_parameters():
         for j in range(len(doc)):
             line = doc[j].strip('\r\n')
             new_doc.append(line)
+        str_doc = str(new_doc)
+
         # expected result
         # binary4 and binary8 files
         if i < 6:
-            exp = 70 * "-" + \
-                "\novf2vtk --- converting ovf files to vtk files" + "\n" + \
-                """Hans Fangohr, Richard Boardman, University of \
-Southampton\n""" + 70 * "-" + "\n" + \
-                """({}% of {} cells filled)
-Will scale data down by {}
-saving file ({})
-finished conversion (execution time
-VtkData.__init__.skipping:
-\tstriping header string to a length =255""".format(cells_filled[i], cells[i],
-                                                    scale[i], outfiles[i])
-            exp = exp.splitlines()
+            for item in banner_str:
+                assert item in str_doc
+            for item in in_out_str:
+                assert item in str_doc
+            for item in vtk_str:
+                assert item in str_doc
 
         # ascii files
         elif i > 5:
-            exp = 70 * "-" + \
-                "\novf2vtk --- converting ovf files to vtk files" + "\n" + \
-                """Hans Fangohr, Richard Boardman, University of \
-Southampton\n""" + 70 * "-" + "\n" + \
-                """Hint: Reading ASCII-OOMMF file is slow (that could be\
- changed) and the files are large. Why not save data as binary?
-({}% of {} cells filled)
-Will scale data down by {}
-saving file ({})
-finished conversion (execution time
-VtkData.__init__.skipping:
-\tstriping header string to a length =255""".format(cells_filled[i], cells[i],
-                                                    scale[i], outfiles[i])
-            exp = exp.splitlines()
-        # can't predict execution time
-        new_doc[-3] = new_doc[-3][:35]
-        assert exp == new_doc
+            for item in banner_str:
+                assert item in str_doc
+            for item in in_out_str:
+                assert item in str_doc
+            for item in vtk_str:
+                assert item in str_doc
+            assert ascii_str in str_doc
 
 
 def test_winovf2vtk_keys_two_parameters():
