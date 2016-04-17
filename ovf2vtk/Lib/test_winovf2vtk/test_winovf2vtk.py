@@ -443,3 +443,29 @@ VtkData.__init__.skipping:
             new_doc[-3] = new_doc[-3][:35]
 
         assert exp == new_doc
+
+
+def test_winovf2vtk_data():
+    """test that the data wihtin the vtk file is as expected for differing
+    datascales, posscales, surface-effects, in-plane angles, magnitudes etc."""
+    # one binary4, one binary8, one ascii
+    files = [' C:\Users\Harry\Documents\Examples\cantedvortex.omf',
+             ' C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
+             ' C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf',
+             ' C:\Users\Harry\Documents\Examples\smallDataText.omf',
+             ' C:\Users\Harry\Documents\Examples\plateDataText.omf']
+    vtk_files = [' C:\Users\Harry\Documents\Examples\cantedvortex_orgnl.vtk',
+                 ' C:\Users\Harry\Documents\Examples\ellipsoidwrap_orgnl.vtk',
+                 ' C:\Users\Harry\Documents\Examples\yoyoleftedge_orgnl.vtk',
+                 ' C:\Users\Harry\Documents\Examples\smallDataText_orgnl.vtk',
+                 ' C:\Users\Harry\Documents\Examples\plateDataText_orgnl.vtk']
+    cmds = [' --datascale=0 --posscale=0 --add all',
+            ' --datascale=1 --posscale=1 -a Ms -a xy -a xz -a divrot',
+            ' --datascale=-1.3 --posscale=5 --surface-effects -a Mx -a xy',
+            ' --posscale=10 --surface-effects -a all -b',
+            ' -a xz -a Ms --datascale=1 -a divrot -t']
+    for i in range(len(files)):
+        for cmd in cmds:
+            subprocess.Popen("python.exe C:\Users\Harry\Anaconda\Scripts\
+            \winovf2vtk.py" + cmd + file[i] + vtk_files[i])
+            
