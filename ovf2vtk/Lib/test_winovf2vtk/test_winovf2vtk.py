@@ -59,13 +59,23 @@ floatsizes = [4, 4, 4, 4, 8, 8]
 # list giving startbyte values to corresponding file in 'infiles'
 bytes = [874, 850, 797, 518, 874, 754, 488, 505, 468]
 
+# ****************** Possible command line print statements ***************** #
 V_version_str = "This is version {}.".format(ovf2vtk.__version__)
 
-v_verbose_str = ["running in verbose mode", "infile  =", "outfile =",
-                 "additions=", "options =", "datascale= 0.0", "posscale= 0.0",
-                 "Number of cells", "Expect floats of length",
-                 "Expect to find data in file",
-                 "verification_tag is okay (=> reading byte order correctly)"]
+i = 0
+j = 0
+
+v_verbose_str = "running in verbose mode", "infile  =  {}".format(infiles[j]),\
+                "outfile =  {}".format(outfiles[j]),\
+                "additions=  [('{}', '')]".format(keys[i]),\
+                "datascale= 0.0",\
+                "posscale= 0.0",\
+                "Number of cells (Nx={},Ny={},Nz={})"\
+                .format(nodes[j][0], nodes[j][1], nodes[j][2]),\
+                "Expect floats of length {} bytes.".format(floatsizes[j]),\
+                "Expect to find data in file {}  at position {} ."\
+                .format(infiles[j], bytes[j]),\
+                "verification_tag is okay (=> reading byte order correctly)"
 
 ascii_str = "Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
 and the files are large. Why not save data as binary?"
@@ -73,11 +83,12 @@ and the files are large. Why not save data as binary?"
 banner_str = [70 * "-", "ovf2vtk --- converting ovf files to vtk files",
               "Hans Fangohr, Richard Boardman, University of Southampton"]
 
-in_out_str = ["cells filled", "Will scale data down by", "saving file",
-              "finished conversion (execution time"]
+in_out_str = "({}% of {} cells filled)".format(cells_filled[j], cells[j]),\
+             "Will scale data down by {}".format(scale[j]),\
+             "saving file ({})".format(outfiles[j])
 
-vtk_str = ["VtkData.__init__.skipping:", "striping header string to a length \
-=255"]
+vtk_str = ["VtkData.__init__.skipping:", "\tstriping header string to a length\
+ =255"]
 
 # *********************************** Tests *********************************
 
@@ -227,8 +238,8 @@ VtkData.__init__.skipping:
 
 
 def test_winovf2vtk_keys_two_parameters():
-    """test that the expected output is displayed when the command line
-    includes a key and two parameters: the infile and outfile"""
+    """test that the expected print statements are displayed when the command
+    line includes a key and two parameters: the infile and outfile"""
     for i in range(len(keys)):
         for j in range(len(infiles)):
             # actual result
@@ -238,43 +249,43 @@ def test_winovf2vtk_keys_two_parameters():
                                  stderr=subprocess.STDOUT)
             doc = p.stdout.readlines()
             # remove '\r\n' characters
-            new_doc = []
+            new = []
             for k in range(len(doc)):
                 line = doc[k].strip('\r\n')
-                new_doc.append(line)
-            str_doc = str(new_doc)
-
+                new.append(line)
+            str_doc = str(new)
             # compute expected results
             # '-V file.omf file.vtk'
             if i < 2:
-                assert "This is version {}.".format(ovf2vtk.__version__) in \
-                    str_doc
+                assert "This is version {}.".format(ovf2vtk.__version__) in new
 
             # e.g. '-v binaryfile.omf binaryfile.vtk'
             if 1 < i < 4 and j < 6:
                 for item in v_verbose_str:
-                    assert item in str_doc
+                    assert item in new
                 for item in banner_str:
-                    assert item in str_doc
+                    assert item in new
                 for item in in_out_str:
-                    assert item in str_doc
+                    assert item in new
                 for item in vtk_str:
-                    assert item in str_doc
+                    assert item in new
+                assert "finished conversion (execution time" in str_doc
 
             # e.g. '-v asciifile.omf asciifile.vtk'
             elif 1 < i < 4 and j > 6:
                 for item in v_verbose_str[:8]:
-                    assert item in str_doc
+                    assert item in new
                 for item in banner_str:
-                    assert item in str_doc
-                assert ascii_str in str_doc
+                    assert item in new
+                assert ascii_str in new
                 for item in in_out_str:
-                    assert item in str_doc
+                    assert item in new
                 for item in vtk_str:
-                    assert item in str_doc
+                    assert item in new
+                assert "finished conversion (execution time" in str_doc
 
             # e.g. --h infile outfile
             elif 3 < i < 6:
                 exp = winovf2vtk.__doc__ + "\n"
                 exp = exp.splitlines()
-                assert exp == new_doc
+                assert exp == new
