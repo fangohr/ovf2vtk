@@ -336,19 +336,110 @@ def test_winovf2vtk_example_cmd_lines():
         for k in range(len(doc)):
             line = doc[k].strip('\r\n')
             new_doc.append(line)
-        str_doc = str(new_doc)
 
         # test if -V present, only version string is displayed
         if i == 0:
             exp = ["This is version {}.".format(ovf2vtk.__version__)]
 
-        # test several keys, binary infile, binary outfile
+        # test several keys, ascii infile, ascii outfile
         elif i == 1:
-            assert v_verbose_str[0] in str_doc
-            for item in banner_str:
-                assert item in str_doc
-            assert v_verbose_str[1] + "  {}".format(infiles[6]) in str_doc
-            assert v_verbose_str[2] + "  {}".format(outfiles[6]) in str_doc
-            
-        else:
-            pass
+            additions = [('--datascale', '0.5'), ('--posscale', '1.0'),
+                         ('--add', 'Ms'), ('-a', 'divrot'), ('--add', 'yz'),
+                         ('-v', '')]
+            options = {'--posscale': '1.0', '--add': 'yz', '-v': None,
+                       '-a': 'divrot', '--datascale': '0.5'}
+            exp = "running in verbose mode\n" + 70 * "-" + \
+                "\novf2vtk --- converting ovf files to vtk files" + \
+                "\n" + """Hans Fangohr, Richard Boardman, University of \
+Southampton\n""" + 70 * "-" + "\n" + \
+                """infile  =  {}
+outfile =  {}
+additions=  {}
+options =  {}
+datascale= 0.5
+posscale= 1.0
+Number of cells (Nx=5,Ny=3,Nz=1)
+Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
+and the files are large. Why not save data as binary?
+(100.00% of 15 cells filled)
+working on ('--add', 'Ms')
+working on ('-a', 'divrot')
+-->Nz==1, special 2d case, will only compute z-component of curl
+working on ('--add', 'yz')
+saving file ({})
+finished conversion (execution time
+VtkData.__init__.skipping:
+\tstriping header string to a length =255""".format(infiles[6], outfiles[6],
+                                                    additions, options,
+                                                    outfiles[6])
+            exp = exp.splitlines()
+            # can't predict execution time
+            new_doc[-3] = new_doc[-3][:35]
+
+        # test if --help key present, just program documentation is outputted
+        elif i == 2:
+            exp = winovf2vtk.__doc__ + "\n"
+            exp = exp.splitlines()
+
+        # test several keys + binary outfile and infile with different name
+        elif i == 3:
+            additions = [('--add', 'all'), ('--verbose', ''), ('--ascii', ''),
+                         ('--surface-effects', '')]
+            options = {'--ascii': None, '--add': 'all',
+                       '--surface-effects': None, '--verbose': None}
+            exp = "running in verbose mode\n" + 70 * "-" + \
+                "\novf2vtk --- converting ovf files to vtk files" + \
+                "\n" + """Hans Fangohr, Richard Boardman, University of \
+Southampton\n""" + 70 * "-" + "\n" + \
+                """infile  =  {}
+outfile =  C:\Users\Harry\Documents\Examples\example.vtk
+additions=  {}
+options =  {}
+datascale= 0.0
+posscale= 0.0
+Number of cells (Nx=24,Ny=8,Nz=4)
+Expect floats of length 4 bytes.
+Expect to find data in file {}  at position 850 .
+verification_tag is okay (=> reading byte order correctly)
+(57.29% of 768 cells filled)
+Will scale data down by 1.000000
+switching to ascii vtk-data
+working on ('--add', 'Ms')
+working on ('--add', 'Mx')
+working on ('--add', 'My')
+working on ('--add', 'Mz')
+working on ('--add', 'xy')
+working on ('--add', 'yz')
+working on ('--add', 'xz')
+working on ('--add', 'divrot')
+saving file (C:\Users\Harry\Documents\Examples\example.vtk)
+finished conversion (execution time
+VtkData.__init__.skipping:
+\tstriping header string to a length =255""".format(infiles[1], additions,
+                                                    options, infiles[1])
+            exp = exp.splitlines()
+            # can't predict execution time
+            new_doc[-3] = new_doc[-3][:35]
+
+        # test several keys and ascii files with an extra parameter
+        # assert extra parameter ignored
+        elif i == 4:
+            exp = 70 * "-" + \
+                "\novf2vtk --- converting ovf files to vtk files" + \
+                "\n" + """Hans Fangohr, Richard Boardman, University of \
+Southampton\n""" + 70 * "-" + "\n" + \
+                """Hint: Reading ASCII-OOMMF file is slow (that could be \
+changed) and the files are large. Why not save data as binary?
+(100.00% of 6 cells filled)
+Will scale data down by 21.954498
+working on ('-a', 'Mx')
+working on ('--add', 'My')
+saving file ({})
+finished conversion (execution time
+VtkData.__init__.skipping:
+\tstriping header string to a length =255""".format(outfiles[7])
+            exp = exp.splitlines()
+            # can't predict execution time
+            new_doc[-3] = new_doc[-3][:35]
+
+        assert exp == new_doc
