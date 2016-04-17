@@ -61,30 +61,23 @@ bytes = [874, 850, 797, 518, 874, 754, 488, 505, 468]
 
 V_version_str = "This is version {}.".format(ovf2vtk.__version__)
 
-v_verbose_str = ["running in verbose mode", """infile  =  {}
-outfile =  {}
-additions=  [('{}', '')]
-options =  {}
-datascale= 0.0
-posscale= 0.0""", "Number of cells (Nx={},Ny={},Nz={})",
-                 """Expect floats of length {} bytes.
-Expect to find data in file {}  at position {} .
-verification_tag is okay (=> reading byte order correctly)"""]
+v_verbose_str = ["running in verbose mode", "infile  =", "outfile =",
+                 "additions=", "options =", "datascale= 0.0", "posscale= 0.0",
+                 "Number of cells", "Expect floats of length",
+                 "Expect to find data in file",
+                 "verification_tag is okay (=> reading byte order correctly)"]
 
-ascii_str = ["Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
-and the files are large. Why not save data as binary?"]
+ascii_str = "Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
+and the files are large. Why not save data as binary?"
 
-banner_str = "running in verbose mode\n" + 70 * "-" + "\novf2vtk --- \
-converting ovf files to vtk files" + "\n" + """Hans Fangohr, Richard Boardman,\
- University of Southampton\n""" + 70 * "-"
+banner_str = [70 * "-", "ovf2vtk --- converting ovf files to vtk files",
+              "Hans Fangohr, Richard Boardman, University of Southampton"]
 
-in_out_str = """({}% of {} cells filled)
-Will scale data down by {}
-saving file ({})
-finished conversion (execution time"""
+in_out_str = ["cells filled", "Will scale data down by", "saving file",
+              "finished conversion (execution time"]
 
-vtk_str = """VtkData.__init__.skipping:
-\tstriping header string to a length =255"""
+vtk_str = ["VtkData.__init__.skipping:", "striping header string to a length \
+=255"]
 
 # *********************************** Tests *********************************
 
@@ -244,7 +237,12 @@ def test_winovf2vtk_keys_two_parameters():
             p = subprocess.Popen(command, stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
             doc = p.stdout.readlines()
-            str_doc = str(doc)
+            # remove '\r\n' characters
+            new_doc = []
+            for k in range(len(doc)):
+                line = doc[k].strip('\r\n')
+                new_doc.append(line)
+            str_doc = str(new_doc)
 
             # compute expected results
             # '-V file.omf file.vtk'
@@ -252,80 +250,31 @@ def test_winovf2vtk_keys_two_parameters():
                 assert "This is version {}.".format(ovf2vtk.__version__) in \
                     str_doc
 
-            # '-v asciifile.omf asciifile.vtk'
+            # e.g. '-v binaryfile.omf binaryfile.vtk'
             if 1 < i < 4 and j < 6:
-                options = {keys[i]: None}
-                assert banner_str in str_doc
-                assert v_verbose_str[1].format(infiles[j], outfiles[j],
-                                               keys[i], options) in str_doc
-                assert v_verbose_str[2].format(nodes[j][0], nodes[j][1],
-                                               nodes[j][2]) in str_doc
-                assert v_verbose_str[3] in str_doc
-                assert in_out_str in str_doc
-                assert vtk_str in str_doc
-                exp = "running in verbose mode\n" + 70 * "-" + \
-                    "\novf2vtk --- converting ovf files to vtk files" + \
-                    "\n" + """Hans Fangohr, Richard Boardman, University of \
-Southampton\n""" + 70 * "-" + "\n" + \
-                    """infile  =  {}
-outfile =  {}
-additions=  [('{}', '')]
-options =  {}
-datascale= 0.0
-posscale= 0.0
-Number of cells (Nx={},Ny={},Nz={})
-Expect floats of length {} bytes.
-Expect to find data in file {}  at position {} .
-verification_tag is okay (=> reading byte order correctly)
-({}% of {} cells filled)
-Will scale data down by {}
-saving file ({})
-finished conversion (execution time
-VtkData.__init__.skipping:
-\tstriping header string to a length =255""".format(infiles[j], outfiles[j],
-                                                    keys[i], options,
-                                                    nodes[j][0], nodes[j][1],
-                                                    nodes[j][2], floatsizes[j],
-                                                    infiles[j], bytes[j],
-                                                    cells_filled[j], cells[j],
-                                                    scale[j], outfiles[j])
-                exp = exp.splitlines()
-                # can't predict execution time
-                new_doc[-3] = new_doc[-3][:35]
-                assert exp == new_doc
+                for item in v_verbose_str:
+                    assert item in str_doc
+                for item in banner_str:
+                    assert item in str_doc
+                for item in in_out_str:
+                    assert item in str_doc
+                for item in vtk_str:
+                    assert item in str_doc
 
-            # '-v asciifile.omf asciifile.vtk'
-            if i < 1 < 4 and j > 6:
-                options = {keys[i]: None}
-                exp = "running in verbose mode\n" + 70 * "-" + \
-                    "\novf2vtk --- converting ovf files to vtk files" + \
-                    "\n" + """Hans Fangohr, Richard Boardman, University of \
-Southampton\n""" + 70 * "-" + "\n" + \
-                    """infile  =  {}
-outfile =  {}
-additions=  [('{}', '')]
-options =  {}
-datascale= 0.0
-posscale= 0.0
-Number of cells (Nx={},Ny={},Nz={})
-Hint: Reading ASCII-OOMMF file is slow (that could be changed) and the files \
-are large. Why not save data as binary?
-({}% of {} cells filled)
-Will scale data down by {}
-saving file ({})
-finished conversion (execution time
-VtkData.__init__.skipping:
-\tstriping header string to a length =255""".format(infiles[j], outfiles[j],
-                                                    keys[i], options,
-                                                    nodes[j][0], nodes[j][1],
-                                                    nodes[j][2],
-                                                    cells_filled[j], cells[j],
-                                                    scale[j], outfiles[j])
-                exp = exp.splitlines()
-                # can't predict execution time
-                new_doc[-3] = new_doc[-3][:35]
-                assert exp == new_doc
-            if 3 < i < 6:
+            # e.g. '-v asciifile.omf asciifile.vtk'
+            elif 1 < i < 4 and j > 6:
+                for item in v_verbose_str[:8]:
+                    assert item in str_doc
+                for item in banner_str:
+                    assert item in str_doc
+                assert ascii_str in str_doc
+                for item in in_out_str:
+                    assert item in str_doc
+                for item in vtk_str:
+                    assert item in str_doc
+
+            # e.g. --h infile outfile
+            elif 3 < i < 6:
                 exp = winovf2vtk.__doc__ + "\n"
                 exp = exp.splitlines()
                 assert exp == new_doc
