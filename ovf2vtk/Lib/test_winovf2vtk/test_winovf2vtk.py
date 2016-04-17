@@ -311,4 +311,44 @@ def test_winovf2vtk_keys_two_parameters():
 def test_winovf2vtk_example_cmd_lines():
     """function that takes example cmd lines not tested by above tests, and
     asserts print statements containing ACTUAL VALUES are outputted."""
-    examples = []
+
+    examples = "python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py \
+-V --ascii {} {}".format(infiles[0], outfiles[0]),\
+        "python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py \
+--datascale=0.5 --posscale 1.0 --add Ms -a divrot --add yz -v \
+{} {}".format(infiles[6], outfiles[6]),\
+        "python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py \
+-h --binary {} {}".format(infiles[-1], outfiles[-1]),\
+        "python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py \
+--add all --verbose --ascii --surface-effects {} {}"\
+        .format(infiles[1], "C:\Users\Harry\Documents\Examples\example.vtk"),\
+        "python.exe C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py \
+-a Mx --add My -b --datascale=0.0 --surface-effects {} {} Test"\
+        .format(infiles[7], outfiles[7])
+
+    for i in range(len(examples)):
+        # actual result
+        p = subprocess.Popen(examples[i], stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT)
+        doc = p.stdout.readlines()
+        # remove '\r\n' characters
+        new_doc = []
+        for k in range(len(doc)):
+            line = doc[k].strip('\r\n')
+            new_doc.append(line)
+        str_doc = str(new_doc)
+
+        # test if -V present, only version string is displayed
+        if i == 0:
+            exp = ["This is version {}.".format(ovf2vtk.__version__)]
+
+        # test several keys, binary infile, binary outfile
+        elif i == 1:
+            assert v_verbose_str[0] in str_doc
+            for item in banner_str:
+                assert item in str_doc
+            assert v_verbose_str[1] + "  {}".format(infiles[6]) in str_doc
+            assert v_verbose_str[2] + "  {}".format(outfiles[6]) in str_doc
+            
+        else:
+            pass
