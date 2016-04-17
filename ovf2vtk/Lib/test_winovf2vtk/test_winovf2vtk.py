@@ -306,3 +306,9 @@ def test_winovf2vtk_keys_two_parameters():
                     assert item in str_doc
                 assert add_str in str_doc
                 assert ascii_str in str_doc
+
+
+def test_winovf2vtk_example_cmd_lines():
+    """function that takes example cmd lines not tested by above tests, and
+    asserts print statements containing ACTUAL VALUES are outputted."""
+    examples = []
