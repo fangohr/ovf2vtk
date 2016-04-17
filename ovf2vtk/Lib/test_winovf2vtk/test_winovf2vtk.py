@@ -59,6 +59,33 @@ floatsizes = [4, 4, 4, 4, 8, 8]
 # list giving startbyte values to corresponding file in 'infiles'
 bytes = [874, 850, 797, 518, 874, 754, 488, 505, 468]
 
+V_version_str = "This is version {}.".format(ovf2vtk.__version__)
+
+v_verbose_str = ["running in verbose mode", """infile  =  {}
+outfile =  {}
+additions=  [('{}', '')]
+options =  {}
+datascale= 0.0
+posscale= 0.0""", "Number of cells (Nx={},Ny={},Nz={})",
+                 """Expect floats of length {} bytes.
+Expect to find data in file {}  at position {} .
+verification_tag is okay (=> reading byte order correctly)"""]
+
+ascii_str = ["Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
+and the files are large. Why not save data as binary?"]
+
+banner_str = "running in verbose mode\n" + 70 * "-" + "\novf2vtk --- \
+converting ovf files to vtk files" + "\n" + """Hans Fangohr, Richard Boardman,\
+ University of Southampton\n""" + 70 * "-"
+
+in_out_str = """({}% of {} cells filled)
+Will scale data down by {}
+saving file ({})
+finished conversion (execution time"""
+
+vtk_str = """VtkData.__init__.skipping:
+\tstriping header string to a length =255"""
+
 # *********************************** Tests *********************************
 
 
@@ -217,24 +244,25 @@ def test_winovf2vtk_keys_two_parameters():
             p = subprocess.Popen(command, stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
             doc = p.stdout.readlines()
-            # remove '\r\n' characters
-            new_doc = []
-            for k in range(len(doc)):
-                line = doc[k].strip('\r\n')
-                new_doc.append(line)
-            # compute expected results
+            str_doc = str(doc)
 
+            # compute expected results
             # '-V file.omf file.vtk'
             if i < 2:
-                exp = ["This is version {}.".format(ovf2vtk.__version__)]
-                assert exp == new_doc
                 assert "This is version {}.".format(ovf2vtk.__version__) in \
-                    str(doc)
+                    str_doc
 
             # '-v asciifile.omf asciifile.vtk'
             if 1 < i < 4 and j < 6:
-                # '-v asciifile.omf asciifile.vtk'
                 options = {keys[i]: None}
+                assert banner_str in str_doc
+                assert v_verbose_str[1].format(infiles[j], outfiles[j],
+                                               keys[i], options) in str_doc
+                assert v_verbose_str[2].format(nodes[j][0], nodes[j][1],
+                                               nodes[j][2]) in str_doc
+                assert v_verbose_str[3] in str_doc
+                assert in_out_str in str_doc
+                assert vtk_str in str_doc
                 exp = "running in verbose mode\n" + 70 * "-" + \
                     "\novf2vtk --- converting ovf files to vtk files" + \
                     "\n" + """Hans Fangohr, Richard Boardman, University of \
