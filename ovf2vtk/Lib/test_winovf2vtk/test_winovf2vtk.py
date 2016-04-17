@@ -58,6 +58,7 @@ floatsizes = [4, 4, 4, 4, 8, 8]
 # list giving startbyte values to corresponding file in 'infiles'
 bytes = [874, 850, 797, 518, 874, 754, 488, 505, 468]
 
+# ********************* Command line key print statements ******************* #
 V_version_str = "This is version {}.".format(ovf2vtk.__version__)
 
 v_verbose_str = ["running in verbose mode", "infile  =", "outfile =",
@@ -77,6 +78,8 @@ in_out_str = ["cells filled", "Will scale data down by", "saving file",
 
 vtk_str = ["VtkData.__init__.skipping:", "striping header string to a length \
 =255"]
+
+add_str = "working on"
 
 # *********************************** Tests *********************************
 
@@ -277,3 +280,43 @@ def test_winovf2vtk_keys_two_parameters():
                 exp = winovf2vtk.__doc__ + "\n"
                 exp = exp.splitlines()
                 assert exp == new_doc
+
+            # e.g. datascale/posscale/surface-effects/b/t binaryin binaryout
+            elif 5 < i < 14 and j < 6:
+                for item in banner_str:
+                    assert item in str_doc
+                for item in in_out_str:
+                    assert item in str_doc
+                for item in vtk_str:
+                    assert item in str_doc
+
+            # e.g. datascale/posscale/surface-effects/b/t asciiin asciiout
+            elif 5 < i < 14 and j > 6:
+                for item in banner_str:
+                    assert item in str_doc
+                for item in in_out_str:
+                    assert item in str_doc
+                for item in vtk_str:
+                    assert item in str_doc
+                assert ascii_str in str_doc
+
+            # e.g. -a Ms binaryinfile.omf binaryoutfile.vtk
+            elif i > 13 and j < 6:
+                for item in banner_str:
+                    assert item in str_doc
+                for item in in_out_str:
+                    assert item in str_doc
+                for item in vtk_str:
+                    assert item in str_doc
+                assert add_str in str_doc
+
+            # e.g. -a Ms asciiinfile.omf asciioutfile.vtk
+            elif i > 13 and j > 6:
+                for item in banner_str:
+                    assert item in str_doc
+                for item in in_out_str:
+                    assert item in str_doc
+                for item in vtk_str:
+                    assert item in str_doc
+                assert add_str in str_doc
+                assert ascii_str in str_doc
