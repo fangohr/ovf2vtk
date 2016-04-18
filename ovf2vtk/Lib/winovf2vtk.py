@@ -433,8 +433,8 @@ allowed after -a or --add"
     print "saving file ({})".format(outfile)
     vtk.tofile(outfile, format=vtk_data)
 
-    print "finished conversion (execution time %5.3s seconds)"\
-        % (time.time()-start_time)
+    print "finished conversion (execution time {:5.3s} seconds)"\
+        .format(time.time()-start_time)
 
 # ==============================================================================
 # =
