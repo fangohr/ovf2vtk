@@ -258,45 +258,46 @@ def ovf2vtk_main():
                   int(ovf_run["ynodes:"]),
                   int(ovf_run["znodes:"]))
 
-    if posscale != 0.0:  #scale data by given factor
+    if posscale != 0.0:  # scale data by given factor
 
-        #find dx, dy, dz in SI units:
+        # find dx, dy, dz in SI units:
         Lx = abs(float(ovf_run["xmax:"])-float(ovf_run["xmin:"]))
         Ly = abs(float(ovf_run["ymax:"])-float(ovf_run["ymin:"]))
         Lz = abs(float(ovf_run["zmax:"])-float(ovf_run["zmin:"]))
 
-        dx = Lx / float( ovf_run["xnodes:"] )
-        dy = Ly / float( ovf_run["ynodes:"] )
-        dz = Lz / float( ovf_run["znodes:"] )
+        dx = Lx / float(ovf_run["xnodes:"])
+        dy = Ly / float(ovf_run["ynodes:"])
+        dz = Lz / float(ovf_run["znodes:"])
 
-        #find scale factor that OOMMF uses for xstepsize and xnodes,
-        #etc. (Don't know how to get this directly.)
-        xscale = Lx / (float( ovf_run["xnodes:"])*float(ovf_run["xstepsize:"]))
-        yscale = Ly / (float( ovf_run["ynodes:"])*float(ovf_run["ystepsize:"]))
-        zscale = Lz / (float( ovf_run["znodes:"])*float(ovf_run["zstepsize:"]))
+        # find scale factor that OOMMF uses for xstepsize and xnodes,
+        # etc. (Don't know how to get this directly.)
+        xscale = Lx / (float(ovf_run["xnodes:"])*float(ovf_run["xstepsize:"]))
+        yscale = Ly / (float(ovf_run["ynodes:"])*float(ovf_run["ystepsize:"]))
+        zscale = Lz / (float(ovf_run["znodes:"])*float(ovf_run["zstepsize:"]))
 
-        #extract x, y and z positions from ovf file.
-        xbasevector = [None] * dimensions[0] #create empty vector
-        for i in range( dimensions[0] ):
-            #data is stored for 'centre' of each cuboid, therefore (i+0.5)
-            xbasevector[i] = float( ovf_run["xbase:"] ) +\
-                             (i+0.5) *float( ovf_run["xstepsize:"] )*xscale
+        # extract x, y and z positions from ovf file.
+        xbasevector = [None] * dimensions[0]  # create empty vector
+        for i in range(dimensions[0]):
+            # data is stored for 'centre' of each cuboid, therefore (i+0.5)
+            xbasevector[i] = float(ovf_run["xbase:"]) +\
+                (i+0.5) * float(ovf_run["xstepsize:"])*xscale
 
-        ybasevector = [None]* dimensions[1]
-        for i in range( dimensions[1] ):
-            ybasevector[i] = float( ovf_run["ybase:"] ) + (i+0.5) *float( ovf_run["ystepsize:"] )*yscale
+        ybasevector = [None] * dimensions[1]
+        for i in range(dimensions[1]):
+            ybasevector[i] = float(ovf_run["ybase:"]) + (i+0.5) * \
+                float(ovf_run["ystepsize:"]) * yscale
 
-        zbasevector = [None]* dimensions[2]
-        for i in range( dimensions[2] ):
-            zbasevector[i] = float( ovf_run["zbase:"] ) + (i+0.5) *float( ovf_run["zstepsize:"] )*zscale
+        zbasevector = [None] * dimensions[2]
+        for i in range(dimensions[2]):
+            zbasevector[i] = float(ovf_run["zbase:"]) + (i+0.5) *\
+                float(ovf_run["zstepsize:"]) * zscale
 
-
-        #finally, convert list to numerix (need to have this consistent)
+        # finally, convert list to numerix (need to have this consistent)
         xbasevector = Numeric.array(xbasevector)/float(posscale)
         ybasevector = Numeric.array(ybasevector)/float(posscale)
         zbasevector = Numeric.array(zbasevector)/float(posscale)
-        
-    else: #posscale == 0.0
+
+    else:  # posscale == 0.0
         #
         #this generally looks better:
         #
