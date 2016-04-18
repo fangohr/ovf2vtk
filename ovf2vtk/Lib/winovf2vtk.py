@@ -299,17 +299,17 @@ def ovf2vtk_main():
 
     else:  # posscale == 0.0
         #
-        #this generally looks better:
+        # this generally looks better:
         #
-        xbasevector = Numeric.arange( dimensions[0] )
-        ybasevector = Numeric.arange( dimensions[1] )
-        zbasevector = Numeric.arange( dimensions[2] )
+        xbasevector = Numeric.arange(dimensions[0])
+        ybasevector = Numeric.arange(dimensions[1])
+        zbasevector = Numeric.arange(dimensions[2])
 
     #
     # write ascii or binary vtk-file (default is binary)
     #
     vtk_data = 'binary'
-        
+
     if '--ascii' in keys or '-t' in keys or '--text' in keys:
         vtk_data = 'ascii'
         if debug:
@@ -320,45 +320,45 @@ def ovf2vtk_main():
             print "switching to binary vtk-data"
 
     #
-    #and now open vtk-file
+    # and now open vtk-file
     #
-    vtkfilecomment =  "Output from ovf2vtk (version %s), %s, infile=%s. " % (ovf2vtk.__version__,\
-                                                                   time.asctime(),\
-                                                                   infile)
-    vtkfilecomment += "Calling command line was '%s' executed in '%s'" % (" ".join(sys.argv),\
-                                                                        os.getcwd())
+    vtkfilecomment = "Output from ovf2vtk (version %s), %s, infile=%s. "\
+        % (ovf2vtk.__version__, time.asctime(), infile)
+    vtkfilecomment += "Calling command line was '%s' executed in '%s'"\
+        % (" ".join(sys.argv), os.getcwd())
 
-    vtk = pyvtk.VtkData(    pyvtk.RectilinearGrid(xbasevector.tolist(),ybasevector.tolist(),zbasevector.tolist()),
-                            vtkfilecomment,
-                            pyvtk.PointData(pyvtk.Vectors( vf.tolist(), datatitle ) ),
-                            format=vtk_data)
+    vtk = pyvtk.VtkData(pyvtk.RectilinearGrid(xbasevector.tolist(),
+                                              ybasevector.tolist(),
+                                              zbasevector.tolist()),
+                        vtkfilecomment,
+                        pyvtk.PointData(pyvtk.Vectors(vf.tolist(), datatitle)),
+                        format=vtk_data)
 
     #
     # now compute all the additional data such as angles, etc
     #
 
     # check whether we should do all
-    keys = map(lambda x:x[1], additions)
+    keys = map(lambda x: x[1], additions)
     if "all" in keys:
         additions = []
         for add in add_features:
-            additions.append(("--add",add))
-
+            additions.append(("--add", add))
 
     # when ovf2vtk was re-written using Numeric, I had to group
     # certain operations to make them fast. Now some switches are
     # unneccessary. (fangohr 25/08/2003 01:35)
     # To avoid executing the
     # same code again, we remember what we have computed already:
-    
+
     done_angles = 0
-    done_comp   = 0
+    done_comp = 0
 
     for add in additions:
-        if add[0]=="-a" or add[0]=="--add":
-            print "working on",add
+        if add[0] == "-a" or add[0] == "--add":
+            print "working on", add
 
-            data=[]
+            data = []
 
             #compute observables that need more than one field value, i.e. div, rot
             if add[1][0:6] == "divrot":  #rotation = vorticity, curl
