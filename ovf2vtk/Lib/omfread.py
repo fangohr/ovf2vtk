@@ -258,8 +258,8 @@ meant to be 123456789012345.0"
 
     vectorfield = Numeric.reshape(Numeric.array(vector), (N, 3))
 
-    if not dimensions[0]*dimensions[1]*dimensions[2] == len(vectorfield):
-        print dimensions[0]*dimensions[1]*dimensions[2], len(vectorfield)
+    if not N == len(vectorfield):
+        print N, len(vectorfield)
         raise "Oopps", "Miscounted - internal error"
 
     return Numeric.array(vectorfield)
