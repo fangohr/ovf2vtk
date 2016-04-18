@@ -12,14 +12,14 @@ Hans Fangohr, hans.fangohr@physics.org
 # matrix with the row corresponding to the data in the vector field, and
 # the 3-component column corresponding to the magnetisation vector at
 # that place.
-# 
+#
 # Together with an index function (last component varying fastest,
 # C-style) and positions vectors x_vec, y_vec and z_vec (for three
 # dimensional domains), these data can be mapped to positions in real
 # space.
-# 
+#
 # All this makes only sense for rectilinear grids.
-# 
+#
 # (fangohr 25/08/2003 00:18)
 
 """
@@ -27,9 +27,11 @@ Hans Fangohr, hans.fangohr@physics.org
 try:
     import numpy as Numeric
 except ImportError:
-    print "This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy)."
-    print "If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk."
-    raise ImportError,"Couldn't import Numpy -- cannot proceed."
+    print "This program needs Numpy. Please download and install. \
+(http://sourceforge.net/projects/numpy)."
+    print "If you are using Numeric, you can use the older version \
+0.1.17 of ovf2vtk."
+    raise ImportError, "Couldn't import Numpy -- cannot proceed."
 
 __version__ = "$Revision: 1.3 $"
 
@@ -43,15 +45,18 @@ def magnitude(d):
     return Numeric.sqrt(Numeric.add.reduce(d * d, 1))
 
 
-def convert_flat_fortran_to_3dmatrix( vf, Nx, Ny, Nz ):
-    return Numeric.resize( vf, (Nz,Ny,Nx,3)) #this is in Fortran order
+def convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz):
+    return Numeric.resize(vf, (Nz, Ny, Nx, 3))  # this is in Fortran order
 
-def convert_fortran_3dmatrix_to_flat( M ):
-    return Numeric.array( M ).ravel()
 
-def convert_fortran_3dmatrix_to_flat_vector( M ):
-    N = len( Numeric.array(M).ravel() )
-    return Numeric.resize( M, (N/3,3) )
+def convert_fortran_3dmatrix_to_flat(M):
+    return Numeric.array(M).ravel()
+
+
+def convert_fortran_3dmatrix_to_flat_vector(M):
+    N = len(Numeric.array(M).ravel())
+    return Numeric.resize(M, (N/3, 3))
+
 
 def convert_fortran_to_C( a ):
     """assuming Fortran data is stored as M[Nz,Ny,Nx,:,...:] and
@@ -59,19 +64,24 @@ def convert_fortran_to_C( a ):
     one to the other. (fangohr 31/03/2004 23:06)"""
     return Numeric.swapaxes( a, 0, 2)
 
+
 def convert_C_to_fortran( a ):
     return convert_fortran_to_C( a )
+
 
 def fortranindex (i,j,k,Nx,Ny,Nz):
     """x changes fastest"""
     return i+j*Nx+k*Nx*Ny
 
+
 def Cindex (i,j,k,Nx,Ny,Nz):
     """z changes fastest """
     return i*Nz*Ny+j*Nz+k
 
+
 def components( d ):
     return ( d[:,0],  d[:,1],  d[:,2] )
+
 
 def plane_angles( d ):
     """
@@ -93,6 +103,7 @@ def plane_angles( d ):
     yz = Numeric.arctan2( z2, y2 )
     xz = Numeric.arctan2( z2, x2 )
     return xy, yz, xz 
+
 
 def clean_surfaces( obs, M, wipe=0, eps = 1e-3, zerovalue = 0.0):
     """sets all values in obs to zero value for which abs(M)<eps. If wipe > 0, then
