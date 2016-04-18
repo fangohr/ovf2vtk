@@ -13,39 +13,43 @@ import struct
 try:
     import numpy as Numeric
 except ImportError:
-    print "This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy)."
-    print "If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk."
-    raise ImportError,"Couldn't import Numpy -- cannot proceed."
-
+    print "This program needs Numpy. Please download and install. \
+(http://sourceforge.net/projects/numpy)."
+    print "If you are using Numeric, you can use the \
+older version 0.1.17 of ovf2vtk."
+    raise ImportError, "Couldn't import Numpy -- cannot proceed."
 
 
 __version__ = "$Revision: 1.6 $"
 
 # keyword list from ovf-file:
-keywords=["Title:",
-          "Desc: Applied field (T):",
-          "Desc: Iteration:",
-          "meshtype:", "meshunit:",
-          "xbase:", "ybase:", "zbase:",
-          "xstepsize:", "ystepsize:", "zstepsize:",
-          "xnodes:", "ynodes:", "znodes:",
-          "xmin:","ymin:","zmin:","xmax:","ymax:","zmax:",
-          "boundary:","valueunit:","valuemultiplier:",
-          "ValueRangeMinMag:","ValueRangeMaxMag:",
-          "End: Head:", "Begin: Data:", "OOMMF:", "Segment count:","Begin: Segme"]
+keywords = ["Title:",
+            "Desc: Applied field (T):",
+            "Desc: Iteration:",
+            "meshtype:", "meshunit:",
+            "xbase:", "ybase:", "zbase:",
+            "xstepsize:", "ystepsize:", "zstepsize:",
+            "xnodes:", "ynodes:", "znodes:",
+            "xmin:", "ymin:", "zmin:", "xmax:", "ymax:", "zmax:",
+            "boundary:", "valueunit:", "valuemultiplier:",
+            "ValueRangeMinMag:", "ValueRangeMaxMag:",
+            "End: Head:", "Begin: Data:", "OOMMF:",
+            "Segment count:", "Begin: Segme"]
 
-def parse_for_keywords( keywords, line, dic = {}):
+
+def parse_for_keywords(keywords, line, dic={}):
     for x in keywords:
         if line[0:len(x)+2] == "# "+x:
-            dic[x]=line[len(x)+2:]
-            #remove end of line character if it is there
-            if dic[x][-1]=="\n":
-                dic[x]=dic[x][0:-1]
-            #remove any leading white space
-            while dic[x][0]==" ":
-                dic[x]=dic[x][1:]
+            dic[x] = line[len(x)+2:]
+            # remove end of line character if it is there
+            if dic[x][-1] == "\n":
+                dic[x] = dic[x][0:-1]
+            # remove any leading white space
+            while dic[x][0] == " ":
+                dic[x] = dic[x][1:]
     return dic
-        
+
+
 def analyze( filename, verbose = 0 ):
     f=open(filename,"rb")
     lines=[]
