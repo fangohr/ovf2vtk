@@ -206,60 +206,57 @@ def ovf2vtk_main():
     else:
         outfile = params[1]
 
-    # okay: it seems the essential parameters are given. Let's check for others:
+    # okay: it seems the essential parameters are given.
+    # Let's check for others:
 
     print banner_doc
 
     if debug:
         print "infile  = ", infile
-        print "outfile = ",outfile
-        print "additions= ",additions
-        print "options = ",options
-        print "datascale=",datascale
-        print "posscale=",posscale
+        print "outfile = ", outfile
+        print "additions= ", additions
+        print "options = ", options
+        print "datascale=", datascale
+        print "posscale=", posscale
 
-    #read data from infile
-    vf = read_structured_omf_file( infile, debug )
+    # read data from infile
+    vf = read_structured_omf_file(infile, debug)
 
-    #compute magnitude for all cells 
-    Ms = magnitude( vf )
-    
-    # Compute number of cells with non-zero Ms (rpb01r) 
-    Ms_num_of_nonzeros = Numeric.sum( Numeric.not_equal( Ms, 0.0 ) ) 
-    print "(%5.2f%% of %d cells filled)" % (100.0*Ms_num_of_nonzeros/len(Ms), len(Ms))
+    # compute magnitude for all cells
+    Ms = magnitude(vf)
 
+    # Compute number of cells with non-zero Ms (rpb01r)
+    Ms_num_of_nonzeros = Numeric.sum(Numeric.not_equal(Ms, 0.0))
+    print "(%5.2f%% of %d cells filled)"\
+        % (100.0*Ms_num_of_nonzeros/len(Ms), len(Ms))
 
-    #read metadata in data file 
-    ovf_run  = analyze( infile  )
+    # read metadata in data file
+    ovf_run = analyze(infile)
 
-
-
-    #scale magnetisation data as required:
+    # scale magnetisation data as required:
     if datascale == 0.0:
-        scale = max( Ms )
+        scale = max(Ms)
         print "Will scale data down by %f" % scale
     else:
         scale = datascale
-    vf = Numeric.divide( vf, scale )
+    vf = Numeric.divide(vf, scale)
 
     datatitle = ovf_run["Title:"]+"/%g" % (scale)
 
     #
-    #need x, y and z vectors for vtk format
+    # need x, y and z vectors for vtk format
     #
 
-    #taking actual spacings for dx, dy and dz results generally in
-    #poor visualisation results (in particular for thin films, one
-    #would like to have some magnification in z-direction).  Also:vtk
-    #is not happy with positions on the 10e-9 scale, so one better
-    #scales this to something closer to unity.
+    # taking actual spacings for dx, dy and dz results generally in
+    # poor visualisation results (in particular for thin films, one
+    # would like to have some magnification in z-direction).  Also:vtk
+    # is not happy with positions on the 10e-9 scale, so one better
+    # scales this to something closer to unity.
 
-
-
-    #extract dimensions from file
-    dimensions = ( int( ovf_run["xnodes:"] ), \
-                   int( ovf_run["ynodes:"] ), \
-                   int( ovf_run["znodes:"] ))
+    # extract dimensions from file
+    dimensions = (int(ovf_run["xnodes:"]),
+                  int(ovf_run["ynodes:"]),
+                  int(ovf_run["znodes:"]))
 
     if posscale != 0.0:  #scale data by given factor
 
