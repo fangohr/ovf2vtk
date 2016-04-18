@@ -174,64 +174,69 @@ and the files are large. Why not save data as binary?"
     return Numeric.array(vectorfield)
 
 
-def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbose = 0 ):
+def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
+                                      verbose=0):
     """fname is the filename to read
     byte is the byte in that file at which the (binary) data starts
     datatype = 'binary4','binary8','ascii'
     dimensions = 3-tuple (nx, ny, nz) with the numbers of cells in the mesh
-    
+
     This function will return one tuple for each mesh cell combined in a list
     (in the fashion OOMMF stores data, i.e. (from OOMMF userguide)
     'these are ordered with the x index incremented first, then the y
     index, and the z index last.  This is nominally Fortran order, and
     is adopted here because commonly x will be the longest dimension,
     and z the shortest'
-    
+
     The returned value is a list of 3-tuples. """
-    
+
     if datatype == "binary4":
         floatsize = 4
     elif datatype == "binary8":
         floatsize = 8
     elif datatype == "ascii":
         print "ascii -oommf data not supported here"
-        raise "Not Implemented Error","ascii-oommf data not supported here"
+        raise "Not Implemented Error", "ascii-oommf data not supported here"
     else:
-        print "unknow datatype (expected  'binary4','binary8' [or 'ascii'], but got ",datatype
+        print "unknow datatype (expected  'binary4','binary8' [or 'ascii'],\
+but got ", datatype
         raise "Error"
 
     if verbose:
-        print "Expect floats of length",floatsize,"bytes."
-        print "Expect to find data in file",fname," at position",byte,"."
+        print "Expect floats of length", floatsize, "bytes."
+        print "Expect to find data in file", fname, " at position", byte, "."
 
-    #now read file                                  
-    data = open( fname,'rb' ).read()
+    # now read file
+    data = open(fname, 'rb').read()
 
-    #verification item (at position -1)
+    # verification item (at position -1)
     if floatsize == 4:
-        verification_tag, = struct.unpack('!f',data[byte:byte+4])
+        verification_tag, = struct.unpack('!f', data[byte:byte+4])
 
         if verification_tag == 1234567.0:
             if verbose != 0:
-                print "verification_tag is okay (=> reading byte order correctly)"
-            filepos = byte + 4;
-            
+                print "verification_tag is okay \
+(=> reading byte order correctly)"
+            filepos = byte + 4
+
         else:
             print "The first item in a binary file is meant to be 1234567.0"
-            print "but it is not. Instead, I read ",verification_tag,"."
+            print "but it is not. Instead, I read ", verification_tag, "."
             print "Cowardly stopping here."
             raise "Assertion Error"
 
     elif floatsize == 8:
-        (verification_tag,) = struct.unpack('!d',data[byte:byte+8])
-        
+        (verification_tag,) = struct.unpack('!d', data[byte:byte+8])
+
         if verification_tag == 123456789012345.0:
-	    if verbose != 0:
-                print "verification_tag is okay (=> reading byte order correctly)"
-            filepos = byte + 8;
+            if verbose != 0:
+                print "verification_tag is okay \
+(=> reading byte order correctly)"
+            filepos = byte + 8
         else:
-            print "The first item in a binary file is meant to be 123456789012345.0"
-            print "but it is not. Instead, I read ",verification_tag,"."
+            print "The first item in a binary file is \
+meant to be 123456789012345.0"
+            print "but it is not. Instead, I read ", verification_tag, "."
             print "Cowardly stopping here."
             raise "Assertion Error"
     else:
@@ -241,23 +246,24 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
 
     N = Nx * Ny * Nz
 
-    #do reading in one go:
+    # do reading in one go:
     if floatsize == 4:
-        vector = struct.unpack('!'+'fff'*N,data[ filepos: filepos + 3*4*N])
+        vector = struct.unpack('!'+'fff'*N, data[filepos: filepos + 3*4*N])
         filepos += 3*4*N
     elif floatsize == 8:
-        vector = struct.unpack('!'+'ddd'*N,data[ filepos: filepos + 3*8*N])
+        vector = struct.unpack('!'+'ddd'*N, data[filepos: filepos + 3*8*N])
         filepos += 3*8*N
     else:
         raise "Hmmm", "This should not happen. Reference 1"
 
-    vectorfield = Numeric.reshape( Numeric.array( vector ), (N, 3) )
-    
-    if not dimensions[0]*dimensions[1]*dimensions[2] == len( vectorfield ):
-        print dimensions[0]*dimensions[1]*dimensions[2], len( vectorfield )
+    vectorfield = Numeric.reshape(Numeric.array(vector), (N, 3))
+
+    if not dimensions[0]*dimensions[1]*dimensions[2] == len(vectorfield):
+        print dimensions[0]*dimensions[1]*dimensions[2], len(vectorfield)
         raise "Oopps", "Miscounted - internal error"
 
     return Numeric.array(vectorfield)
+
 
 def read_structured_oommf_data( fname, byte, dimensions, datatype, verbose = 0 ):
     if datatype == 'ascii':
