@@ -58,51 +58,51 @@ def convert_fortran_3dmatrix_to_flat_vector(M):
     return Numeric.resize(M, (N/3, 3))
 
 
-def convert_fortran_to_C( a ):
+def convert_fortran_to_C(a):
     """assuming Fortran data is stored as M[Nz,Ny,Nx,:,...:] and
     C data as M[Nx,Ny,Nz,:,,...,:] then this function converts from
     one to the other. (fangohr 31/03/2004 23:06)"""
-    return Numeric.swapaxes( a, 0, 2)
+    return Numeric.swapaxes(a, 0, 2)
 
 
-def convert_C_to_fortran( a ):
-    return convert_fortran_to_C( a )
+def convert_C_to_fortran(a):
+    return convert_fortran_to_C(a)
 
 
-def fortranindex (i,j,k,Nx,Ny,Nz):
+def fortranindex(i, j, k, Nx, Ny, Nz):
     """x changes fastest"""
     return i+j*Nx+k*Nx*Ny
 
 
-def Cindex (i,j,k,Nx,Ny,Nz):
+def Cindex(i, j, k, Nx, Ny, Nz):
     """z changes fastest """
     return i*Nz*Ny+j*Nz+k
 
 
-def components( d ):
-    return ( d[:,0],  d[:,1],  d[:,2] )
+def components(d):
+    return (d[:,0], d[:,1], d[:,2])
 
 
-def plane_angles( d ):
+def plane_angles(d):
     """
     Input is matrix, containing N 3d vectors.
 
     returns angles in yx, yz and xz plane for all vectors. """
-    x, y, z = components( d )
+    x, y, z = components(d)
 
-    #if any Ms is smaller that 1e-6, then set to zero to eliminate noise
-    cutoff=1e-6
+    # if any Ms is smaller that 1e-6, then set to zero to eliminate noise
+    cutoff = 1e-6
 
-    Ms = magnitude( d )
-    
-    x2 = Numeric.choose( Numeric.less( Ms, cutoff ), ( x, 0.0 ) )
-    y2 = Numeric.choose( Numeric.less( Ms, cutoff ), ( y, 0.0 ) )
-    z2 = Numeric.choose( Numeric.less( Ms, cutoff ), ( z, 0.0 ) ) 
-    
-    xy = Numeric.arctan2( y2, x2 )
-    yz = Numeric.arctan2( z2, y2 )
-    xz = Numeric.arctan2( z2, x2 )
-    return xy, yz, xz 
+    Ms = magnitude(d)
+
+    x2 = Numeric.choose(Numeric.less(Ms, cutoff), (x, 0.0))
+    y2 = Numeric.choose(Numeric.less(Ms, cutoff), (y, 0.0))
+    z2 = Numeric.choose(Numeric.less(Ms, cutoff), (z, 0.0))
+
+    xy = Numeric.arctan2(y2, x2)
+    yz = Numeric.arctan2(z2, y2)
+    xz = Numeric.arctan2(z2, x2)
+    return xy, yz, xz
 
 
 def clean_surfaces( obs, M, wipe=0, eps = 1e-3, zerovalue = 0.0):
