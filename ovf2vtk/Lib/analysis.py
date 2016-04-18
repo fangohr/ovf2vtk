@@ -166,35 +166,36 @@ def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
     return obs
 
 
-def divergence_and_curl( vf, surfaceEffects, ovf_run ):
+def divergence_and_curl(vf, surfaceEffects, ovf_run):
     """A new attempt to compute the divergence and the curlfaster using
 vector/matrix operations in Numeric rather than for-loops in
 Python. (fangohr 31/03/2004 00:25)
 
 Input data is:
-    vf              : the VectorField (as created by omfread)
-    surfaceEffects  : a boolean
-    ovf_run         : dictionarry with keyword-value pairs from ovf file header.
+    vf             : the VectorField (as created by omfread)
+    surfaceEffects : a boolean
+    ovf_run        : dictionarry with keyword-value pairs from ovf file header.
     """
-    dimensions = ( int( ovf_run["xnodes:"] ), \
-                   int( ovf_run["ynodes:"] ), \
-                   int( ovf_run["znodes:"] ))
+    dimensions = (int(ovf_run["xnodes:"]),
+                  int(ovf_run["ynodes:"]),
+                  int(ovf_run["znodes:"]))
 
     Nx = dimensions[0]
     Ny = dimensions[1]
     Nz = dimensions[2]
 
     # get data into array of shape (Nx,Ny,Nz,3) (This is C-style)
-    M = convert_flat_fortran_to_3dmatrix( vf, Nx, Ny, Nz )
-    M = convert_fortran_to_C( M )
+    M = convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
+    M = convert_fortran_to_C(M)
 
-    #print "Nx, Ny, Nz=", Nx, Ny, Nz
+    # print "Nx, Ny, Nz=", Nx, Ny, Nz
 
-    dx = float( ovf_run["xstepsize:"] )
-    dy = float( ovf_run["ystepsize:"] )
-    dz = float( ovf_run["zstepsize:"] )
+    dx = float(ovf_run["xstepsize:"])
+    dy = float(ovf_run["ystepsize:"])
+    dz = float(ovf_run["zstepsize:"])
 
-    #total magnitude of curl is irrelevant, re-scale dx, dy, dz to avoid overflow:
+    # total magnitude of curl is irrelevant, re-scale dx, dy, dz to...
+    # ...avoid overflow:
 
     scale = min(dx, dy, dz)
 
@@ -202,46 +203,51 @@ Input data is:
     dy /= scale
     dz /= scale
 
-    #compute dMx/dx (central differences):
+    # compute dMx/dx (central differences):
 
-    dMdx = Numeric.array( M[2:,:,:,:]-M[:-2,:,:,:])
-    dMxdx, dMydx, dMzdx = dMdx[:,:,:,0]/dx,dMdx[:,:,:,1]/dx,dMdx[:,:,:,2]/dx
-    dMdy = Numeric.array( M[:,2:,:,:]-M[:,:-2,:,:])
-    dMxdy, dMydy, dMzdy = dMdy[:,:,:,0]/dy,dMdy[:,:,:,1]/dy,dMdy[:,:,:,2]/dy
-    dMdz = Numeric.array( M[:,:,2:,:]-M[:,:,:-2,:])
-    dMxdz, dMydz, dMzdz = dMdz[:,:,:,0]/dz,dMdz[:,:,:,1]/dz,dMdz[:,:,:,2]/dz
+    dMdx = Numeric.array(M[2:, :, :, :]-M[:-2, :, :, :])
+    dMxdx, dMydx, dMzdx = \
+        dMdx[:, :, :, 0]/dx, dMdx[:, :, :, 1]/dx, dMdx[:, :, :, 2]/dx
+    dMdy = Numeric.array(M[:, 2:, :, :]-M[:, :-2, :, :])
+    dMxdy, dMydy, dMzdy = \
+        dMdy[:, :, :, 0]/dy, dMdy[:, :, :, 1]/dy, dMdy[:, :, :, 2]/dy
+    dMdz = Numeric.array(M[:, :, 2:, :]-M[:, :, :-2, :])
+    dMxdz, dMydz, dMzdz = \
+        dMdz[:, :, :, 0]/dz, dMdz[:, :, :, 1]/dz, dMdz[:, :, :, 2]/dz
 
-    div = Numeric.zeros( (Nx,Ny,Nz), 'd' )
+    div = Numeric.zeros((Nx, Ny, Nz), 'd')
 
-    div[1:-1,:,:] += dMxdx
-    div[:,1:-1,:] += dMydy
-    div[:,:,1:-1] += dMzdz
+    div[1:-1, :, :] += dMxdx
+    div[:, 1:-1, :] += dMydy
+    div[:, :, 1:-1] += dMzdz
 
     if not surfaceEffects:
-        div = clean_surfaces( div, M, wipe=1 )
+        div = clean_surfaces(div, M, wipe=1)
 
-    Fdiv = convert_C_to_fortran( div )
-    divflat = convert_fortran_3dmatrix_to_flat( Fdiv )
+    Fdiv = convert_C_to_fortran(div)
+    divflat = convert_fortran_3dmatrix_to_flat(Fdiv)
 
-    rot = Numeric.zeros( (Nx,Ny,Nz,3), 'd' )
+    rot = Numeric.zeros((Nx, Ny, Nz, 3), 'd')
 
-    #taking the cross product (this excludes the outermost layers as
-    #we can't take the central difference for these)
-    rot[1:-1,1:-1,1:-1,0] = dMzdy[1:-1,:,1:-1]-dMydz[1:-1,1:-1,:]
-    rot[1:-1,1:-1,1:-1,1] = dMxdz[1:-1,1:-1,:]-dMzdx[:,1:-1,1:-1]
-    rot[1:-1,1:-1,1:-1,2] = dMydx[:,1:-1,1:-1]-dMxdy[1:-1,:,1:-1]
+    # taking the cross product (this excludes the outermost layers as
+    # we can't take the central difference for these)
+    rot[1:-1, 1:-1, 1:-1, 0] = dMzdy[1:-1, :, 1:-1]-dMydz[1:-1, 1:-1, :]
+    rot[1:-1, 1:-1, 1:-1, 1] = dMxdz[1:-1, 1:-1, :]-dMzdx[:, 1:-1, 1:-1]
+    rot[1:-1, 1:-1, 1:-1, 2] = dMydx[:, 1:-1, 1:-1]-dMxdy[1:-1, :, 1:-1]
 
-    #special 2d-case (only one layer in z)
+    # special 2d-case (only one layer in z)
     if Nz == 1:
-        print "-->Nz==1, special 2d case, will only compute z-component of curl"
-        rot[ 1:-1, 1:-1, 0, 2] = dMydx[:,1:-1,0]-dMxdy[1:-1,:,0]
+        print "-->Nz==1, special 2d case, will only compute \
+z-component of curl"
+        rot[1:-1, 1:-1, 0, 2] = dMydx[:, 1:-1, 0]-dMxdy[1:-1, :, 0]
 
     if not surfaceEffects:
-        rot = clean_surfaces( rot, M, wipe=1 )
+        rot = clean_surfaces(rot, M, wipe=1)
 
-    Frot = convert_C_to_fortran( rot )
-    rotflat = convert_fortran_3dmatrix_to_flat_vector( Frot )
+    Frot = convert_C_to_fortran(rot)
+    rotflat = convert_fortran_3dmatrix_to_flat_vector(Frot)
 
-    rotmag = magnitude( rotflat )
+    rotmag = magnitude(rotflat)
 
-    return (divflat, rotflat, rotflat[:,0], rotflat[:,1], rotflat[:,2], rotmag)
+    return (divflat, rotflat, rotflat[:, 0], rotflat[:, 1],
+            rotflat[:, 2], rotmag)
