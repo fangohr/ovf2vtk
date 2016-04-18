@@ -241,7 +241,7 @@ def ovf2vtk_main():
         scale = datascale
     vf = Numeric.divide(vf, scale)
 
-    datatitle = ovf_run["Title:"]+"/%g" % (scale)
+    datatitle = ovf_run["Title:"]+"/{}".format(scale)
 
     #
     # need x, y and z vectors for vtk format
