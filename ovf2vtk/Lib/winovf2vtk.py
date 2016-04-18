@@ -12,16 +12,16 @@ OPTIONS:
 
         [--add xy ]
             adding a scalar component to the outfile showing the
-            inplane angle of the magnetisation for the xy -plane. 
+            inplane angle of the magnetisation for the xy -plane.
         [--add yz ]
             as --add xy but for the yz-plane.
-        [--add xz ] 
+        [--add xz ]
             as --add xy but for the xz-plane.
-        [--add Mx ] 
+        [--add Mx ]
            adds scalar fields containing the x-component of M to the file
-        [--add My ] 
+        [--add My ]
            adds scalar fields containing the y-component of M to the file
-        [--add Mz ] 
+        [--add Mz ]
            adds scalar fields containing the z-component of M to the file
         [--add divrot]
            * adds a vector field containing the DIVergence of the magnetisation
@@ -79,64 +79,62 @@ BUGS etc
 
     Please report bugs, problems and other feedback to Hans Fangohr
     (hans.fangohr@physics.org)
- 
+
 """
 
-__CVS__header__="$Header: /var/local/cvs/micromagnetics/mm0/released/ovf2vtk/bin/ovf2vtk,v 1.7 2006-12-30 22:07:50 fangohr Exp $"
+__CVS__header__ = "$Header: /var/local/cvs/micromagnetics/mm0/released\
+/ovf2vtk/bin/ovf2vtk,v 1.7 2006-12-30 22:07:50 fangohr Exp $"
 
-__CVS__date__ = "$Date: 2006-12-30 22:07:50 $" 
+__CVS__date__ = "$Date: 2006-12-30 22:07:50 $"
 __CVS__version__ = "$Revision: 1.7 $"
 
 
-import sys,math,getopt,string,time,os
+import sys, math, getopt, string, time, os
 try:
     import pyvtk
 except ImportError:
-    print "This program needs pyvtk. Please download and install from  (http://cens.ioc.ee/projects/pyvtk/)"
-    raise ImportError,"Couldn't import pyvtk -- cannot proceed."
+    print "This program needs pyvtk. Please download and install from \
+(http://cens.ioc.ee/projects/pyvtk/)"
+    raise ImportError, "Couldn't import pyvtk -- cannot proceed."
 
 
 try:
     import numpy as Numeric
 except ImportError:
-    print "This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy)."
-    print "If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk."
-    raise ImportError,"Couldn't import Numpy -- cannot proceed."
+    print "This program needs Numpy. Please download and install. \
+(http://sourceforge.net/projects/numpy)."
+    print "If you are using Numeric, \
+you can use the older version 0.1.17 of ovf2vtk."
+    raise ImportError, "Couldn't import Numpy -- cannot proceed."
 
 
-#try:
+# try:
 #    import Numeric
-#except ImportError:
+# except ImportError:
 #    print "This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy)."
 #    raise ImportError,"Couldn't import Numpy -- cannot proceed."
 #
 
 
-
-#import ovf2vtk
+# import ovf2vtk
 import ovf2vtk
 
-#import tools toread omf file
+# import tools toread omf file
 from ovf2vtk.omfread import read_structured_omf_file, analyze
 
-#import tools to compute further observables
-from ovf2vtk.analysis import plane_angles, divergence_and_curl, magnitude, components
+# import tools to compute further observables
+from ovf2vtk.analysis import plane_angles, divergence_and_curl, magnitude, \
+    components
 
 # this is the  list of keywords used by --add all
-add_features = ["Ms","Mx","My","Mz","xy","yz","xz","divrot"]
+add_features = ["Ms", "Mx", "My", "Mz", "xy", "yz", "xz", "divrot"]
 
 
-
-
-
-#==============================================================================
-#=
-#= ovf2vtk
-#=
-#==============================================================================
-
-
-
+# =============================================================================
+# =
+# = ovf2vtk
+# =
+# =============================================================================
 
 
 def ovf2vtk_main():
