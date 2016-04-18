@@ -1,10 +1,11 @@
-from ovf2vtk import omfread
+import sys
+sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
 
 import numpy as np
 
-import sys
-
 from StringIO import StringIO
+
+import omfread
 
 import original_omfread
 

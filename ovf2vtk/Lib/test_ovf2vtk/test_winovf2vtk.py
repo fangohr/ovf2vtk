@@ -1,8 +1,9 @@
+import sys
+sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
+
 import subprocess
 
-import ovf2vtk
-
-from ovf2vtk import winovf2vtk
+import winovf2vtk
 
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 15/04/16"""

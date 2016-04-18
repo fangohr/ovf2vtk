@@ -1,6 +1,9 @@
+import sys
+sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
+
 import numpy as np
 
-from ovf2vtk import analysis, omfread
+import analysis
 
 import original_analysis
 

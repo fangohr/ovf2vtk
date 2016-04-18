@@ -1,0 +1,62 @@
+# vtk DataFile Version 2.0
+Output from ovf2vtk (version 0.1.23), Mon Apr 18 12:09:44 2016, infile=C:\Users\Harry\Documents\Examples\plateDataText.omf. Calling command line was 'C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py -a xz -a Ms --datascale=1 -a divrot -t C:\Users\Harry\Docum
+ASCII
+DATASET RECTILINEAR_GRID
+DIMENSIONS 3 2 1
+X_COORDINATES 3 int
+0 1 2
+Y_COORDINATES 2 int
+0 1
+Z_COORDINATES 1 int
+0
+POINT_DATA 6
+VECTORS small.omf/1 float
+0.0 1.0 2.0
+3.0 4.0 5.0
+6.0 7.0 8.0
+9.0 10.0 11.0
+12.0 13.0 1.0
+15.0 16.0 1.0
+SCALARS xy_in-plane_angle float 1
+LOOKUP_TABLE default
+1.57079632679 0.927295218002 0.862170054667 0.837981225008 0.825376850521 0.817645045833
+SCALARS yz_in-plane_angle float 1
+LOOKUP_TABLE default
+1.10714871779 0.896055384571 0.851966327173 0.832981266674 0.0767718912698 0.062418809996
+SCALARS xz_in-plane_angle float 1
+LOOKUP_TABLE default
+1.57079632679 1.03037682652 0.927295218002 0.885066815889 0.0831412318884 0.0665681637758
+SCALARS x-component float 1
+LOOKUP_TABLE default
+0.0 3.0 6.0 9.0 12.0 15.0
+SCALARS y-component float 1
+LOOKUP_TABLE default
+1.0 4.0 7.0 10.0 13.0 16.0
+SCALARS z-component float 1
+LOOKUP_TABLE default
+2.0 5.0 8.0 11.0 1.0 1.0
+SCALARS Magnitude float 1
+LOOKUP_TABLE default
+2.2360679775 7.07106781187 12.2065556157 17.378147197 17.7200451467 21.9544984001
+SCALARS curl,_x-comp float 1
+LOOKUP_TABLE default
+0.0 0.0 0.0 0.0 0.0 0.0
+SCALARS curl,_x-comp float 1
+LOOKUP_TABLE default
+0.0 0.0 0.0 0.0 0.0 0.0
+SCALARS curl,_z-comp float 1
+LOOKUP_TABLE default
+0.0 0.0 0.0 0.0 0.0 0.0
+SCALARS curl,_magnitude float 1
+LOOKUP_TABLE default
+0.0 0.0 0.0 0.0 0.0 0.0
+VECTORS curl float
+0.0 0.0 0.0
+0.0 0.0 0.0
+0.0 0.0 0.0
+0.0 0.0 0.0
+0.0 0.0 0.0
+0.0 0.0 0.0
+SCALARS divergence float 1
+LOOKUP_TABLE default
+0.0 6.0 0.0 0.0 6.0 0.0
