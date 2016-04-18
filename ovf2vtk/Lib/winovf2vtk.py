@@ -430,7 +430,7 @@ allowed after -a or --add"
     #
     # eventually, write the file
     #
-    print "saving file (%s)" % (outfile)
+    print "saving file ({})".format(outfile)
     vtk.tofile(outfile, format=vtk_data)
 
     print "finished conversion (execution time %5.3s seconds)"\
