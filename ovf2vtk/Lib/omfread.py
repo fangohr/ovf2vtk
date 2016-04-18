@@ -117,61 +117,63 @@ def what_data(filename, verbose=0):
 
     return ans
 
-          
-def read_structured_ascii_oommf_data( fname, byte, dimensions, verbose = 0 ):
+
+def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
 
     """fname is the filemane to read
     byte is the byte in that file at which the data starts
     dimensions = 3-tuple (nx, ny, nz) with the numbers of cells in the mesh
-    
+
     This function will return one vector for each mesh cell combined in a list
     (in the fashion OOMMF stores data, i.e. (from OOMMF userguide)
     'these are ordered with the x index incremented first, then the y
     index, and the z index last.  This is nominally Fortran order, and
     is adopted here because commonly x will be the longest dimension,
     and z the shortest'
-    
+
     The returned value is a list of 3-tuples. """
 
-    data = open( fname ).read()
+    data = open(fname).read()
 
-    datalines = str.split( data[byte:] , '\n' )
+    datalines = str.split(data[byte:], '\n')
 
     vectorfield = []
 
     for datum in datalines:
-        if datum[0:16] =="# End: Data Text":
+        if datum[0:16] == "# End: Data Text":
             break
         if datum[0] == "#":
-            print "I found a # in the first column. Complete row is",datum
+            print "I found a # in the first column. Complete row is", datum
             print "I only expected '# End: Data Text'."
             print "cowardly stopping here"
-            raise "FileFormatError","See above for more details"
-        
-        vector_str = str.split( datum[0:-1] )
+            raise "FileFormatError", "See above for more details"
 
-        vector = map( lambda a : float(a), vector_str)
-        if len( vector ) != 3:
-            print "vector_str=",vector_str
-            print "vector    =",vector
-            print "datum =",datum
-            raise "Oops","vector_str shold have 3 entries"
+        vector_str = str.split(datum[0:-1])
 
-        vectorfield.append( vector )
-        
-    #expected number of data:
+        vector = map(lambda a: float(a), vector_str)
+        if len(vector) != 3:
+            print "vector_str=", vector_str
+            print "vector    =", vector
+            print "datum =", datum
+            raise "Oops", "vector_str shold have 3 entries"
+
+        vectorfield.append(vector)
+
+    # expected number of data:
     data_exp = dimensions[0]*dimensions[1]*dimensions[2]
 
     if (data_exp - len(vectorfield)):
-        print "Hmm, expected nx*ny*ny =",data_exp,"items, but got",\
-              len(vectorfield),"."
+        print "Hmm, expected nx*ny*ny =", data_exp, "items, but got",\
+              len(vectorfield), "."
         print "Cowardly stopping here."
-        raise "FileFormatError","read too many/too few data"
+        raise "FileFormatError", "read too many/too few data"
 
-    print "Hint: Reading ASCII-OOMMF file is slow (that could be changed) and the files are large. Why not save data as binary?"
+    print "Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
+and the files are large. Why not save data as binary?"
 
     return Numeric.array(vectorfield)
-    
+
+
 def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbose = 0 ):
     """fname is the filename to read
     byte is the byte in that file at which the (binary) data starts
