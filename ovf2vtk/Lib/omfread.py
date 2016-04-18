@@ -50,73 +50,74 @@ def parse_for_keywords(keywords, line, dic={}):
     return dic
 
 
-def analyze( filename, verbose = 0 ):
-    f=open(filename,"rb")
-    lines=[]
+def analyze(filename, verbose=0):
+    f = open(filename, "rb")
+    lines = []
     dic = {}
 
     while 1:
-        line=f.readline()
-        if not line:               #until eof
+        line = f.readline()
+        if not line:               # until eof
             break
         if line[0] == "#":
-            dic = parse_for_keywords( keywords, line, dic )
+            dic = parse_for_keywords(keywords, line, dic)
             lines.append(line)
-    if verbose :
-        print "#Analysing",filename,": Found",len(dic.keys()),"keywords"
+    if verbose:
+        print "#Analysing", filename, ": Found", len(dic.keys()), "keywords"
     f.close()
     return dic
 
 
-def what_data( filename, verbose = 0):
-    DATAKEYWORD="# Begin: Data"
-    
+def what_data(filename, verbose=0):
+    DATAKEYWORD = "# Begin: Data"
+
     """returns a dictionary:
     startbyte = integer (bytes from beginning of file)
     startline = integer (lines from beginning of file)
     type      = 'binary4','binary8','ascii'
     """
-    f=open(filename,"rb")
-    lines=0
-    bytes=0
-    ans={}
+    f = open(filename, "rb")
+    lines = 0
+    bytes = 0
+    ans = {}
     while 1:
-        line=f.readline()
+        line = f.readline()
         bytes = bytes + len(line)
         lines = lines + 1
-        if not line:               #until eof
+        if not line:               # until eof
             print "***Reached end of file before encountering data"
             print "   Cowardly stopping here"
             print "   Some debug info:"
-            print "   Have read",lines,"lines and"
-            print "            ",bytes,"bytes."
+            print "   Have read", lines, "lines and"
+            print "            ", bytes, "bytes."
             sys.exit(1)
 
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
             bits = line.split()
-            if bits[3]=="Binary":
-                ans["type"]="binary"+bits[4]
+            if bits[3] == "Binary":
+                ans["type"] = "binary" + bits[4]
             else:
-                if bits[3]=="Text":
-                    ans["type"]="ascii"
+                if bits[3] == "Text":
+                    ans["type"] = "ascii"
                 else:
-                    print "Data file",filename, \
+                    print "Data file", filename, \
                           "appears neither to be a text or"\
                           "a binary file."
                     print "Cowardly stopping here."
                     sys.exit(1)
             break
-    ans["startbyte"]=bytes 
-    ans["startline"]=lines
+    ans["startbyte"] = bytes
+    ans["startline"] = lines
 
     f.close()
 
-    if verbose==1:
-        print "Data in",filename,"start in line",lines,"at byte",\
-              bytes,"and is",ans["type"]
+    if verbose == 1:
+        print "Data in", filename, "start in line", lines, "at byte",\
+              bytes, "and is", ans["type"]
 
     return ans
-            
+
+          
 def read_structured_ascii_oommf_data( fname, byte, dimensions, verbose = 0 ):
 
     """fname is the filemane to read
