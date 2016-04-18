@@ -322,10 +322,10 @@ def ovf2vtk_main():
     #
     # and now open vtk-file
     #
-    vtkfilecomment = "Output from ovf2vtk (version %s), %s, infile=%s. "\
-        % (ovf2vtk.__version__, time.asctime(), infile)
-    vtkfilecomment += "Calling command line was '%s' executed in '%s'"\
-        % (" ".join(sys.argv), os.getcwd())
+    vtkfilecomment = "Output from ovf2vtk (version {}), {}, infile={}. "\
+        .format(ovf2vtk.__version__, time.asctime(), infile)
+    vtkfilecomment += "Calling command line was '{}' executed in '{}'"\
+        .format(" ".join(sys.argv), os.getcwd())
 
     vtk = pyvtk.VtkData(pyvtk.RectilinearGrid(xbasevector.tolist(),
                                               ybasevector.tolist(),
