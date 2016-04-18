@@ -360,74 +360,87 @@ def ovf2vtk_main():
 
             data = []
 
-            #compute observables that need more than one field value, i.e. div, rot
-            if add[1][0:6] == "divrot":  #rotation = vorticity, curl
-                
-                (div, rot, rotx, roty, rotz, rotmag) = divergence_and_curl( vf, surfaceEffects, ovf_run )
-                    
-                comment = "curl, x-comp" 
-                vtk.point_data.append( pyvtk.Scalars( rotx.tolist() , comment , lookup_table='default') )
-                Comment = "curl, y-comp" 
-                vtk.point_data.append( pyvtk.Scalars( roty.tolist() , comment , lookup_table='default') )
-                comment = "curl, z-comp" 
-                vtk.point_data.append( pyvtk.Scalars( rotz.tolist() , comment , lookup_table='default') )
-                comment = "curl, magnitude" 
-                vtk.point_data.append( pyvtk.Scalars( rotmag.tolist(), comment , lookup_table='default') )
-                comment = "curl" 
-                vtk.point_data.append( pyvtk.Vectors( rot.tolist() , comment ) )
+            # compute observables that need more than one field value
+            # i.e. div, rot
+            if add[1][0:6] == "divrot":  # rotation = vorticity, curl
+
+                (div, rot, rotx, roty, rotz, rotmag) = \
+                    divergence_and_curl(vf, surfaceEffects, ovf_run)
+
+                comment = "curl, x-comp"
+                vtk.point_data.append(pyvtk.Scalars(rotx.tolist(), comment,
+                                                    lookup_table='default'))
+                Comment = "curl, y-comp"
+                vtk.point_data.append(pyvtk.Scalars(roty.tolist(), comment,
+                                                    lookup_table='default'))
+                comment = "curl, z-comp"
+                vtk.point_data.append(pyvtk.Scalars(rotz.tolist(), comment,
+                                                    lookup_table='default'))
+                comment = "curl, magnitude"
+                vtk.point_data.append(pyvtk.Scalars(rotmag.tolist(), comment,
+                                                    lookup_table='default'))
+                comment = "curl"
+                vtk.point_data.append(pyvtk.Vectors(rot.tolist(), comment))
 
                 comment = "divergence"
-                vtk.point_data.append( pyvtk.Scalars( div.tolist() , comment , lookup_table='default') )
+                vtk.point_data.append(pyvtk.Scalars(div.tolist(), comment,
+                                                    lookup_table='default'))
 
                 done_div_rot = True
-            elif add[1] in ["Mx","My","Mz","Ms"]:                # components
+            elif add[1] in ["Mx", "My", "Mz", "Ms"]:              # components
                 if not done_comp:
                     done_comp = 1
-                                
+
                     comments = "x-component", "y-component", "z-component"
 
-                    for data, comment in zip( components( vf ), comments):
-                        vtk.point_data.append( pyvtk.Scalars( data.tolist(), comment,lookup_table='default' ) )
-    
-                    # magnitude of magnitisation
-                    Mmag = magnitude( vf )
-                    vtk.point_data.append( pyvtk.Scalars(Mmag.tolist(), "Magnitude",lookup_table='default' ) )
+                    for data, comment in zip(components(vf), comments):
+                        vtk.point_data.append(pyvtk.Scalars(data.tolist(),
+                                                            comment,
+                                                            lookup_table='\
+default'))
 
-            elif add[1] in ["xy","xz","yz"]:
+                    # magnitude of magnitisation
+                    Mmag = magnitude(vf)
+                    vtk.point_data.append(pyvtk.Scalars(Mmag.tolist(),
+                                                        "Magnitude",
+                                                        lookup_table='\
+default'))
+
+            elif add[1] in ["xy", "xz", "yz"]:
                 if not done_angles:
                     done_angles = 1
 
                     # in-plane angles
-                    comments = "xy in-plane angle", "yz in-plane angle", "xz in-plane angle"
+                    comments = ("xy in-plane angle", "yz in-plane angle",
+                                "xz in-plane angle")
 
-                    for data, comment in zip( plane_angles( vf ), comments):
-                        vtk.point_data.append( pyvtk.Scalars( data.tolist(), comment, lookup_table='default' )  )
+                    for data, comment in zip(plane_angles(vf), comments):
+                        vtk.point_data.append(pyvtk.Scalars(data.tolist(),
+                                                            comment,
+                                                            lookup_table='\
+default'))
 
             else:
-                print "only xy, xz, Mx, My, Mz, divergence, Ms, or 'all' allowed after -a or --add"
-                print "Current choice is",add
+                print "only xy, xz, Mx, My, Mz, divergence, Ms, or 'all' \
+allowed after -a or --add"
+                print "Current choice is", add
                 print __doc__
                 sys.exit(1)
 
-
     #
-    #eventually, write the file
+    # eventually, write the file
     #
     print "saving file (%s)" % (outfile)
-    vtk.tofile(outfile,format=vtk_data)
+    vtk.tofile(outfile, format=vtk_data)
 
-    print "finished conversion (execution time %5.3s seconds)" % (time.time()-start_time)
+    print "finished conversion (execution time %5.3s seconds)"\
+        % (time.time()-start_time)
 
-
-
-#==============================================================================
-#=
-#= main
-#=
-#==============================================================================
+# ==============================================================================
+# =
+# = main
+# =
+# ==============================================================================
 
 if __name__ == "__main__":
     ovf2vtk_main()
-    
-
-
