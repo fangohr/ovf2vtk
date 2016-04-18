@@ -139,31 +139,35 @@ add_features = ["Ms", "Mx", "My", "Mz", "xy", "yz", "xz", "divrot"]
 
 def ovf2vtk_main():
     start_time = time.time()
-    
-    banner_doc = 70*"-"+\
-    "\novf2vtk --- converting ovf files to vtk files"+"\n"+\
-    "Hans Fangohr, Richard Boardman, University of Southampton\n"""+70*"-"
 
-    #extract command line arguments
-    additions,params = getopt.getopt( sys.argv[1:], 'Vvhbta:', ["verbose","help","add=","binary","text","ascii","surface-effects","version","datascale=","posscale="] )
+    banner_doc = 70 * "-" + \
+        "\novf2vtk --- converting ovf files to vtk files" + "\n" + \
+        "Hans Fangohr, Richard Boardman, University of Southampton\n"""\
+        + 70 * "-"
 
-    #Note (fangohr 30/12/2006 20:52): the use of getopt is historic,
-    #and so is the use of the name 'additions'. 
+    # extract command line arguments
+    additions, params = getopt.getopt(sys.argv[1:], 'Vvhbta:',
+                                      ["verbose", "help", "add=", "binary",
+                                       "text", "ascii", "surface-effects",
+                                       "version", "datascale=", "posscale="])
 
-    #default value
+    # Note (fangohr 30/12/2006 20:52): the use of getopt is historic,
+    # and so is the use of the name 'additions'.
+
+    # default value
     surfaceEffects = False
-    datascale = 0.0 #0.0 has special meaning -- see help text
-    posscale = 0.0  #0.0 has special meaning -- see help text
+    datascale = 0.0  # 0.0 has special meaning -- see help text
+    posscale = 0.0   # 0.0 has special meaning -- see help text
 
-    #provide data from getopt.getopt (additions) in form of hash table
+    # provide data from getopt.getopt (additions) in form of hash table
     options = {}
     for item in additions:
-        if item[1]=='':
+        if item[1] == '':
             options[item[0]] = None
         else:
             options[item[0]] = item[1]
     keys = options.keys()
-            
+
     if "--surface-effects" in keys:
         surfaceEffects = True
 
@@ -187,14 +191,14 @@ def ovf2vtk_main():
         print "This is version %s." % ovf2vtk.__version__
         sys.exit(0)
 
-    if len( params ) == 0:
+    if len(params) == 0:
         print __doc__
         print "ERROR: An input file (and an output file need to be specified)."
         sys.exit(1)
     else:
         infile = params[0]
 
-    if len( params ) == 1:
+    if len(params) == 1:
         print __doc__
         print "ERROR: An input file AND an output file need to be specified."
         print "specify output file"
