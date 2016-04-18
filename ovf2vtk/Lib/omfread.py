@@ -199,7 +199,7 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
         raise "Not Implemented Error", "ascii-oommf data not supported here"
     else:
         print "unknow datatype (expected  'binary4','binary8' [or 'ascii'],\
-but got ", datatype
+ but got ", datatype
         raise "Error"
 
     if verbose:
@@ -265,43 +265,42 @@ meant to be 123456789012345.0"
     return Numeric.array(vectorfield)
 
 
-def read_structured_oommf_data( fname, byte, dimensions, datatype, verbose = 0 ):
+def read_structured_oommf_data(fname, byte, dimensions, datatype, verbose=0):
     if datatype == 'ascii':
-        return read_structured_ascii_oommf_data( fname, byte, dimensions, verbose )
+        return read_structured_ascii_oommf_data(fname, byte, dimensions,
+                                                verbose)
     elif datatype == 'binary4' or datatype == 'binary8':
-        return read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbose)
+        return read_structured_binary_oommf_data(fname, byte, dimensions,
+                                                 datatype, verbose)
     else:
-        print "expected ascii or binary4 or binar8 for datatype, but got",datatype
-        raise "Oopps","Something wrong here!"
+        print "expected ascii or binary4 or binar8 for datatype, \
+but got", datatype
+        raise "Oopps", "Something wrong here!"
 
 
-
-def read_structured_omf_file( infile, debug = False ):
+def read_structured_omf_file(infile, debug=False):
     """Takes file name and returns vector field of data
     stored in omf-file format in that filename.
 
     This is the recommended interface.
     """
-    
 
-    #learn about infile
-    ovf_run  = analyze( infile  )
+    # learn about infile
+    ovf_run = analyze(infile)
 
-    dimensions = ( int( ovf_run["xnodes:"] ), \
-                   int( ovf_run["ynodes:"] ), \
-                   int( ovf_run["znodes:"] ))
+    dimensions = (int(ovf_run["xnodes:"]),
+                  int(ovf_run["ynodes:"]),
+                  int(ovf_run["znodes:"]))
 
     if debug:
-        print "Number of cells (Nx=%d,Ny=%d,Nz=%d)" % (dimensions[0],dimensions[1],dimensions[2])
+        print "Number of cells (Nx=%d,Ny=%d,Nz=%d)" \
+            % (dimensions[0], dimensions[1], dimensions[2])
 
-    #find byte that contains the first item of data
-    ovf_data = what_data( infile )
+    # find byte that contains the first item of data
+    ovf_data = what_data(infile)
 
-    #read data starting from there
-    vf = read_structured_oommf_data( infile,\
-                                     ovf_data["startbyte"],\
-                                     dimensions, \
-                                     ovf_data["type"],\
-                                     verbose = debug)
+    # read data starting from there
+    vf = read_structured_oommf_data(infile, ovf_data["startbyte"], dimensions,
+                                    ovf_data["type"], verbose=debug)
 
     return vf
