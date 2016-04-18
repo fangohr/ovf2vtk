@@ -105,25 +105,26 @@ def plane_angles(d):
     return xy, yz, xz
 
 
-def clean_surfaces( obs, M, wipe=0, eps = 1e-3, zerovalue = 0.0):
-    """sets all values in obs to zero value for which abs(M)<eps. If wipe > 0, then
-    all positions up to 'wipe' indicies away from the M<eps entry are set to zerovalue
-    as well.
+def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
+    """sets all values in obs to zero value for which abs(M)<eps. If wipe > 0,
+       then all positions up to 'wipe' indicies away from the M<eps entry are
+       set to zerovalue as well.
 
     Example: hide divergence effects at surface:
 
        * clean_surfaces( div, M, wipe=1, eps=1e-5)
 
-    This is only of relevance if there is 'vacuum' in the simulation cell (i.e. an aero with
-    Ms=0). The computation of the divergence and the curl will produce large values across
-    the interface from Ms!=0 to Ms=0. This distracts from the more interesting data
-    inside the Ms!=0 volume. We therefore simply wipe out the outermost layer of div and
-    curl data that is affected by this.
+    This is only of relevance if there is 'vacuum' in the simulation cell
+    (i.e. an aero with Ms=0). The computation of the divergence and the curl
+    will produce large values across the interface from Ms!=0 to Ms=0. This
+    distracts from the more interesting data inside the Ms!=0 volume. We
+    therefore simply wipe out the outermost layer of div and curl data that is
+    affected by this.
 
-    This process is slow as it is using for-loops. 
+    This process is slow as it is using for-loops.
     """
 
-    assert obs.shape[0:2] == M.shape[0:2],"Internal error"
+    assert obs.shape[0:2] == M.shape[0:2], "Internal error"
 
     Nx, Ny, Nz, dummy = M.shape
 
@@ -131,37 +132,39 @@ def clean_surfaces( obs, M, wipe=0, eps = 1e-3, zerovalue = 0.0):
         obs_is_scalar = True
         obs_is_vector = False
         obs_rank = 1
-        
+
     elif len(obs.shape) == 4:
         obs_is_scalar = False
         obs_is_vector = True
         obs_rank = 3
     else:
-        raise NotImplementedError,"Can only deal with scalar and vectors (in 3d positional matrix)"
+        raise NotImplementedError, """Can only deal with scalar and vectors\ 
+ (in 3d positional matrix)"""
 
     if obs_is_scalar:
-        big_obs = Numeric.zeros( (Nx+2*wipe,Ny+2*wipe,Nz+2*wipe), 'd')
+        big_obs = Numeric.zeros((Nx+2*wipe, Ny+2*wipe, Nz+2*wipe), 'd')
     if obs_is_vector:
-        big_obs = Numeric.zeros( (Nx+2*wipe,Ny+2*wipe,Nz+2*wipe,3), 'd')
+        big_obs = Numeric.zeros((Nx+2*wipe, Ny+2*wipe, Nz+2*wipe, 3), 'd')
 
     offset = wipe
-    
-    #copy input values in here
-    big_obs[wipe:Nx+wipe,wipe:Ny+wipe,wipe:Nz+wipe] = obs[:,:,:]
+
+    # copy input values in here
+    big_obs[wipe:Nx+wipe, wipe:Ny+wipe, wipe:Nz+wipe] = obs[:, :, :]
 
     for i in range(Nx):
         for j in range(Ny):
             for k in range(Nz):
-                if sum(M[i,j,k]**2) < eps**2:
-                    #wipe out matrix entries with indicies +- wipe around [i,j,k]
+                if sum(M[i, j, k]**2) < eps**2:
+                    # wipe out matrix entries with indicies +- wipe around...
+                    # ...[i,j,k]
                     big_obs[i-wipe+offset:i+wipe+1+offset,
                             j-wipe+offset:j+wipe+1+offset,
-                            k-wipe+offset:k+wipe+1+offset]=zerovalue
- 
-    obs = big_obs[wipe:Nx+wipe,wipe:Ny+wipe,wipe:Nz+wipe]
+                            k-wipe+offset:k+wipe+1+offset] = zerovalue
+
+    obs = big_obs[wipe:Nx+wipe, wipe:Ny+wipe, wipe:Nz+wipe]
 
     return obs
-    
+
 
 def divergence_and_curl( vf, surfaceEffects, ovf_run ):
     """A new attempt to compute the divergence and the curlfaster using
