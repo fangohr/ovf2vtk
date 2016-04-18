@@ -227,8 +227,8 @@ def ovf2vtk_main():
 
     # Compute number of cells with non-zero Ms (rpb01r)
     Ms_num_of_nonzeros = Numeric.sum(Numeric.not_equal(Ms, 0.0))
-    print "(%5.2f%% of %d cells filled)"\
-        % (100.0*Ms_num_of_nonzeros/len(Ms), len(Ms))
+    print "({:5.2f} of %d cells filled)"\
+        .format(100.0*Ms_num_of_nonzeros/len(Ms), len(Ms))
 
     # read metadata in data file
     ovf_run = analyze(infile)
