@@ -5,6 +5,8 @@ import subprocess
 
 import winovf2vtk
 
+import __version__
+
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 15/04/16"""
 
@@ -60,7 +62,7 @@ floatsizes = [4, 4, 4, 4, 8, 8]
 bytes = [874, 850, 797, 518, 874, 754, 488, 505, 468]
 
 # ********************* Command line key print statements ******************* #
-V_version_str = "This is version {}.".format(ovf2vtk.__version__)
+V_version_str = "This is version {}.".format(__version__.__version__)
 
 v_verbose_str = ["running in verbose mode", "infile  =", "outfile =",
                  "additions=", "options =", "datascale= 0.0", "posscale= 0.0",
@@ -125,7 +127,7 @@ def test_winovf2vtk_keys_no_parameters():
             new_doc.append(line)
         # compute expected result for each key separately
         if val < 2:
-            exp = ["This is version {}.".format(ovf2vtk.__version__)]
+            exp = ["This is version {}.".format(__version__.__version__)]
         elif 1 < val < 4:
             exp = "running in verbose mode\n" + winovf2vtk.__doc__ + "\nERROR:\
  An input file (and an output file need to be specified)."
@@ -157,7 +159,7 @@ def test_winovf2vtk_keys_one_parameter():
             new_doc.append(line)
         # compute expected result for each key separately
         if val < 2:
-            exp = ["This is version {}.".format(ovf2vtk.__version__)]
+            exp = ["This is version {}.".format(__version__.__version__)]
         elif 1 < val < 4:
             exp = "running in verbose mode\n" + winovf2vtk.__doc__ + \
                 """\nERROR: An input file AND an output file need to \
@@ -236,7 +238,7 @@ def test_winovf2vtk_keys_two_parameters():
             # compute expected results
             # '-V file.omf file.vtk'
             if i < 2:
-                assert "This is version {}.".format(ovf2vtk.__version__) in \
+                assert "This is version {}.".format(__version__.__version__) in \
                     str_doc
 
             # e.g. '-v binaryfile.omf binaryfile.vtk'
@@ -340,7 +342,7 @@ def test_winovf2vtk_example_cmd_lines():
 
         # test if -V present, only version string is displayed
         if i == 0:
-            exp = ["This is version {}.".format(ovf2vtk.__version__)]
+            exp = ["This is version {}.".format(__version__.__version__)]
 
         # test several keys, ascii infile, ascii outfile
         elif i == 1:
