@@ -236,7 +236,7 @@ def ovf2vtk_main():
     # scale magnetisation data as required:
     if datascale == 0.0:
         scale = max(Ms)
-        print "Will scale data down by %f" % scale
+        print "Will scale data down by {}".format(scale)
     else:
         scale = datascale
     vf = Numeric.divide(vf, scale)
