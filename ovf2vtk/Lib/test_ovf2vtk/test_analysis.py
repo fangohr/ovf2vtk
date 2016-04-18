@@ -5,6 +5,8 @@ import numpy as np
 
 import analysis
 
+import omfread
+
 import original_analysis
 
 """all the tests developed for the analysis.py script for ovf2vtk stored in
