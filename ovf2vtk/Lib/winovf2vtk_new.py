@@ -371,7 +371,7 @@ def ovf2vtk_main():
                 comment = "curl, x-comp"
                 vtk.point_data.append(pyvtk.Scalars(rotx.tolist(), comment,
                                                     lookup_table='default'))
-                Comment = "curl, y-comp"
+                comment = "curl, y-comp"
                 vtk.point_data.append(pyvtk.Scalars(roty.tolist(), comment,
                                                     lookup_table='default'))
                 comment = "curl, z-comp"
@@ -387,7 +387,6 @@ def ovf2vtk_main():
                 vtk.point_data.append(pyvtk.Scalars(div.tolist(), comment,
                                                     lookup_table='default'))
 
-                done_div_rot = True
             elif add[1] in ["Mx", "My", "Mz", "Ms"]:              # components
                 if not done_comp:
                     done_comp = 1
