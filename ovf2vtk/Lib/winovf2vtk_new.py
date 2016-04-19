@@ -89,7 +89,14 @@ __CVS__date__ = "$Date: 2006-12-30 22:07:50 $"
 __CVS__version__ = "$Revision: 1.7 $"
 
 
-import sys, math, getopt, string, time, os
+import sys
+
+import getopt
+
+import time
+
+import os
+
 try:
     import pyvtk
 except ImportError:
