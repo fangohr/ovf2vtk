@@ -3,11 +3,11 @@ sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
 
 import numpy as np
 
-import new_analysis as nana
+import analysis_new as nana
 
-import new_omfread as nomf
+import omfread_new as nomf
 
-import original_analysis
+import analysis_original
 
 """all the tests developed for the analysis.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 04/11/15"""
@@ -279,7 +279,7 @@ def test_plane_angles():
     # compute actual result
     for vfexample in (vfexample1, vfexample2):
         act = nana.plane_angles(vfexample)
-        expected = original_analysis.plane_angles(vfexample)
+        expected = analysis_original.plane_angles(vfexample)
         for j in range(len(act)):
             assert act[j].all() == expected[j].all()
 
@@ -387,7 +387,7 @@ def test_divergence_and_curl():
                 nomf.analyze(filename))
             # expected result. The original version of the function...
             # ... i.e. not refactored
-            exp = original_analysis.divergence_and_curl(
+            exp = analysis_original.divergence_and_curl(
                 nomf.read_structured_omf_file(filename), boolean,
                 nomf.analyze(filename))
             for j in range(len(act)):
@@ -401,7 +401,7 @@ def test_divergence_and_curl():
         act = nana.divergence_and_curl(vfexample2, boolean, dic)
         # expected result. The original version of the function...
         # ... i.e. not refactored
-        exp = original_analysis.divergence_and_curl(vfexample2, boolean, dic)
+        exp = analysis_original.divergence_and_curl(vfexample2, boolean, dic)
         for j in range(len(act)):
             assert act[j].all() == exp[j].all()
           

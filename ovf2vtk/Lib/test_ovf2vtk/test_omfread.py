@@ -5,9 +5,9 @@ import numpy as np
 
 from StringIO import StringIO
 
-import new_omfread as nomf
+import omfread_new as nomf
 
-import original_omfread
+import omfread_original
 
 """all the tests developed for the omfread.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 09/04/16"""
@@ -100,7 +100,7 @@ def test_analyze():
             act = nomf.analyze(filename, verbose)
             assert type(act) == dict
             # expected result
-            exp = original_omfread.analyze(filename, verbose)
+            exp = omfread_original.analyze(filename, verbose)
             assert act == exp
             # test if print statement occurs when verbose=1
             # help with code taken from...
@@ -267,7 +267,7 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
     for i in range(len(ascii_files)):
         node_product = ascii_nodes[i][0]*ascii_nodes[i][1]*ascii_nodes[i][2]
         # expected result
-        exp = original_omfread.read_structured_ascii_oommf_data(ascii_files[i],
+        exp = omfread_original.read_structured_ascii_oommf_data(ascii_files[i],
                                                                 ascii_bytes[i],
                                                                 ascii_nodes[i])
         result = StringIO()
@@ -365,7 +365,7 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
             filenames_nodes[i][2]
         assert act.shape == (long(len(act)), long(3))
         # check data matches that of of orginal function
-        exp = original_omfread.read_structured_binary_oommf_data(file, byte,
+        exp = omfread_original.read_structured_binary_oommf_data(file, byte,
                                                                  nodes, data)
         assert act.all() == exp.all()
 
