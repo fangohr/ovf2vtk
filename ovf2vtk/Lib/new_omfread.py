@@ -166,7 +166,7 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
         print "Hmm, expected nx*ny*ny =", data_exp, "items, but got",\
               len(vectorfield), "."
         print "Cowardly stopping here."
-        raise "FileFormatError", "read too many/too few data"
+        raise Exception("FileFormatError, read too many/too few data")
 
     print "Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
 and the files are large. Why not save data as binary?"
