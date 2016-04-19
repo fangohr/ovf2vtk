@@ -146,7 +146,7 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
             print "I found a # in the first column. Complete row is", datum
             print "I only expected '# End: Data Text'."
             print "cowardly stopping here"
-            raise "FileFormatError", "See above for more details"
+            raise Exception("FileFormatError, See above for more details")
 
         vector_str = str.split(datum[0:-1])
 
