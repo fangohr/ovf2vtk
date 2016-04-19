@@ -213,7 +213,7 @@ def test_read_structured_ascii_oommf_data():
             nomf.read_structured_ascii_oommf_data(ascii_test_files[i],
                                                   test_bytes[i],
                                                   test_nodes[i])
-        except TypeError:
+        except Exception:
             result_string = result.getvalue()
             assert result_string == """I found a # in the first column.\
  Complete row is # test
@@ -244,7 +244,7 @@ cowardly stopping here\n"""
             nomf.read_structured_ascii_oommf_data(unexp_data[i],
                                                   unexp_bytes[i],
                                                   unexp_nodes[i])
-        except TypeError:
+        except Exception:
             result_string = result.getvalue()
             assert result_string == """Hmm, expected nx*ny*ny = {} items, but\
  got {} .
@@ -287,7 +287,7 @@ def test_read_structured_binary_oommf_data():
             nomf.read_structured_binary_oommf_data(ascii_files[i],
                                                    ascii_bytes[i],
                                                    ascii_nodes[i], 'ascii')
-        except TypeError:
+        except Exception:
             result_string = result.getvalue()
             assert result_string == "ascii -oommf data not supported here\n"
 
@@ -300,7 +300,7 @@ def test_read_structured_binary_oommf_data():
                                                    filenames_nodes[i],
                                                    filenames_data_types[i] +
                                                    'unknown')
-        except TypeError:
+        except Exception:
             result_string = result.getvalue()
             assert result_string == "unknow datatype (expected  'binary4',\
 'binary8' [or 'ascii'], but got  {}"\
@@ -323,7 +323,7 @@ def test_read_structured_binary_oommf_data():
             nomf.read_structured_binary_oommf_data(b4_b8_files[i], bytes[i],
                                                    filenames_nodes[i],
                                                    filenames_data_types[i])
-        except TypeError:
+        except AssertionError:
             result_string = result.getvalue()
             # if binary4, tag = 7.27159209092e+31
             if i < 2 or i > 3:
@@ -410,7 +410,7 @@ def test_read_structured_oommf_data():
         sys.stdout = result
         try:
             nomf.read_structured_oommf_data(file, byte, nodes, data)
-        except TypeError:
+        except Exception:
             result_string = result.getvalue()
             assert result_string == """expected ascii or binary4 or binar8 for\
  datatype, but got {}""".format(data_unknown)
