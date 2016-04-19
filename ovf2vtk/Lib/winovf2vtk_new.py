@@ -322,9 +322,9 @@ def ovf2vtk_main():
     #
     # and now open vtk-file
     #
-    vtkfilecomment = "Output from ovf2vtk (version {}), {}, infile={}. "\
+    vtkfilecomment = "Output from ovf2vtk (version {:s}), {:s}, infile={:s}. "\
         .format(ovf2vtk.__version__, time.asctime(), infile)
-    vtkfilecomment += "Calling command line was '{}' executed in '{}'"\
+    vtkfilecomment += "Calling command line was '{:s}' executed in '{:s}'"\
         .format(" ".join(sys.argv), os.getcwd())
 
     vtk = pyvtk.VtkData(pyvtk.RectilinearGrid(xbasevector.tolist(),
@@ -430,7 +430,7 @@ allowed after -a or --add"
     #
     # eventually, write the file
     #
-    print "saving file ({})".format(outfile)
+    print "saving file ({:s})".format(outfile)
     vtk.tofile(outfile, format=vtk_data)
 
     print "finished conversion (execution time {:5.3s} seconds)"\
