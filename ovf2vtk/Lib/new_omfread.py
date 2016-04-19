@@ -201,7 +201,7 @@ ascii-oommf data not supported here")
     else:
         print "unknow datatype (expected  'binary4','binary8' [or 'ascii'],\
  but got ", datatype
-        raise Exception("Error")
+        raise Exception
 
     if verbose:
         print "Expect floats of length", floatsize, "bytes."
@@ -224,7 +224,7 @@ ascii-oommf data not supported here")
             print "The first item in a binary file is meant to be 1234567.0"
             print "but it is not. Instead, I read ", verification_tag, "."
             print "Cowardly stopping here."
-            raise "Assertion Error"
+            raise AssertionError
 
     elif floatsize == 8:
         (verification_tag,) = struct.unpack('!d', data[byte:byte+8])
