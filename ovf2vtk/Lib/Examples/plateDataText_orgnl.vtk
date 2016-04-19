@@ -1,5 +1,5 @@
 # vtk DataFile Version 2.0
-Output from ovf2vtk (version 0.1.23), Mon Apr 18 11:50:16 2016, infile=C:\Users\Harry\Documents\Examples\plateDataText.omf. Calling command line was 'C:\Users\Harry\Anaconda\Scripts\winovf2vtk.py -a xz -a Ms --datascale=1 -a divrot -t C:\Users\Harry\Docum
+Output from ovf2vtk (version 0.1.23), Tue Apr 19 20:50:23 2016, infile=C:\Users\Harry\Documents\Examples\plateDataText.omf. Calling command line was 'C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\winovf2vtk_new.py -a xz -a Ms --datascale=1 -a divrot
 ASCII
 DATASET RECTILINEAR_GRID
 DIMENSIONS 3 2 1
@@ -41,7 +41,7 @@ LOOKUP_TABLE default
 SCALARS curl,_x-comp float 1
 LOOKUP_TABLE default
 0.0 0.0 0.0 0.0 0.0 0.0
-SCALARS curl,_x-comp float 1
+SCALARS curl,_y-comp float 1
 LOOKUP_TABLE default
 0.0 0.0 0.0 0.0 0.0 0.0
 SCALARS curl,_z-comp float 1
