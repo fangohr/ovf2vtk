@@ -3,7 +3,7 @@ sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
 
 import subprocess
 
-import new_winovf2vtk as nwin
+import winovf2vtk_new as nwin
 
 import __version__
 
@@ -94,7 +94,7 @@ def test_winovf2vtk_no_inputs():
     running-shell-command-from-python-and-capturing-the-output"""
     # compute actual result
     command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\new_winovf2vtk.py'
+\winovf2vtk_new.py'
     p = subprocess.Popen(command, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     doc = p.stdout.readlines()
@@ -117,7 +117,7 @@ def test_winovf2vtk_keys_no_parameters():
     for val in range(len(keys)):
         # compute actual result
         command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\
-\Lib\new_winovf2vtk.py' + " {}".format(keys[val])
+\Lib\winovf2vtk_new.py' + " {}".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
@@ -149,7 +149,7 @@ def test_winovf2vtk_keys_one_parameter():
     for val in range(len(keys)):
         # compute actual result with one input file
         command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\
-\Lib\new_winovf2vtk.py' + " {} cantedvortex.omf".format(keys[val])
+\Lib\winovf2vtk_new.py' + " {} cantedvortex.omf".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
@@ -186,7 +186,7 @@ def test_winovf2vtk_no_keys_two_parameters():
     for i in range(len(infiles)):
         # actual result
         command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\
-\Lib\new_winovf2vtk.py' + " {} {}".format(infiles[i], outfiles[i])
+\Lib\winovf2vtk_new.py' + " {} {}".format(infiles[i], outfiles[i])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
@@ -225,7 +225,7 @@ def test_winovf2vtk_keys_two_parameters():
         for j in range(len(infiles)):
             # actual result
             command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\
-\ovf2vtk\Lib\new_winovf2vtk.py' + " {} {} {}".format(keys[i], infiles[j],
+\ovf2vtk\Lib\winovf2vtk_new.py' + " {} {} {}".format(keys[i], infiles[j],
                                                      outfiles[j])
             p = subprocess.Popen(command, stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
@@ -318,17 +318,17 @@ def test_winovf2vtk_example_cmd_lines():
     asserts print statements containing ACTUAL VALUES are outputted."""
 
     examples = "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\new_winovf2vtk.py -V --ascii {} {}".format(infiles[0], outfiles[0]),\
+\winovf2vtk_new.py -V --ascii {} {}".format(infiles[0], outfiles[0]),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\new_winovf2vtk.py --datascale=0.5 --posscale 1.0 --add Ms -a divrot --add yz \
+\winovf2vtk_new.py --datascale=0.5 --posscale 1.0 --add Ms -a divrot --add yz \
 -v {} {}".format(infiles[6], outfiles[6]),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\new_winovf2vtk.py -h --binary {} {}".format(infiles[-1], outfiles[-1]),\
+\winovf2vtk_new.py -h --binary {} {}".format(infiles[-1], outfiles[-1]),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\new_winovf2vtk.py --add all --verbose --ascii --surface-effects {} {}"\
+\winovf2vtk_new.py --add all --verbose --ascii --surface-effects {} {}"\
         .format(infiles[1], "C:\Users\Harry\Documents\Examples\example.vtk"),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\new_winovf2vtk.py -a Mx --add My -b --datascale=0.0 --surface-effects {} {} \
+\winovf2vtk_new.py -a Mx --add My -b --datascale=0.0 --surface-effects {} {} \
 Test".format(infiles[7], outfiles[7])
 
     for i in range(len(examples)):
@@ -476,7 +476,7 @@ def test_winovf2vtk_data():
             ' -a xz -a Ms --datascale=1 -a divrot -t']
     for i in range(len(files)):
             subprocess.Popen("python.exe C:\Users\Harry\Documents\GitHub\
-\ovf2vtk\ovf2vtk\Lib\new_winovf2vtk.py" + cmds[i] + " " + files[i] + " " +
+\ovf2vtk\ovf2vtk\Lib\winovf2vtk_new.py" + cmds[i] + " " + files[i] + " " +
                              vtk_files[i], stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
             # compare created file data with data from file created earlier
