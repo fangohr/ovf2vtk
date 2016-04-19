@@ -131,12 +131,11 @@ def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
     if len(obs.shape) == 3:
         obs_is_scalar = True
         obs_is_vector = False
-        obs_rank = 1
 
     elif len(obs.shape) == 4:
         obs_is_scalar = False
         obs_is_vector = True
-        obs_rank = 3
+
     else:
         raise NotImplementedError("""Can only deal with scalar and vectors\
  (in 3d positional matrix)""")
