@@ -239,9 +239,9 @@ ascii-oommf data not supported here")
 meant to be 123456789012345.0"
             print "but it is not. Instead, I read ", verification_tag, "."
             print "Cowardly stopping here."
-            raise "Assertion Error"
+            raise AssertionError
     else:
-        raise "Not Implemented Error", "We only do binary files here"
+        raise Exception("Not Implemented Error. We only do binary files here")
 
     Nx, Ny, Nz = dimensions
 
@@ -255,13 +255,13 @@ meant to be 123456789012345.0"
         vector = struct.unpack('!'+'ddd'*N, data[filepos: filepos + 3*8*N])
         filepos += 3*8*N
     else:
-        raise "Hmmm", "This should not happen. Reference 1"
+        raise Exception("Hmmm. This should not happen. Reference 1")
 
     vectorfield = Numeric.reshape(Numeric.array(vector), (N, 3))
 
     if not N == len(vectorfield):
         print N, len(vectorfield)
-        raise "Oopps", "Miscounted - internal error"
+        raise Exception("Oopps. Miscounted - internal error")
 
     return Numeric.array(vectorfield)
 
@@ -276,7 +276,7 @@ def read_structured_oommf_data(fname, byte, dimensions, datatype, verbose=0):
     else:
         print "expected ascii or binary4 or binar8 for datatype, \
 but got", datatype
-        raise "Oopps", "Something wrong here!"
+        raise Exception("Oopps. Something wrong here!")
 
 
 def read_structured_omf_file(infile, debug=False):
