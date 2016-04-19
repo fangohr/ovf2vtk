@@ -188,7 +188,7 @@ def ovf2vtk_main():
         sys.exit(0)
 
     if "-V" in keys or "--version" in keys:
-        print "This is version {}.".format(ovf2vtk.__version__)
+        print "This is version {:s}.".format(ovf2vtk.__version__)
         sys.exit(0)
 
     if len(params) == 0:
@@ -433,7 +433,7 @@ allowed after -a or --add"
     print "saving file ({})".format(outfile)
     vtk.tofile(outfile, format=vtk_data)
 
-    print "finished conversion (execution time {:5.3f} seconds)"\
+    print "finished conversion (execution time {:5.3s} seconds)"\
         .format(time.time()-start_time)
 
 # ==============================================================================
