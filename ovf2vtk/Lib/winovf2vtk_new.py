@@ -236,12 +236,12 @@ def ovf2vtk_main():
     # scale magnetisation data as required:
     if datascale == 0.0:
         scale = max(Ms)
-        print "Will scale data down by {}".format(scale, "f")
+        print "Will scale data down by {:f}".format(scale)
     else:
         scale = datascale
     vf = Numeric.divide(vf, scale)
 
-    datatitle = ovf_run["Title:"]+"/{}".format(scale, "g")
+    datatitle = ovf_run["Title:"]+"/{:g}".format(scale)
 
     #
     # need x, y and z vectors for vtk format
