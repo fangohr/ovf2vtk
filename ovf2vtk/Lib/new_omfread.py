@@ -201,7 +201,7 @@ ascii-oommf data not supported here")
     else:
         print "unknow datatype (expected  'binary4','binary8' [or 'ascii'],\
  but got ", datatype
-        raise "Error"
+        raise Exception("Error")
 
     if verbose:
         print "Expect floats of length", floatsize, "bytes."
