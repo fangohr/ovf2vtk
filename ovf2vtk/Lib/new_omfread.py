@@ -155,7 +155,7 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
             print "vector_str=", vector_str
             print "vector    =", vector
             print "datum =", datum
-            raise "Oops", "vector_str shold have 3 entries"
+            raise Exception("Oops, vector_str shold have 3 entries")
 
         vectorfield.append(vector)
 
