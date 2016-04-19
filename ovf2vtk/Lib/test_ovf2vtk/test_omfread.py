@@ -300,7 +300,7 @@ def test_read_structured_binary_oommf_data():
             nomf.read_structured_binary_oommf_data(ascii_files[i],
                                                    ascii_bytes[i],
                                                    ascii_nodes[i], 'ascii')
-        except Exception:
+        except NotImplementedError:
             result_string = result.getvalue()
             assert result_string == "ascii -oommf data not supported here\n"
 
