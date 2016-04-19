@@ -220,6 +220,21 @@ def test_read_structured_ascii_oommf_data():
 I only expected '# End: Data Text'.
 cowardly stopping here\n"""
 
+    # test function detects if a vector has more or less than 3 components
+    # use example file created
+    example_file = ['C:\Users\Harry\Documents\Examples\smalltest2.omf']
+    result = StringIO()
+    sys.stdout = result
+    try:
+        nomf.read_structured_ascii_oommf_data(example_file, bytes[6],
+                                              filenames_nodes[6])
+    except Exception:
+        result_string = result.getvalue()
+        assert result_string == \
+            """vector_str=", ['-0.89075911', '0.01617681']
+"vector    =", [-0.89075911, 0.01617681]
+"datum =", '-0.89075911     0.01617681   '\n"""
+
     # test if too much/too little data is detected and correct output is...
     # ...returned.
     # Files created that have too little/too much data
