@@ -279,9 +279,9 @@ def ovf2vtk_main():
 
         # find scale factor that OOMMF uses for xstepsize and xnodes,
         # etc. (Don't know how to get this directly.)
-        xscale = Lx / (float(ovf_run["xnodes:"])*float(ovf_run["xstepsize:"]))
-        yscale = Ly / (float(ovf_run["ynodes:"])*float(ovf_run["ystepsize:"]))
-        zscale = Lz / (float(ovf_run["znodes:"])*float(ovf_run["zstepsize:"]))
+        xscale = dx * float(ovf_run["xstepsize:"])
+        yscale = dy * float(ovf_run["ystepsize:"])
+        zscale = dz * float(ovf_run["zstepsize:"])
 
         # extract x, y and z positions from ovf file.
         xbasevector = [None] * dimensions[0]  # create empty vector
