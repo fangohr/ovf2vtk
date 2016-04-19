@@ -31,7 +31,7 @@ except ImportError:
 (http://sourceforge.net/projects/numpy)."
     print "If you are using Numeric, you can use the older version \
 0.1.17 of ovf2vtk."
-    raise ImportError, "Couldn't import Numpy -- cannot proceed."
+    raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
 __version__ = "$Revision: 1.3 $"
 
@@ -138,8 +138,8 @@ def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
         obs_is_vector = True
         obs_rank = 3
     else:
-        raise NotImplementedError, """Can only deal with scalar and vectors\ 
- (in 3d positional matrix)"""
+        raise NotImplementedError("""Can only deal with scalar and vectors\
+ (in 3d positional matrix)""")
 
     if obs_is_scalar:
         big_obs = Numeric.zeros((Nx+2*wipe, Ny+2*wipe, Nz+2*wipe), 'd')

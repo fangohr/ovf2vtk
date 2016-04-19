@@ -95,7 +95,7 @@ try:
 except ImportError:
     print "This program needs pyvtk. Please download and install from \
 (http://cens.ioc.ee/projects/pyvtk/)"
-    raise ImportError, "Couldn't import pyvtk -- cannot proceed."
+    raise ImportError("Couldn't import pyvtk -- cannot proceed.")
 
 
 try:
@@ -105,13 +105,14 @@ except ImportError:
 (http://sourceforge.net/projects/numpy)."
     print "If you are using Numeric, \
 you can use the older version 0.1.17 of ovf2vtk."
-    raise ImportError, "Couldn't import Numpy -- cannot proceed."
+    raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
 
 # try:
 #    import Numeric
 # except ImportError:
-#    print "This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy)."
+#    print "This program needs Numpy. Please download and install.
+#    (http://sourceforge.net/projects/numpy)."
 #    raise ImportError,"Couldn't import Numpy -- cannot proceed."
 #
 
