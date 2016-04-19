@@ -3,9 +3,9 @@ sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
 
 import numpy as np
 
-import analysis
+import new_analysis as nana
 
-import omfread
+import new_omfread as nomf
 
 import original_analysis
 
@@ -124,7 +124,7 @@ def test_magnitude():
         newarraysq = newarray ** 2
         exp = newarraysq.sum(1) ** 0.5
         # compute actual result
-        act = analysis.magnitude(newarray)
+        act = nana.magnitude(newarray)
         # ensure result is a numpy array
         assert isinstance(act, np.ndarray)
         # code works?
@@ -138,9 +138,8 @@ def test_convert_flat_fortran_to_3dmatrix():
     for vf in vfshapes:
         for i in range(5):
             # compute actual result
-            act = analysis.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)),
-                                                            Nxs[i], Nys[i],
-                                                            Nzs[i])
+            act = nana.convert_flat_fortran_to_3dmatrix(np.ones((vf, 1)),
+                                                        Nxs[i], Nys[i], Nzs[i])
             # check returned array of expected type and shape
             assert isinstance(act, np.ndarray)
             if i == 0 and vf != 0:
@@ -159,7 +158,7 @@ def test_convert_fortran_3dmatrix_to_flat():
     for i in range(5):
         M = np.ndarray((Nzs[i], Nys[i], Nxs[i], 3))
         # compute actual result from tested function
-        Mflat = analysis.convert_fortran_3dmatrix_to_flat(M)
+        Mflat = nana.convert_fortran_3dmatrix_to_flat(M)
         # test computed result is a numpy array
         assert isinstance(Mflat, np.ndarray)
         # compute length of flattened array by finding product of array shape
@@ -185,7 +184,7 @@ def test_convert_fortran_3dmatrix_to_flat_vector():
         # compare expected vs actual
         assert int(length) == len(Mlength)
         # compute actual returned function
-        flatv = analysis.convert_fortran_3dmatrix_to_flat_vector(M)
+        flatv = nana.convert_fortran_3dmatrix_to_flat_vector(M)
         # check if returned value is a numpy array
         assert isinstance(flatv, np.ndarray)
         # assert returned array of required shape
@@ -202,7 +201,7 @@ def test_convert_fortran_to_c():
         # compute expected shape result
         exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
         # compute expected shape result
-        act = analysis.convert_fortran_to_C(a1)
+        act = nana.convert_fortran_to_C(a1)
         # check act and exp have same shape
         assert exp.shape == act.shape
         # check values transpose correctly
@@ -223,7 +222,7 @@ def test_convert_c_to_fortran():
         # compute expected shape result
         exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
         # compute expected shape result
-        act = analysis.convert_C_to_fortran(a1)
+        act = nana.convert_C_to_fortran(a1)
         # check act and exp have same shape
         assert exp.shape == act.shape
         # check values transpose correctly
@@ -250,7 +249,7 @@ def test_components():
                 vfi[0, i], vfj[0, i], vfk[0, i], = d1[i, 0], d1[i, 1], d1[i, 2]
         exp = (vfi, vfj, vfk)
         # compute actual result
-        act = analysis.components(d1)
+        act = nana.components(d1)
         # check returned value is tuple
         assert isinstance(act, tuple)
         # check results are identical
@@ -267,7 +266,7 @@ def test_plane_angles():
         # to include negative + larger values
         newarray = (array - 0.5) * 1000
         # compute actual result
-        act = analysis.plane_angles(newarray)
+        act = nana.plane_angles(newarray)
         # check return type is tuple of length 3 and that each item in tuple...
         # ...is an array of expected length
         assert isinstance(act, tuple)
@@ -279,7 +278,7 @@ def test_plane_angles():
     # test specific example to ensure values of array are as expected
     # compute actual result
     for vfexample in (vfexample1, vfexample2):
-        act = analysis.plane_angles(vfexample)
+        act = nana.plane_angles(vfexample)
         expected = original_analysis.plane_angles(vfexample)
         for j in range(len(act)):
             assert act[j].all() == expected[j].all()
@@ -315,8 +314,8 @@ def test_clean_surfaces():
             # ...initial shape dimensions (3, 3) and therefore only match...
             # ...with initial shape dims of M_example_shapes[0] (3, 3),...
             # ...not M_example_shapes[1] (4, 4)
-            analysis.clean_surfaces(pass_obs,
-                                    np.random.random(M_example_shapes[0]))
+            nana.clean_surfaces(pass_obs,
+                                np.random.random(M_example_shapes[0]))
             is_3d_or_4d.append(pass_obs.shape)
         except NotImplementedError:
             not_3d_or_4d.append(pass_obs.shape)
@@ -327,9 +326,9 @@ def test_clean_surfaces():
     # ...to test different values of wipe.
 
     # test whether output matrix returns expected values
-    assert (analysis.clean_surfaces(obs_example_input1, M_example_input).all()
+    assert (nana.clean_surfaces(obs_example_input1, M_example_input).all()
             == clean_surfaces_output1.all())
-    assert (analysis.clean_surfaces(obs_example_input2, M_example_input).all()
+    assert (nana.clean_surfaces(obs_example_input2, M_example_input).all()
             == clean_surfaces_output2.all())
 
 
@@ -356,13 +355,13 @@ def test_divergence_and_curl():
     # ...rotflat should be Nx x Ny x Nz x 3
     for filename in filenames:
         # 'vf' and 'ovf_run' are returned in functions within omfread.py
-        divflat = analysis.divergence_and_curl(
-            omfread.read_structured_omf_file(filename), False,
-            omfread.analyze(filename))[0]
-        rotflat = analysis.divergence_and_curl(
-            omfread.read_structured_omf_file(filename), False,
-            omfread.analyze(filename))[1]
-        rotmag = analysis.magnitude(rotflat)
+        divflat = nana.divergence_and_curl(
+            nomf.read_structured_omf_file(filename), False,
+            nomf.analyze(filename))[0]
+        rotflat = nana.divergence_and_curl(
+            nomf.read_structured_omf_file(filename), False,
+            nomf.analyze(filename))[1]
+        rotmag = nana.magnitude(rotflat)
 
         assert divflat.shape == (long(node_products[filename]),)
         assert rotflat.shape == (long(node_products[filename]), long(3))
@@ -383,14 +382,14 @@ def test_divergence_and_curl():
     for filename in filenames:
         for boolean in surfaceEffects:
             # actual result
-            act = analysis.divergence_and_curl(
-                omfread.read_structured_omf_file(filename), boolean,
-                omfread.analyze(filename))
+            act = nana.divergence_and_curl(
+                nomf.read_structured_omf_file(filename), boolean,
+                nomf.analyze(filename))
             # expected result. The original version of the function...
             # ... i.e. not refactored
             exp = original_analysis.divergence_and_curl(
-                omfread.read_structured_omf_file(filename), boolean,
-                omfread.analyze(filename))
+                nomf.read_structured_omf_file(filename), boolean,
+                nomf.analyze(filename))
             for j in range(len(act)):
                 assert act[j].all() == exp[j].all()
 
@@ -399,7 +398,7 @@ def test_divergence_and_curl():
            "ystepsize:": 0.01, "zstepsize:": 0.01}
     for boolean in surfaceEffects:
         # actual result
-        act = analysis.divergence_and_curl(vfexample2, boolean, dic)
+        act = nana.divergence_and_curl(vfexample2, boolean, dic)
         # expected result. The original version of the function...
         # ... i.e. not refactored
         exp = original_analysis.divergence_and_curl(vfexample2, boolean, dic)

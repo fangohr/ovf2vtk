@@ -5,7 +5,7 @@ import numpy as np
 
 from StringIO import StringIO
 
-import omfread
+import new_omfread as nomf
 
 import original_omfread
 
@@ -83,7 +83,7 @@ def test_parse_for_keywords():
     # compute actual result
     act = {}
     for line in lines:
-        omfread.parse_for_keywords(keywords, line, act)
+        nomf.parse_for_keywords(keywords, line, act)
     # expected result, dic orders keys in alphabetical order'.
     exp = {'boundary:': '10', 'valuemultiplier:': '475', 'valueunit:': '8',
            'xmax:': '4', 'xmin:': '5', 'ymax:': '34'}
@@ -97,7 +97,7 @@ def test_analyze():
     for filename in filenames:
         for verbose in verboses:
             # actual result
-            act = omfread.analyze(filename, verbose)
+            act = nomf.analyze(filename, verbose)
             assert type(act) == dict
             # expected result
             exp = original_omfread.analyze(filename, verbose)
@@ -109,13 +109,13 @@ def test_analyze():
             if verbose == 0:
                 result = StringIO()
                 sys.stdout = result
-                omfread.analyze(filename, verbose)
+                nomf.analyze(filename, verbose)
                 result_string = result.getvalue()
                 assert result_string == ''
             if verbose == 1:
                 result = StringIO()
                 sys.stdout = result
-                omfread.analyze(filename, verbose)
+                nomf.analyze(filename, verbose)
                 result_string = result.getvalue()
                 assert result_string == "#Analysing {} : Found {} keywords\n"\
                                         .format(filename, len(exp))
@@ -137,7 +137,7 @@ def test_what_data():
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.what_data(non_files[i])
+            nomf.what_data(non_files[i])
             x = 0
         except SystemExit:
             x = 1
@@ -158,7 +158,7 @@ def test_what_data():
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.what_data(file)
+            nomf.what_data(file)
             x = 0
         except SystemExit:
             x = 1
@@ -174,14 +174,14 @@ Cowardly stopping here.\n""".format(file)
     # test expected effects of setting verbose=1
     for i in range(len(filenames)):
         # check returned object is a dictionary with 3 keys.
-        dic = omfread.what_data(filenames[i])
+        dic = nomf.what_data(filenames[i])
         assert type(dic) == dict
         assert len(dic) == 3
         actual_data_types.append(dic['type'])
         for verbose in verboses:
             result = StringIO()
             sys.stdout = result
-            omfread.what_data(filenames[i], verbose)
+            nomf.what_data(filenames[i], verbose)
             result_string = result.getvalue()
             if verbose:
                 assert result_string == 'Data in {} start in line {} at\
@@ -210,9 +210,9 @@ def test_read_structured_ascii_oommf_data():
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.read_structured_ascii_oommf_data(ascii_test_files[i],
-                                                     test_bytes[i],
-                                                     test_nodes[i])
+            nomf.read_structured_ascii_oommf_data(ascii_test_files[i],
+                                                  test_bytes[i],
+                                                  test_nodes[i])
         except TypeError:
             result_string = result.getvalue()
             assert result_string == """I found a # in the first column.\
@@ -241,9 +241,9 @@ cowardly stopping here\n"""
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.read_structured_ascii_oommf_data(unexp_data[i],
-                                                     unexp_bytes[i],
-                                                     unexp_nodes[i])
+            nomf.read_structured_ascii_oommf_data(unexp_data[i],
+                                                  unexp_bytes[i],
+                                                  unexp_nodes[i])
         except TypeError:
             result_string = result.getvalue()
             assert result_string == """Hmm, expected nx*ny*ny = {} items, but\
@@ -260,9 +260,9 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
         result = StringIO()
         sys.stdout = result
         # actual result
-        act = omfread.read_structured_ascii_oommf_data(ascii_files[i],
-                                                       ascii_bytes[i],
-                                                       ascii_nodes[i])
+        act = nomf.read_structured_ascii_oommf_data(ascii_files[i],
+                                                    ascii_bytes[i],
+                                                    ascii_nodes[i])
         result_string = result.getvalue()
         # check ouput is a numpy array of correct length
         assert type(act) == np.ndarray
@@ -284,9 +284,9 @@ def test_read_structured_binary_oommf_data():
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.read_structured_binary_oommf_data(ascii_files[i],
-                                                      ascii_bytes[i],
-                                                      ascii_nodes[i], 'ascii')
+            nomf.read_structured_binary_oommf_data(ascii_files[i],
+                                                   ascii_bytes[i],
+                                                   ascii_nodes[i], 'ascii')
         except TypeError:
             result_string = result.getvalue()
             assert result_string == "ascii -oommf data not supported here\n"
@@ -296,10 +296,10 @@ def test_read_structured_binary_oommf_data():
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.read_structured_binary_oommf_data(filenames[i], bytes[i],
-                                                      filenames_nodes[i],
-                                                      filenames_data_types[i] +
-                                                      'unknown')
+            nomf.read_structured_binary_oommf_data(filenames[i], bytes[i],
+                                                   filenames_nodes[i],
+                                                   filenames_data_types[i] +
+                                                   'unknown')
         except TypeError:
             result_string = result.getvalue()
             assert result_string == "unknow datatype (expected  'binary4',\
@@ -320,9 +320,9 @@ def test_read_structured_binary_oommf_data():
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.read_structured_binary_oommf_data(b4_b8_files[i], bytes[i],
-                                                      filenames_nodes[i],
-                                                      filenames_data_types[i])
+            nomf.read_structured_binary_oommf_data(b4_b8_files[i], bytes[i],
+                                                   filenames_nodes[i],
+                                                   filenames_data_types[i])
         except TypeError:
             result_string = result.getvalue()
             # if binary4, tag = 7.27159209092e+31
@@ -345,8 +345,7 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
         byte = bytes[i]
         nodes = filenames_nodes[i]
         data = filenames_data_types[i]
-        act = omfread.read_structured_binary_oommf_data(file, byte, nodes,
-                                                        data)
+        act = nomf.read_structured_binary_oommf_data(file, byte, nodes, data)
         # check result is a numpy array of correct length and shape
         assert type(act) == np.ndarray
         assert len(act) == filenames_nodes[i][0] * filenames_nodes[i][1] *\
@@ -369,8 +368,8 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
             floatsize = floatsizes[i]
             result = StringIO()
             sys.stdout = result
-            omfread.read_structured_binary_oommf_data(file, byte, nodes, data,
-                                                      verbose)
+            nomf.read_structured_binary_oommf_data(file, byte, nodes, data,
+                                                   verbose)
             result_string = result.getvalue()
             if verbose == 0:
                 assert result_string == ''
@@ -390,7 +389,7 @@ def test_read_structured_oommf_data():
         nodes = filenames_nodes[i]
         data = filenames_data_types[i]
         # actual result
-        act = omfread.read_structured_oommf_data(file, byte, nodes, data)
+        act = nomf.read_structured_oommf_data(file, byte, nodes, data)
         # all files retuned as numpy arrays
         assert type(act) == np.ndarray
         assert len(act) == nodes[0] * nodes[1] * nodes[2]
@@ -398,11 +397,11 @@ def test_read_structured_oommf_data():
 
         # check binary4, binary8 files return expected data values
         if i < 6:
-            exp = omfread.read_structured_binary_oommf_data(file, byte, nodes,
-                                                            data)
+            exp = nomf.read_structured_binary_oommf_data(file, byte, nodes,
+                                                         data)
         # check ascii files return expected data values
         else:
-            exp = omfread.read_structured_ascii_oommf_data(file, byte, nodes)
+            exp = nomf.read_structured_ascii_oommf_data(file, byte, nodes)
         assert exp.all() == act.all()
 
         # test function detects unexpected datatype
@@ -410,7 +409,7 @@ def test_read_structured_oommf_data():
         result = StringIO()
         sys.stdout = result
         try:
-            omfread.read_structured_oommf_data(file, byte, nodes, data)
+            nomf.read_structured_oommf_data(file, byte, nodes, data)
         except TypeError:
             result_string = result.getvalue()
             assert result_string == """expected ascii or binary4 or binar8 for\
@@ -426,7 +425,7 @@ def test_read_structured_omf_file():
         nodes = filenames_nodes[i]
         data = filenames_data_types[i]
         # actual result
-        act = omfread.read_structured_omf_file(file)
+        act = nomf.read_structured_omf_file(file)
         # all files should be retuned as numpy arrays
         assert type(act) == np.ndarray
         assert len(act) == nodes[0] * nodes[1] * nodes[2]
@@ -434,11 +433,11 @@ def test_read_structured_omf_file():
 
         # check binary4, binary8 files return expected data values
         if i < 6:
-            exp = omfread.read_structured_binary_oommf_data(file, byte, nodes,
-                                                            data)
+            exp = nomf.read_structured_binary_oommf_data(file, byte, nodes,
+                                                         data)
         # check ascii files return expected data values
         else:
-            exp = omfread.read_structured_ascii_oommf_data(file, byte, nodes)
+            exp = nomf.read_structured_ascii_oommf_data(file, byte, nodes)
         assert exp.all() == act.all()
 
         # test print statements show if debug
@@ -446,7 +445,7 @@ def test_read_structured_omf_file():
         for db in debug:
             result = StringIO()
             sys.stdout = result
-            omfread.read_structured_omf_file(file, db)
+            nomf.read_structured_omf_file(file, db)
             result_string = result.getvalue()
             # binary4 & binary8 files
             if debug == 1 and i < 6:

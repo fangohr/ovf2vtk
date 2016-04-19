@@ -3,7 +3,7 @@ sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
 
 import subprocess
 
-import winovf2vtk
+import new_winovf2vtk as nwin
 
 import __version__
 
@@ -94,7 +94,7 @@ def test_winovf2vtk_no_inputs():
     running-shell-command-from-python-and-capturing-the-output"""
     # compute actual result
     command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\winovf2vtk.py'
+\new_winovf2vtk.py'
     p = subprocess.Popen(command, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     doc = p.stdout.readlines()
@@ -105,7 +105,7 @@ def test_winovf2vtk_no_inputs():
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
-    exp = winovf2vtk.__doc__ + "\nERROR: An input file (and an output file \
+    exp = nwin.__doc__ + "\nERROR: An input file (and an output file \
 need to be specified)."
     exp = exp.splitlines()
     assert new_doc == exp
@@ -117,7 +117,7 @@ def test_winovf2vtk_keys_no_parameters():
     for val in range(len(keys)):
         # compute actual result
         command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\
-\Lib\winovf2vtk.py' + " {}".format(keys[val])
+\Lib\new_winovf2vtk.py' + " {}".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
@@ -130,14 +130,14 @@ def test_winovf2vtk_keys_no_parameters():
         if val < 2:
             exp = ["This is version {}.".format(__version__.__version__)]
         elif 1 < val < 4:
-            exp = "running in verbose mode\n" + winovf2vtk.__doc__ + "\nERROR:\
+            exp = "running in verbose mode\n" + nwin.__doc__ + "\nERROR:\
  An input file (and an output file need to be specified)."
             exp = exp.splitlines()
         elif 3 < val < 6:
-            exp = winovf2vtk.__doc__ + "\n"
+            exp = nwin.__doc__ + "\n"
             exp = exp.splitlines()
         elif val > 5:
-            exp = winovf2vtk.__doc__ + "\nERROR: An input file (and an output \
+            exp = nwin.__doc__ + "\nERROR: An input file (and an output \
 file need to be specified)."
             exp = exp.splitlines()
         assert exp == new_doc
@@ -149,7 +149,7 @@ def test_winovf2vtk_keys_one_parameter():
     for val in range(len(keys)):
         # compute actual result with one input file
         command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\
-\Lib\winovf2vtk.py' + " {} cantedvortex.omf".format(keys[val])
+\Lib\new_winovf2vtk.py' + " {} cantedvortex.omf".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
@@ -162,16 +162,16 @@ def test_winovf2vtk_keys_one_parameter():
         if val < 2:
             exp = ["This is version {}.".format(__version__.__version__)]
         elif 1 < val < 4:
-            exp = "running in verbose mode\n" + winovf2vtk.__doc__ + \
+            exp = "running in verbose mode\n" + nwin.__doc__ + \
                 """\nERROR: An input file AND an output file need to \
 be specified.
 specify output file"""
             exp = exp.splitlines()
         elif 3 < val < 6:
-            exp = winovf2vtk.__doc__ + "\n"
+            exp = nwin.__doc__ + "\n"
             exp = exp.splitlines()
         elif val > 5:
-            exp = winovf2vtk.__doc__ + """\nERROR: An input file AND an\
+            exp = nwin.__doc__ + """\nERROR: An input file AND an\
  output file need to be specified.
 specify output file"""
             exp = exp.splitlines()
@@ -186,7 +186,7 @@ def test_winovf2vtk_no_keys_two_parameters():
     for i in range(len(infiles)):
         # actual result
         command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\
-\Lib\winovf2vtk.py' + " {} {}".format(infiles[i], outfiles[i])
+\Lib\new_winovf2vtk.py' + " {} {}".format(infiles[i], outfiles[i])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
@@ -225,8 +225,8 @@ def test_winovf2vtk_keys_two_parameters():
         for j in range(len(infiles)):
             # actual result
             command = 'python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\
-\ovf2vtk\Lib\winovf2vtk.py' + " {} {} {}".format(keys[i], infiles[j],
-                                                 outfiles[j])
+\ovf2vtk\Lib\new_winovf2vtk.py' + " {} {} {}".format(keys[i], infiles[j],
+                                                     outfiles[j])
             p = subprocess.Popen(command, stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
             doc = p.stdout.readlines()
@@ -268,7 +268,7 @@ def test_winovf2vtk_keys_two_parameters():
 
             # e.g. --h infile outfile
             elif 3 < i < 6:
-                exp = winovf2vtk.__doc__ + "\n"
+                exp = nwin.__doc__ + "\n"
                 exp = exp.splitlines()
                 assert exp == new_doc
 
@@ -318,18 +318,18 @@ def test_winovf2vtk_example_cmd_lines():
     asserts print statements containing ACTUAL VALUES are outputted."""
 
     examples = "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\winovf2vtk.py -V --ascii {} {}".format(infiles[0], outfiles[0]),\
+\new_winovf2vtk.py -V --ascii {} {}".format(infiles[0], outfiles[0]),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\winovf2vtk.py --datascale=0.5 --posscale 1.0 --add Ms -a divrot --add yz -v \
-{} {}".format(infiles[6], outfiles[6]),\
+\new_winovf2vtk.py --datascale=0.5 --posscale 1.0 --add Ms -a divrot --add yz \
+-v {} {}".format(infiles[6], outfiles[6]),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\winovf2vtk.py -h --binary {} {}".format(infiles[-1], outfiles[-1]),\
+\new_winovf2vtk.py -h --binary {} {}".format(infiles[-1], outfiles[-1]),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\winovf2vtk.py --add all --verbose --ascii --surface-effects {} {}"\
+\new_winovf2vtk.py --add all --verbose --ascii --surface-effects {} {}"\
         .format(infiles[1], "C:\Users\Harry\Documents\Examples\example.vtk"),\
         "python.exe C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib\
-\winovf2vtk.py -a Mx --add My -b --datascale=0.0 --surface-effects {} {} Test"\
-        .format(infiles[7], outfiles[7])
+\new_winovf2vtk.py -a Mx --add My -b --datascale=0.0 --surface-effects {} {} \
+Test".format(infiles[7], outfiles[7])
 
     for i in range(len(examples)):
         # actual result
@@ -383,7 +383,7 @@ VtkData.__init__.skipping:
 
         # test if --help key present, just program documentation is outputted
         elif i == 2:
-            exp = winovf2vtk.__doc__ + "\n"
+            exp = nwin.__doc__ + "\n"
             exp = exp.splitlines()
 
         # test several keys + binary outfile and infile with different name
@@ -476,7 +476,7 @@ def test_winovf2vtk_data():
             ' -a xz -a Ms --datascale=1 -a divrot -t']
     for i in range(len(files)):
             subprocess.Popen("python.exe C:\Users\Harry\Documents\GitHub\
-\ovf2vtk\ovf2vtk\Lib\winovf2vtk.py" + cmds[i] + " " + files[i] + " " +
+\ovf2vtk\ovf2vtk\Lib\new_winovf2vtk.py" + cmds[i] + " " + files[i] + " " +
                              vtk_files[i], stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
             # compare created file data with data from file created earlier
