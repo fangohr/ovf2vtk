@@ -110,8 +110,8 @@ def what_data(filename, verbose=0):
     f.close()
 
     if verbose == 1:
-        print "Data in", filename, "start in line", lines, "at byte",\
-              bytes, "and is", ans["type"]
+        print "Data in {} start in line {} at byte {} and is {}"\
+            .format(filename, lines, bytes, ans["type"])
 
     return ans
 
