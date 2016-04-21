@@ -48,6 +48,7 @@ def parse_for_keywords(keywords, line, dic={}):
 
 
 def analyze(filename, verbose=0):
+    """Takes a file and returns a dictionary of keyword-value pairs"""
     f = open(filename, "rb")
     lines = []
     dic = {}
