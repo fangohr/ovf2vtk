@@ -95,15 +95,14 @@ def what_data(filename, verbose=0):
             bits = line.split()
             if bits[3] == "Binary":
                 ans["type"] = "binary" + bits[4]
+            elif bits[3] == "Text":
+                ans["type"] = "ascii"
             else:
-                if bits[3] == "Text":
-                    ans["type"] = "ascii"
-                else:
-                    print "Data file", filename, \
-                          "appears neither to be a text or"\
-                          "a binary file."
-                    print "Cowardly stopping here."
-                    sys.exit(1)
+                print "Data file", filename, \
+                    "appears neither to be a text or"\
+                    "a binary file."
+                print "Cowardly stopping here."
+                sys.exit(1)
             break
     ans["startbyte"] = bytes
     ans["startline"] = lines
