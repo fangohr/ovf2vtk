@@ -195,7 +195,7 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
         print "ascii -oommf data not supported here"
         raise NotImplementedError
     else:
-        print "unknow datatype (expected  'binary4','binary8' [or 'ascii'],\
+        print "unknown datatype (expected  'binary4','binary8' [or 'ascii'],\
  but got ", datatype
         raise Exception
 

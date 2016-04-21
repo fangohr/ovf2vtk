@@ -317,7 +317,7 @@ def test_read_structured_binary_oommf_data():
                                                    'unknown')
         except Exception:
             result_string = result.getvalue()
-            assert result_string == "unknow datatype (expected  'binary4',\
+            assert result_string == "unknown datatype (expected  'binary4',\
 'binary8' [or 'ascii'], but got  {}"\
 .format(filenames_data_types[i]+'unknown\n')
 
