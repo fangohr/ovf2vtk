@@ -69,8 +69,9 @@ def convert_between_fortran_and_C(a):
     return Numeric.swapaxes(a, 0, 2)
 
 
-def components(d):
-    return (d[:, 0], d[:, 1], d[:, 2])
+def components(vec_array):
+    """returns the x, y and z components of an array of vectors of shape Nx3"""
+    return (vec_array[:, 0], vec_array[:, 1], vec_array[:, 2])
 
 
 def plane_angles(d):
