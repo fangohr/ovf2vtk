@@ -8,9 +8,9 @@ python:
   - "3.5"
 # command to install dependencies
 before_install: cd ovf2vtk
+install: python setup.py -q install
+# command to run tests
 script: Lib\test_ovf2vtk\test_analysis.py
 script: Lib\test_ovf2vtk\test_omfread.py
 script: Lib\test_ovf2vtk\test_winovf2vtk.py
-install: python setup.py -q install
-# command to run tests
 script: nosetests
