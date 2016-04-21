@@ -98,7 +98,7 @@ def what_data(filename, verbose=0):
             elif bits[3] == "Text":
                 ans["type"] = "ascii"
             else:
-                print "Data file", filename, \
+                print "Data file {}".format(filename),\
                     "appears neither to be a text or"\
                     "a binary file."
                 print "Cowardly stopping here."
@@ -112,7 +112,6 @@ def what_data(filename, verbose=0):
     if verbose == 1:
         print "Data in {} start in line {} at byte {} and is {}"\
             .format(filename, lines, bytes, ans["type"])
-
     return ans
 
 
