@@ -75,10 +75,8 @@ def components(vec_array):
 
 
 def plane_angles(d):
-    """
-    Input is matrix, containing N 3d vectors.
-
-    returns angles in yx, yz and xz plane for all vectors. """
+    """Input is matrix, containing N 3d vectors.
+    Returns angles in yx, yz and xz plane for all vectors."""
     x, y, z = components(d)
 
     # if any Ms is smaller that 1e-6, then set to zero to eliminate noise
