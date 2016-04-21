@@ -116,10 +116,9 @@ def what_data(filename, verbose=0):
 
 
 def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
-
-    """fname is the filemane to read
-    byte is the byte in that file at which the data starts
-    dimensions = 3-tuple (nx, ny, nz) with the numbers of cells in the mesh
+    """fname is the filename to read.
+    byte is the byte in that file at which the data starts.
+    dimensions = 3-tuple (Nx, Ny, Nz) with the numbers of cells in the mesh
 
     This function will return one vector for each mesh cell combined in a list
     (in the fashion OOMMF stores data, i.e. (from OOMMF userguide)
@@ -128,7 +127,7 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
     is adopted here because commonly x will be the longest dimension,
     and z the shortest'
 
-    The returned value is a list of 3-tuples. """
+    The returned value is a list of 3-tuples."""
 
     data = open(fname).read()
 
