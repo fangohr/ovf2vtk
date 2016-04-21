@@ -42,13 +42,8 @@ def parse_for_keywords(keywords, line, dic={}):
     ensure correct format"""
     for x in keywords:
         if line[0:len(x)+2] == "# "+x:
-            dic[x] = line[len(x)+2:]
-            # remove end of line character if it is there
-            if dic[x][-1] == "\n":
-                dic[x] = dic[x][0:-1]
-            # remove any leading white space
-            while dic[x][0] == " ":
-                dic[x] = dic[x][1:]
+            # removes any end of line character and any leading white space
+            dic[x] = line[len(x)+2:].strip()
     return dic
 
 
