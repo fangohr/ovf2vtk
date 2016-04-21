@@ -173,7 +173,9 @@ and the files are large. Why not save data as binary?"
 
 def read_verification_tag(data, floatsize, byte, verbose):
     """acquires the verification tag from a binary4 (floatsize=4) or binary8
-    (floatsize=8) file"""
+    (floatsize=8) file. Returns the position of the file (in bytes) after
+    verification tag read."""
+
     # verification item (at position -1)
     if floatsize == 4:
         verification_tag, = struct.unpack('!f', data[byte:byte+4])
@@ -203,6 +205,8 @@ correctly)"
             raise AssertionError
     else:
         raise Exception("Not Implemented Error. We only do binary files here")
+
+    return filepos
 
 
 def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
@@ -240,35 +244,7 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
     # now read file
     data = open(fname, 'rb').read()
 
-    # verification item (at position -1)
-    if floatsize == 4:
-        verification_tag, = struct.unpack('!f', data[byte:byte+4])
-        if verification_tag == 1234567.0:
-            if verbose != 0:
-                print "verification_tag is okay (=> reading byte order \
-correctly)"
-            filepos = byte + 4
-        else:
-            print "The first item in a binary file is meant to be 1234567.0"
-            print "but it is not. Instead, I read {}.".format(verification_tag)
-            print "Cowardly stopping here."
-            raise AssertionError
-
-    elif floatsize == 8:
-        (verification_tag,) = struct.unpack('!d', data[byte:byte+8])
-        if verification_tag == 123456789012345.0:
-            if verbose != 0:
-                print "verification_tag is okay (=> reading byte order \
-correctly)"
-            filepos = byte + 8
-        else:
-            print "The first item in a binary file is meant to be \
-123456789012345.0"
-            print "but it is not. Instead, I read {}.".format(verification_tag)
-            print "Cowardly stopping here."
-            raise AssertionError
-    else:
-        raise Exception("Not Implemented Error. We only do binary files here")
+    filepos = read_verification_tag(data, floatsize, byte, verbose)
 
     Nx, Ny, Nz = dimensions
 
