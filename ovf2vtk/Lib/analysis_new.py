@@ -96,12 +96,12 @@ def plane_angles(vec_array):
 
 def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
     """sets all values in obs to zero value for which abs(M)<eps. If wipe > 0,
-       then all positions up to 'wipe' indicies away from the M<eps entry are
+       then all positions up to 'wipe' indices away from the M<eps entry are
        set to zerovalue as well.
 
     Example: hide divergence effects at surface:
 
-       * clean_surfaces( div, M, wipe=1, eps=1e-5)
+       * clean_surfaces(div, M, wipe=1, eps=1e-5)
 
     This is only of relevance if there is 'vacuum' in the simulation cell
     (i.e. an aero with Ms=0). The computation of the divergence and the curl
