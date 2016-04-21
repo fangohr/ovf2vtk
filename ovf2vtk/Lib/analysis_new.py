@@ -36,13 +36,13 @@ except ImportError:
 __version__ = "$Revision: 1.3 $"
 
 
-def magnitude(d):
-    """expects d to be a 1xN array,
+def magnitude(vec_array):
+    """expects an array of 3D vectors; array of shape (Nx3),
     returns the magnitude (standard 2-Norm)"""
     # square entries:                  d*d
     # sum over 3-components (axis 1):  add.reduce( d*d, 1)
     # take square root                 sqrt( add.reduce ( d*d, 1 ) )
-    return Numeric.sqrt(Numeric.add.reduce(d * d, 1))
+    return Numeric.sqrt(Numeric.add.reduce(vec_array ** 2, 1))
 
 
 def convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz):
