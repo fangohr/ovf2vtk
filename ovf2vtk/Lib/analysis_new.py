@@ -52,6 +52,7 @@ def convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz):
 
 
 def convert_fortran_3dmatrix_to_flat(M):
+    """Takes array of any shape, returns array of shape (1xN)"""
     return Numeric.array(M).ravel()
 
 
