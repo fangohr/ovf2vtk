@@ -96,7 +96,7 @@ def test_winovf2vtk_no_inputs():
     running-shell-command-from-python-and-capturing-the-output"""
     # compute actual result
     command = 'python.exe winovf2vtk_new.py'
-    p = subprocess.Popen(command, stdout=subprocess.PIPE,
+    p = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     doc = p.stdout.readlines()
     # remove '\r\n' characters
@@ -118,7 +118,7 @@ def test_winovf2vtk_keys_no_parameters():
     for val in range(len(keys)):
         # compute actual result
         command = 'python.exe winovf2vtk_new.py' + " {}".format(keys[val])
-        p = subprocess.Popen(command, stdout=subprocess.PIPE,
+        p = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
         # remove '\r\n' characters
@@ -150,7 +150,7 @@ def test_winovf2vtk_keys_one_parameter():
         # compute actual result with one input file
         command = 'python.exe winovf2vtk_new.py' + \
             " {} cantedvortex.omf".format(keys[val])
-        p = subprocess.Popen(command, stdout=subprocess.PIPE,
+        p = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
         # remove '\r\n' characters
@@ -187,7 +187,7 @@ def test_winovf2vtk_no_keys_two_parameters():
         # actual result
         command = 'python.exe winovf2vtk_new.py' +\
             " {} {}".format(infiles[i], outfiles[i])
-        p = subprocess.Popen(command, stdout=subprocess.PIPE,
+        p = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
         # remove '\r\n' characters
@@ -226,7 +226,7 @@ def test_winovf2vtk_keys_two_parameters():
             # actual result
             command = 'python.exe winovf2vtk_new.py' +\
                 " {} {} {}".format(keys[i], infiles[j], outfiles[j])
-            p = subprocess.Popen(command, stdout=subprocess.PIPE,
+            p = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT)
             doc = p.stdout.readlines()
             # remove '\r\n' characters
@@ -330,7 +330,7 @@ def test_winovf2vtk_example_cmd_lines():
 
     for i in range(len(examples)):
         # actual result
-        p = subprocess.Popen(examples[i], stdout=subprocess.PIPE,
+        p = subprocess.Popen(examples[i].split(), stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT)
         doc = p.stdout.readlines()
         # remove '\r\n' characters
@@ -475,8 +475,8 @@ def test_winovf2vtk_data():
             ' --posscale=10 --surface-effects -a all -b',
             ' -a xz -a Ms --datascale=1 -a divrot -t']
     for i in range(len(files)):
-            subprocess.Popen("python.exe winovf2vtk_new.py" + cmds[i] + " " +
-                             files[i] + " " + vtk_files[i],
+            subprocess.Popen(("python.exe winovf2vtk_new.py" + cmds[i] + " " +
+                             files[i] + " " + vtk_files[i]).split(),
                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             # compare created file data with data from file created earlier
             a = open(vtk_files[i], 'rb').readlines()
