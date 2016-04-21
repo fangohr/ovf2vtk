@@ -259,7 +259,7 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
 
     vectorfield = Numeric.reshape(Numeric.array(vector), (N, 3))
 
-    if not N == len(vectorfield):
+    if N != len(vectorfield):
         print N, len(vectorfield)
         raise Exception("Oopps. Miscounted - internal error")
 
