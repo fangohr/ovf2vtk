@@ -191,7 +191,7 @@ def test_convert_fortran_3dmatrix_to_flat_vector():
         assert flatv.shape == (long(length)/3, long(3))
 
 
-def test_convert_fortran_to_c():
+def test_convert_between_fortran_and_c():
     """input, a, is a matrix of shape (Nz, Ny, Nx, 3) -> Fortran order"""
 
     for i in range(5):
