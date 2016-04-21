@@ -200,16 +200,19 @@ Input data is:
 
     # compute dMx/dx (central differences):
     dMdx = Numeric.array(M[2:, :, :, :]-M[:-2, :, :, :])
-    dMxdx, dMydx, dMzdx = \
-        dMdx[:, :, :, 0]/dx, dMdx[:, :, :, 1]/dx, dMdx[:, :, :, 2]/dx
+    dMxdx = dMdx[:, :, :, 0]/dx
+    dMydx = dMdx[:, :, :, 1]/dx
+    dMzdx = dMdx[:, :, :, 2]/dx
 
     dMdy = Numeric.array(M[:, 2:, :, :]-M[:, :-2, :, :])
-    dMxdy, dMydy, dMzdy = \
-        dMdy[:, :, :, 0]/dy, dMdy[:, :, :, 1]/dy, dMdy[:, :, :, 2]/dy
+    dMxdy = dMdy[:, :, :, 0]/dy
+    dMydy = dMdy[:, :, :, 1]/dy
+    dMzdy = dMdy[:, :, :, 2]/dy
 
     dMdz = Numeric.array(M[:, :, 2:, :]-M[:, :, :-2, :])
-    dMxdz, dMydz, dMzdz = \
-        dMdz[:, :, :, 0]/dz, dMdz[:, :, :, 1]/dz, dMdz[:, :, :, 2]/dz
+    dMxdz = dMdz[:, :, :, 0]/dz
+    dMydz = dMdz[:, :, :, 1]/dz
+    dMzdz = dMdz[:, :, :, 2]/dz
 
     # set divergence values
     div = Numeric.zeros((Nx, Ny, Nz), 'd')
