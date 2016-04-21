@@ -171,6 +171,11 @@ and the files are large. Why not save data as binary?"
     return Numeric.array(vectorfield)
 
 
+def read_verification_tag(data, floatsize):
+    """acquires the verification tag from a binary4 (floatsize=4) or binary8
+    (floatsize=8) file"""
+
+
 def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
                                       verbose=0):
     """fname is the filename to read
@@ -209,13 +214,11 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
     # verification item (at position -1)
     if floatsize == 4:
         verification_tag, = struct.unpack('!f', data[byte:byte+4])
-
         if verification_tag == 1234567.0:
             if verbose != 0:
                 print "verification_tag is okay (=> reading byte order \
 correctly)"
             filepos = byte + 4
-
         else:
             print "The first item in a binary file is meant to be 1234567.0"
             print "but it is not. Instead, I read {}.".format(verification_tag)
@@ -224,7 +227,6 @@ correctly)"
 
     elif floatsize == 8:
         (verification_tag,) = struct.unpack('!d', data[byte:byte+8])
-
         if verification_tag == 123456789012345.0:
             if verbose != 0:
                 print "verification_tag is okay (=> reading byte order \
