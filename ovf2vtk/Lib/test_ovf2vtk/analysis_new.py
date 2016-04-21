@@ -233,28 +233,28 @@ Input data is:
     Fdiv = convert_between_fortran_and_C(div)
     divflat = convert_fortran_3dmatrix_to_flat(Fdiv)
 
-    # set curl values
-    curl = Numeric.zeros((Nx, Ny, Nz, 3), 'd')
+    # set rotation (curl + vorticity) values
+    rot = Numeric.zeros((Nx, Ny, Nz, 3), 'd')
 
     # taking the cross product (this excludes the outermost layers as
     # we can't take the central difference for these)
-    curl[1:-1, 1:-1, 1:-1, 0] = dMzdy[1:-1, :, 1:-1]-dMydz[1:-1, 1:-1, :]
-    curl[1:-1, 1:-1, 1:-1, 1] = dMxdz[1:-1, 1:-1, :]-dMzdx[:, 1:-1, 1:-1]
-    curl[1:-1, 1:-1, 1:-1, 2] = dMydx[:, 1:-1, 1:-1]-dMxdy[1:-1, :, 1:-1]
+    rot[1:-1, 1:-1, 1:-1, 0] = dMzdy[1:-1, :, 1:-1]-dMydz[1:-1, 1:-1, :]
+    rot[1:-1, 1:-1, 1:-1, 1] = dMxdz[1:-1, 1:-1, :]-dMzdx[:, 1:-1, 1:-1]
+    rot[1:-1, 1:-1, 1:-1, 2] = dMydx[:, 1:-1, 1:-1]-dMxdy[1:-1, :, 1:-1]
 
     # special 2d-case (only one layer in z)
     if Nz == 1:
         print "-->Nz==1, special 2d case, will only compute \
 z-component of curl"
-        curl[1:-1, 1:-1, 0, 2] = dMydx[:, 1:-1, 0]-dMxdy[1:-1, :, 0]
+        rot[1:-1, 1:-1, 0, 2] = dMydx[:, 1:-1, 0]-dMxdy[1:-1, :, 0]
 
     if not surfaceEffects:
-        curl = clean_surfaces(curl, M, wipe=1)
+        rot = clean_surfaces(rot, M, wipe=1)
 
-    Fcurl = convert_between_fortran_and_C(curl)
-    curlflat = convert_fortran_3dmatrix_to_flat_vector(Fcurl)
+    Frot = convert_between_fortran_and_C(rot)
+    rotflat = convert_fortran_3dmatrix_to_flat_vector(Frot)
 
-    curlmag = magnitude(curlflat)
+    rotmag = magnitude(rotflat)
 
-    return (divflat, curlflat, curlflat[:, 0], curlflat[:, 1],
-            curlflat[:, 2], curlmag)
+    return (divflat, rotflat, rotflat[:, 0], rotflat[:, 1],
+            rotflat[:, 2], rotmag)
