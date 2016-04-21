@@ -130,11 +130,10 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
     The returned value is a list of 3-tuples."""
 
     data = open(fname).read()
-
     datalines = str.split(data[byte:], '\n')
-
     vectorfield = []
 
+    # read file until end of data.
     for datum in datalines:
         if datum[0:16] == "# End: Data Text":
             break
