@@ -192,6 +192,9 @@ def central_differences(M, ovf_run):
     dMdz = Numeric.array(M[:, :, 2:, :]-M[:, :, :-2, :])
     dMxdz, dMydz, dMzdz = [dMdz[:, :, :, i]/dx for i in range(3)]
 
+    values = dMxdx, dMydx, dMzdx, dMxdy, dMydy, dMzdy, dMxdz, dMydz, dMzdz
+    return values
+
 
 def divergence_and_curl(vf, surfaceEffects, ovf_run):
     """A new attempt to compute the divergence and the curlfaster using
@@ -213,27 +216,8 @@ Input data is:
     M = convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
     M = convert_between_fortran_and_C(M)
 
-    # print "Nx, Ny, Nz=", Nx, Ny, Nz
-    dx = float(ovf_run["xstepsize:"])
-    dy = float(ovf_run["ystepsize:"])
-    dz = float(ovf_run["zstepsize:"])
-
-    # total magnitude of curl is irrelevant, re-scale dx, dy, dz to...
-    # ...avoid overflow:
-    scale = min(dx, dy, dz)
-    dx /= scale
-    dy /= scale
-    dz /= scale
-
-    # compute dMx/dx (central differences):
-    dMdx = Numeric.array(M[2:, :, :, :]-M[:-2, :, :, :])
-    dMxdx, dMydx, dMzdx = [dMdx[:, :, :, i]/dx for i in range(3)]
-
-    dMdy = Numeric.array(M[:, 2:, :, :]-M[:, :-2, :, :])
-    dMxdy, dMydy, dMzdy = [dMdy[:, :, :, i]/dx for i in range(3)]
-
-    dMdz = Numeric.array(M[:, :, 2:, :]-M[:, :, :-2, :])
-    dMxdz, dMydz, dMzdz = [dMdz[:, :, :, i]/dx for i in range(3)]
+    dMxdx, dMydx, dMzdx, dMxdy, dMydy, dMzdy, dMxdz, dMydz, dMzdz =\
+        central_differences(M, ovf_run)
 
     # set divergence values
     div = Numeric.zeros((Nx, Ny, Nz), 'd')
