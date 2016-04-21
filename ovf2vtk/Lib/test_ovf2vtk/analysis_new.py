@@ -238,15 +238,15 @@ Input data is:
 
     # taking the cross product (this excludes the outermost layers as
     # we can't take the central difference for these)
-    rot[1:-1, 1:-1, 1:-1, 0] = dMzdy[1:-1, :, 1:-1]-dMydz[1:-1, 1:-1, :]
-    rot[1:-1, 1:-1, 1:-1, 1] = dMxdz[1:-1, 1:-1, :]-dMzdx[:, 1:-1, 1:-1]
-    rot[1:-1, 1:-1, 1:-1, 2] = dMydx[:, 1:-1, 1:-1]-dMxdy[1:-1, :, 1:-1]
+    rot[1:-1, 1:-1, 1:-1, 0] = dMzdy[1:-1, :, 1:-1] - dMydz[1:-1, 1:-1, :]
+    rot[1:-1, 1:-1, 1:-1, 1] = dMxdz[1:-1, 1:-1, :] - dMzdx[:, 1:-1, 1:-1]
+    rot[1:-1, 1:-1, 1:-1, 2] = dMydx[:, 1:-1, 1:-1] - dMxdy[1:-1, :, 1:-1]
 
     # special 2d-case (only one layer in z)
     if Nz == 1:
         print "-->Nz==1, special 2d case, will only compute \
 z-component of curl"
-        rot[1:-1, 1:-1, 0, 2] = dMydx[:, 1:-1, 0]-dMxdy[1:-1, :, 0]
+        rot[1:-1, 1:-1, 0, 2] = dMydx[:, 1:-1, 0] - dMxdy[1:-1, :, 0]
 
     if not surfaceEffects:
         rot = clean_surfaces(rot, M, wipe=1)
