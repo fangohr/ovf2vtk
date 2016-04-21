@@ -286,7 +286,6 @@ def read_structured_omf_file(infile, debug=False):
 
     This is the recommended interface.
     """
-
     # learn about infile
     ovf_run = analyze(infile)
 
