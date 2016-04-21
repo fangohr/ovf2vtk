@@ -201,28 +201,7 @@ def test_convert_fortran_to_c():
         # compute expected shape result
         exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
         # compute expected shape result
-        act = nana.convert_fortran_to_C(a1)
-        # check act and exp have same shape
-        assert exp.shape == act.shape
-        # check values transpose correctly
-        for x in range(Nxs[i]):
-            for y in range(Nys[i]):
-                for z in range(Nzs[i]):
-                    for w in range(3):
-                        assert a1[z, y, x, w] == act[x, y, z, w]
-
-
-def test_convert_c_to_fortran():
-    """input, a, is a matrix of shape (Nx, Ny, Nz, 3) -> C order"""
-
-    for i in range(5):
-        a = np.random.random_sample((Nzs[i], Nys[i], Nxs[i], 3))
-        # to include negative + larger values
-        a1 = (a - 0.5) * 1000
-        # compute expected shape result
-        exp = np.ndarray((Nxs[i], Nys[i], Nzs[i], 3))
-        # compute expected shape result
-        act = nana.convert_C_to_fortran(a1)
+        act = nana.convert_between_fortran_and_C(a1)
         # check act and exp have same shape
         assert exp.shape == act.shape
         # check values transpose correctly
