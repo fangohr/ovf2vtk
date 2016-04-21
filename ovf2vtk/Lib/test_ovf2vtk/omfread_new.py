@@ -267,6 +267,7 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
 
 
 def read_structured_oommf_data(fname, byte, dimensions, datatype, verbose=0):
+    """returns the vectorfield for the correspinding datatype"""
     if datatype == 'ascii':
         return read_structured_ascii_oommf_data(fname, byte, dimensions,
                                                 verbose)
@@ -275,7 +276,7 @@ def read_structured_oommf_data(fname, byte, dimensions, datatype, verbose=0):
                                                  datatype, verbose)
     else:
         print "expected ascii or binary4 or binar8 for datatype, \
-but got", datatype
+but got {}".format(datatype)
         raise Exception("Oopps. Something wrong here!")
 
 
