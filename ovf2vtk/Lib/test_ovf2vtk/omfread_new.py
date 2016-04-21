@@ -155,8 +155,8 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
 
         vectorfield.append(vector)
 
-    # expected number of data:
-    data_exp = dimensions[0]*dimensions[1]*dimensions[2]
+    # expected number of data (Nx*Ny*Nz):
+    data_exp = Numeric.prod(dimensions)
 
     if (data_exp - len(vectorfield)):
         print "Hmm, expected nx*ny*ny =", data_exp, "items, but got",\
