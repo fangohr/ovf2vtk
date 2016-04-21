@@ -57,6 +57,7 @@ def convert_fortran_3dmatrix_to_flat(M):
 
 
 def convert_fortran_3dmatrix_to_flat_vector(M):
+    """Takes array of any shape, returns array of shape (X, 3)"""
     N = len(Numeric.array(M).ravel())
     return Numeric.resize(M, (N/3, 3))
 
