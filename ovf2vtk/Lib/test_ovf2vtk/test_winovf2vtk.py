@@ -402,7 +402,7 @@ datascale= 0.0
 posscale= 0.0
 Number of cells (Nx=24,Ny=8,Nz=4)
 Expect floats of length 4 bytes.
-Expect to find data in file {}  at position 850 .
+Expect to find data in file {} at position 850.
 verification_tag is okay (=> reading byte order correctly)
 (57.29% of 768 cells filled)
 Will scale data down by 1.000000

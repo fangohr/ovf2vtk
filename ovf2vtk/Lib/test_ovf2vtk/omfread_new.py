@@ -200,9 +200,9 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
         raise Exception
 
     if verbose:
-        print "Expect floats of length", floatsize, "bytes."
-        print "Expect to find data in file", fname, " at position", byte, "."
-
+        print "Expect floats of length {} bytes.".format(floatsize)
+        print "Expect to find data in file {} at position {}.".format(fname,
+                                                                      byte)
     # now read file
     data = open(fname, 'rb').read()
 
@@ -212,13 +212,13 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
 
         if verification_tag == 1234567.0:
             if verbose != 0:
-                print "verification_tag is okay \
-(=> reading byte order correctly)"
+                print "verification_tag is okay (=> reading byte order \
+correctly)"
             filepos = byte + 4
 
         else:
             print "The first item in a binary file is meant to be 1234567.0"
-            print "but it is not. Instead, I read ", verification_tag, "."
+            print "but it is not. Instead, I read {}.".format(verification_tag)
             print "Cowardly stopping here."
             raise AssertionError
 
@@ -227,13 +227,13 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
 
         if verification_tag == 123456789012345.0:
             if verbose != 0:
-                print "verification_tag is okay \
-(=> reading byte order correctly)"
+                print "verification_tag is okay (=> reading byte order \
+correctly)"
             filepos = byte + 8
         else:
-            print "The first item in a binary file is \
-meant to be 123456789012345.0"
-            print "but it is not. Instead, I read ", verification_tag, "."
+            print "The first item in a binary file is meant to be \
+123456789012345.0"
+            print "but it is not. Instead, I read {}.".format(verification_tag)
             print "Cowardly stopping here."
             raise AssertionError
     else:

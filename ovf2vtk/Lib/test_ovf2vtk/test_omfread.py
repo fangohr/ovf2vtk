@@ -318,7 +318,7 @@ def test_read_structured_binary_oommf_data():
         except Exception:
             result_string = result.getvalue()
             assert result_string == "unknown datatype (expected  'binary4',\
-'binary8' [or 'ascii'], but got  {}"\
+'binary8' [or 'ascii'], but got {}"\
 .format(filenames_data_types[i]+'unknown\n')
 
     # test that incorrect verification tag is detected for binary4 and...
@@ -344,13 +344,13 @@ def test_read_structured_binary_oommf_data():
             if i < 2 or i > 3:
                 assert result_string == """The first item in a binary file is \
 meant to be 1234567.0
-but it is not. Instead, I read  {} .
+but it is not. Instead, I read {}.
 Cowardly stopping here.\n""".format(7.27159209092e+31)
             # if binary8, tag = 4.91466545592e+252
             if 1 < i < 4:
                 assert result_string == """The first item in a binary file is \
 meant to be 123456789012345.0
-but it is not. Instead, I read  {} .
+but it is not. Instead, I read {}.
 Cowardly stopping here.\n""".format(4.91466545592e+252)
 
     # test function output is as expected.
@@ -390,7 +390,7 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
                 assert result_string == ''
             else:
                 assert result_string == """Expect floats of length {} bytes.
-Expect to find data in file {}  at position {} .
+Expect to find data in file {} at position {}.
 verification_tag is okay (=> reading byte order correctly)\n"""\
 .format(floatsize, file, byte)
 
@@ -469,7 +469,7 @@ def test_read_structured_omf_file():
                 assert result_string == """Number of cells \
 (Nx={},Ny={},Nz={})
 Expect floats of length {} bytes.
-Expect to find data in file {}  at position {} .
+Expect to find data in file {} at position {}.
 verification_tag is okay (=> reading byte order correctly)\n"""\
 .format(nodes[0], nodes[1], nodes[2], floatsize, file, byte)
             # ascii files
