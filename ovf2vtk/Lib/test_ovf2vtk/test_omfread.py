@@ -292,7 +292,8 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
 def test_read_structured_binary_oommf_data():
     """the actual function takes, as inputs, the filename; its byte at which
     data begins; its nodes values in a tuple; and the datatype (binary4,
-    binary8 or ascii). Returns an array of the vectorfield."""
+    binary8 or ascii). Returns an array of the vectorfield.
+    Utilises 'read_verification_tag' function."""
 
     # test if ascii file given, exception is raised and print statement sent
     for i in range(len(ascii_files)):
