@@ -160,8 +160,8 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
 
     # if the length of the vectorfield doesnt equal expected amount of data.
     if (data_exp - len(vectorfield)):
-        print "Hmm, expected nx*ny*ny =", data_exp, "items, but got",\
-              len(vectorfield), "."
+        print "Hmm, expected nx*ny*ny = {} items, but got {} ."\
+            .format((data_exp), len(vectorfield))
         print "Cowardly stopping here."
         raise Exception("FileFormatError, read too many/too few data")
 
