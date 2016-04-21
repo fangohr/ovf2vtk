@@ -1,8 +1,5 @@
 import os
-<<<<<<< HEAD
 
-=======
->>>>>>> f88224be0f7551ada7d06eda673835f43be5858e
 import sys
 sys.path.append('..')
 
