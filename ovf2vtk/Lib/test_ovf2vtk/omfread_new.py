@@ -55,7 +55,8 @@ def analyze(filename, verbose=0):
 
     while 1:
         line = f.readline()
-        if not line:               # until eof
+        # until eof
+        if not line:
             break
         if line[0] == "#":
             dic = parse_for_keywords(keywords, line, dic)
