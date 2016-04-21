@@ -46,7 +46,9 @@ def magnitude(vec_array):
 
 
 def convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz):
-    return Numeric.resize(vf, (Nz, Ny, Nx, 3))  # this is in Fortran order
+    """Takes a 1xN array, vf, and converts it to an array of shape
+    (Nx, Ny, Nz, 3) -> In Fortan order"""
+    return Numeric.resize(vf, (Nz, Ny, Nx, 3))
 
 
 def convert_fortran_3dmatrix_to_flat(M):
