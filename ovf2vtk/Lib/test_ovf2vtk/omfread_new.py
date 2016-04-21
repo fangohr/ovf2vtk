@@ -34,7 +34,7 @@ keywords = ["Title:",
             "boundary:", "valueunit:", "valuemultiplier:",
             "ValueRangeMinMag:", "ValueRangeMaxMag:",
             "End: Head:", "Begin: Data:", "OOMMF:",
-            "Segment count:", "Begin: Segment"]
+            "Segment count:", "Begin: Segme"]
 
 
 def parse_for_keywords(keywords, line, dic={}):
