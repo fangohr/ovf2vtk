@@ -87,8 +87,8 @@ def what_data(filename, verbose=0):
             print "***Reached end of file before encountering data"
             print "   Cowardly stopping here"
             print "   Some debug info:"
-            print "   Have read", lines, "lines and"
-            print "            ", bytes, "bytes."
+            print "   Have read {} lines and".format(lines)
+            print "             {} bytes.".format(bytes)
             sys.exit(1)
 
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
