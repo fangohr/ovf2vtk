@@ -97,7 +97,8 @@ def plane_angles(vec_array):
 def convert_matrix_shape_to_clean(cleanM, M, wipe, Nx, Ny, Nz):
     """Takes a matrix of shape (Nx, Ny, Nz) or (Nx, Ny, Nz, 3) and returns a
     matrix of size (Nx+wipe, Ny+wipe, Nz+wipe) or
-    (Nx+wipe, Ny+wipe, Nz+wipe, 3)"""
+    (Nx+wipe, Ny+wipe, Nz+wipe, 3). This allows the function
+    'clean_surfaces' to initiate"""
 
     assert cleanM.shape[0:2] == M.shape[0:2], "Internal error"
 
