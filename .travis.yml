@@ -6,7 +6,7 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-before install: cd ovf2vtk
+before_install: cd ovf2vtk
 install: python setup.py -q install
 # command to run tests
 before_script: cd Lib/test_ovf2vtk
