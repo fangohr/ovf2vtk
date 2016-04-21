@@ -273,7 +273,7 @@ def test_clean_surfaces():
     not_3d_or_4d = []
 
     # test assertion that obs.shape[0:2] == M.shape[0:2] from...
-    # ... clean_surfaces function
+    # ... clean_surfaces function when it calls convert_matrix_shape_to_clean
     for obsshape in obs_example_shapes:
         for Mshape in M_example_shapes:
             obs = np.random.random(obsshape)
