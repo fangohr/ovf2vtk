@@ -385,7 +385,3 @@ def test_divergence_and_curl():
         exp = analysis_original.divergence_and_curl(vfexample2, boolean, dic)
         for j in range(len(act)):
             assert act[j].all() == exp[j].all()
-<<<<<<< HEAD
-=======
-          
->>>>>>> f88224be0f7551ada7d06eda673835f43be5858e
