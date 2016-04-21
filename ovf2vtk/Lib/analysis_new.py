@@ -216,6 +216,7 @@ Input data is:
     M = convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
     M = convert_between_fortran_and_C(M)
 
+    # retrieve central differences
     dMxdx, dMydx, dMzdx, dMxdy, dMydy, dMzdy, dMxdz, dMydz, dMzdz =\
         central_differences(M, ovf_run)
 
