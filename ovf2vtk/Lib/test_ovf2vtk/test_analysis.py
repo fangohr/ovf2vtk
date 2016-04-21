@@ -1,5 +1,6 @@
+import os
 import sys
-sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
+sys.path.append('..')
 
 import numpy as np
 
@@ -337,18 +338,18 @@ def test_divergence_and_curl():
     ovf_run (a dictionary of keyword pairs)"""
 
     # takes the filename and connects to the product of the files' Nx, Ny, Nz
-    node_products = {'C:\Users\Harry\Documents\Examples\cantedvortex.omf':
+    node_products = {os.path.join('..', 'Examples', 'cantedvortex.omf'):
                      32768,
-                     'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf':
+                     os.path.join('..', 'Examples', 'ellipsoidwrap.omf'):
                      768,
-                     'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf':
+                     os.path.join('..', 'Examples', 'h2hleftedge.ohf'):
                      25600,
-                     'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf':
+                     os.path.join('..', 'Examples', 'yoyoleftedge.ohf'):
                      6000}
-    filenames = ('C:\Users\Harry\Documents\Examples\cantedvortex.omf',
-                 'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
-                 'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
-                 'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf')
+    filenames = (os.path.join('..', 'Examples', 'cantedvortex.omf'),
+                 os.path.join('..', 'Examples', 'ellipsoidwrap.omf'),
+                 os.path.join('..', 'Examples', 'h2hleftedge.ohf'),
+                 os.path.join('..', 'Examples', 'yoyoleftedge.ohf'))
 
     # test that final shapes of returned objects are correct.
     # 'divflat' shape should be Nx x Ny x Nz whereas...
