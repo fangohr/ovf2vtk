@@ -243,12 +243,9 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
                                                                       byte)
     # now read file
     data = open(fname, 'rb').read()
-
     filepos = read_verification_tag(data, floatsize, byte, verbose)
 
-    Nx, Ny, Nz = dimensions
-
-    N = Nx * Ny * Nz
+    N = Numeric.prod(dimensions)
 
     # do reading in one go:
     if floatsize == 4:
