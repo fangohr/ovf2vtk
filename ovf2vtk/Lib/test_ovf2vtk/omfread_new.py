@@ -81,8 +81,8 @@ def what_data(filename, verbose=0):
     ans = {}
     while 1:
         line = f.readline()
-        bytes = bytes + len(line)
-        lines = lines + 1
+        bytes += len(line)
+        lines += 1
         if not line:               # until eof
             print "***Reached end of file before encountering data"
             print "   Cowardly stopping here"
