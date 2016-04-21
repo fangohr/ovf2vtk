@@ -184,7 +184,7 @@ Input data is:
 
     # get data into array of shape (Nx,Ny,Nz,3) (This is C-style)
     M = convert_flat_fortran_to_3dmatrix(vf, Nx, Ny, Nz)
-    M = convert_fortran_to_C(M)
+    M = convert_between_fortran_and_C(M)
 
     # print "Nx, Ny, Nz=", Nx, Ny, Nz
 
@@ -222,7 +222,7 @@ Input data is:
     if not surfaceEffects:
         div = clean_surfaces(div, M, wipe=1)
 
-    Fdiv = convert_C_to_fortran(div)
+    Fdiv = convert_between_fortran_and_C(div)
     divflat = convert_fortran_3dmatrix_to_flat(Fdiv)
 
     rot = Numeric.zeros((Nx, Ny, Nz, 3), 'd')
@@ -242,7 +242,7 @@ z-component of curl"
     if not surfaceEffects:
         rot = clean_surfaces(rot, M, wipe=1)
 
-    Frot = convert_C_to_fortran(rot)
+    Frot = convert_between_fortran_and_C(rot)
     rotflat = convert_fortran_3dmatrix_to_flat_vector(Frot)
 
     rotmag = magnitude(rotflat)
