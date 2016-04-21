@@ -74,15 +74,15 @@ def components(vec_array):
     return (vec_array[:, 0], vec_array[:, 1], vec_array[:, 2])
 
 
-def plane_angles(d):
+def plane_angles(vec_array):
     """Input is matrix, containing N 3d vectors.
     Returns angles in yx, yz and xz plane for all vectors."""
-    x, y, z = components(d)
+    x, y, z = components(vec_array)
 
     # if any Ms is smaller that 1e-6, then set to zero to eliminate noise
     cutoff = 1e-6
 
-    Ms = magnitude(d)
+    Ms = magnitude(vec_array)
 
     x2 = Numeric.choose(Numeric.less(Ms, cutoff), (x, 0.0))
     y2 = Numeric.choose(Numeric.less(Ms, cutoff), (y, 0.0))
