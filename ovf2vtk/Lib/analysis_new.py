@@ -94,7 +94,34 @@ def plane_angles(vec_array):
     return xy, yz, xz
 
 
-def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
+def convert_matrix_shape_to_clean(cleanM, M, wipe, Nx, Ny, Nz):
+    """Takes a matrix of shape (Nx, Ny, Nz) or (Nx, Ny, Nz, 3) and returns a
+    matrix of size (Nx+wipe, Ny+wipe, Nz+wipe) or
+    (Nx+wipe, Ny+wipe, Nz+wipe, 3)"""
+
+    assert cleanM.shape[0:2] == M.shape[0:2], "Internal error"
+
+    if len(cleanM.shape) == 3:
+        cleanM_is_scalar = True
+        cleanM_is_vector = False
+
+    elif len(cleanM.shape) == 4:
+        cleanM_is_scalar = False
+        cleanM_is_vector = True
+
+    else:
+        raise NotImplementedError("""Can only deal with scalar and vectors\
+ (in 3d positional matrix)""")
+
+    if cleanM_is_scalar:
+        cleanM_large = Numeric.zeros((Nx+2*wipe, Ny+2*wipe, Nz+2*wipe), 'd')
+    if cleanM_is_vector:
+        cleanM_large = Numeric.zeros((Nx+2*wipe, Ny+2*wipe, Nz+2*wipe, 3), 'd')
+
+    return cleanM_large
+
+
+def clean_surfaces(cleanM, M, wipe=0, eps=1e-3, zerovalue=0.0):
     """sets all values in obs to zero value for which abs(M)<eps. If wipe > 0,
        then all positions up to 'wipe' indices away from the M<eps entry are
        set to zerovalue as well.
@@ -113,31 +140,14 @@ def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
     This process is slow as it is using for-loops.
     """
 
-    assert obs.shape[0:2] == M.shape[0:2], "Internal error"
-
     Nx, Ny, Nz, dummy = M.shape
 
-    if len(obs.shape) == 3:
-        obs_is_scalar = True
-        obs_is_vector = False
-
-    elif len(obs.shape) == 4:
-        obs_is_scalar = False
-        obs_is_vector = True
-
-    else:
-        raise NotImplementedError("""Can only deal with scalar and vectors\
- (in 3d positional matrix)""")
-
-    if obs_is_scalar:
-        big_obs = Numeric.zeros((Nx+2*wipe, Ny+2*wipe, Nz+2*wipe), 'd')
-    if obs_is_vector:
-        big_obs = Numeric.zeros((Nx+2*wipe, Ny+2*wipe, Nz+2*wipe, 3), 'd')
-
-    offset = wipe
+    cleanM_large = convert_matrix_shape_to_clean(cleanM, M, wipe, Nx, Ny, Nz)
 
     # copy input values in here
-    big_obs[wipe:Nx+wipe, wipe:Ny+wipe, wipe:Nz+wipe] = obs[:, :, :]
+    cleanM_large[wipe:Nx+wipe, wipe:Ny+wipe, wipe:Nz+wipe] = cleanM[:, :, :]
+
+    offset = wipe
 
     for i in range(Nx):
         for j in range(Ny):
@@ -145,13 +155,13 @@ def clean_surfaces(obs, M, wipe=0, eps=1e-3, zerovalue=0.0):
                 if sum(M[i, j, k]**2) < eps**2:
                     # wipe out matrix entries with indicies +- wipe around...
                     # ...[i,j,k]
-                    big_obs[i-wipe+offset:i+wipe+1+offset,
-                            j-wipe+offset:j+wipe+1+offset,
-                            k-wipe+offset:k+wipe+1+offset] = zerovalue
+                    cleanM_large[i-wipe+offset:i+wipe+1+offset,
+                                 j-wipe+offset:j+wipe+1+offset,
+                                 k-wipe+offset:k+wipe+1+offset] = zerovalue
 
-    obs = big_obs[wipe:Nx+wipe, wipe:Ny+wipe, wipe:Nz+wipe]
+    cleanM = cleanM_large[wipe:Nx+wipe, wipe:Ny+wipe, wipe:Nz+wipe]
 
-    return obs
+    return cleanM
 
 
 def divergence_and_curl(vf, surfaceEffects, ovf_run):
@@ -162,7 +172,7 @@ Python. (fangohr 31/03/2004 00:25)
 Input data is:
     vf             : the VectorField (as created by omfread)
     surfaceEffects : a boolean
-    ovf_run        : dictionarry with keyword-value pairs from ovf file header.
+    ovf_run        : dictionary with keyword-value pairs from ovf file header.
     """
     dimensions = (int(ovf_run["xnodes:"]),
                   int(ovf_run["ynodes:"]),
