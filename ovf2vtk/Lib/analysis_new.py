@@ -69,16 +69,6 @@ def convert_between_fortran_and_C(a):
     return Numeric.swapaxes(a, 0, 2)
 
 
-def fortranindex(i, j, k, Nx, Ny, Nz):
-    """x changes fastest"""
-    return i+j*Nx+k*Nx*Ny
-
-
-def Cindex(i, j, k, Nx, Ny, Nz):
-    """z changes fastest """
-    return i*Nz*Ny+j*Nz+k
-
-
 def components(d):
     return (d[:, 0], d[:, 1], d[:, 2])
 
