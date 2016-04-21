@@ -61,15 +61,11 @@ def convert_fortran_3dmatrix_to_flat_vector(M):
     return Numeric.resize(M, (N/3, 3))
 
 
-def convert_fortran_to_C(a):
+def convert_between_fortran_and_C(a):
     """assuming Fortran data is stored as M[Nz,Ny,Nx,:,...:] and
     C data as M[Nx,Ny,Nz,:,,...,:] then this function converts from
     one to the other. (fangohr 31/03/2004 23:06)"""
     return Numeric.swapaxes(a, 0, 2)
-
-
-def convert_C_to_fortran(a):
-    return convert_fortran_to_C(a)
 
 
 def fortranindex(i, j, k, Nx, Ny, Nz):
