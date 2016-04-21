@@ -1,5 +1,7 @@
+import os
+
 import sys
-sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
+sys.path.append('..')
 
 import subprocess
 
@@ -20,25 +22,25 @@ keys = ['-V', '--version', '-v', '--verbose', '-h', '--help',
         '--add divrot', '--add Ms', '--add all', '-a xy', '-a yz', '-a xz',
         '-a Mx', '-a My', '-a Mz', '-a divrot', '-a Ms', '-a all']
 
-infiles = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
-           'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
-           'C:\Users\Harry\Documents\Examples\stdprob3v-reg.omf',
-           'C:\Users\Harry\Documents\Examples\stdproba.omf',
-           'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
-           'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf',
-           'C:\Users\Harry\Documents\Examples\smallDataText.omf',
-           'C:\Users\Harry\Documents\Examples\plateDataText.omf',
-           'C:\Users\Harry\Documents\Examples\spiralDataText.omf']
+infiles = [os.path.join('..', 'Examples', 'cantedvortex.omf'),
+           os.path.join('..', 'Examples', 'ellipsoidwrap.omf'),
+           os.path.join('..', 'Examples', 'stdprob3v-reg.omf'),
+           os.path.join('..', 'Examples', 'stdproba.omf'),
+           os.path.join('..', 'Examples', 'h2hleftedge.ohf'),
+           os.path.join('..', 'Examples', 'yoyoleftedge.ohf'),
+           os.path.join('..', 'Examples', 'smallDataText.omf'),
+           os.path.join('..', 'Examples', 'plateDataText.omf'),
+           os.path.join('..', 'Examples', 'spiralDataText.omf')]
 
-outfiles = ['C:\Users\Harry\Documents\Examples\cantedvortex.vtk',
-            'C:\Users\Harry\Documents\Examples\ellipsoidwrap.vtk',
-            'C:\Users\Harry\Documents\Examples\h2hleftedge.vtk',
-            'C:\Users\Harry\Documents\Examples\yoyoleftedge.vtk',
-            'C:\Users\Harry\Documents\Examples\stdprob3v-reg.vtk',
-            'C:\Users\Harry\Documents\Examples\stdproba.vtk',
-            'C:\Users\Harry\Documents\Examples\smallDataText.vtk',
-            'C:\Users\Harry\Documents\Examples\plateDataText.vtk',
-            'C:\Users\Harry\Documents\Examples\spiralDataText.vtk']
+outfiles = [os.path.join('..', 'Examples', 'cantedvortex.vtk'),
+            os.path.join('..', 'Examples', 'ellipsoidwrap.vtk'),
+            os.path.join('..', 'Examples', 'h2hleftedge.vtk'),
+            os.path.join('..', 'Examples', 'yoyoleftedge.vtk'),
+            os.path.join('..', 'Examples', 'stdprob3v-reg.vtk'),
+            os.path.join('..', 'Examples', 'stdproba.vtk'),
+            os.path.join('..', 'Examples', 'smallDataText.vtk'),
+            os.path.join('..', 'Examples', 'plateDataText.vtk'),
+            os.path.join('..', 'Examples', 'spiralDataText.vtk')]
 
 # product of Nx,Ny,Nz for each corresponding infile
 cells = [32768, 768, 3375, 5000, 25600, 6000, 15, 6, 13]
@@ -451,24 +453,24 @@ VtkData.__init__.skipping:
 
 
 def test_winovf2vtk_data():
-    """test that the data wihtin the vtk file is as expected for differing
+    """test that the data within the vtk file is as expected for differing
     datascales, posscales, surface-effects, in-plane angles, magnitudes etc."""
     # one binary4, one binary8, one ascii
-    files = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
-             'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
-             'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf',
-             'C:\Users\Harry\Documents\Examples\smallDataText.omf',
-             'C:\Users\Harry\Documents\Examples\plateDataText.omf']
-    vtk_files = ['C:\Users\Harry\Documents\Examples\cantedvortex1.vtk',
-                 'C:\Users\Harry\Documents\Examples\ellipsoidwrap1.vtk',
-                 'C:\Users\Harry\Documents\Examples\yoyoleftedge1.vtk',
-                 'C:\Users\Harry\Documents\Examples\smallDataText1.vtk',
-                 'C:\Users\Harry\Documents\Examples\plateDataText1.vtk']
-    orgnl_vtk = ['C:\Users\Harry\Documents\Examples\cantedvortex_orgnl.vtk',
-                 'C:\Users\Harry\Documents\Examples\ellipsoidwrap_orgnl.vtk',
-                 'C:\Users\Harry\Documents\Examples\yoyoleftedge_orgnl.vtk',
-                 'C:\Users\Harry\Documents\Examples\smallDataText_orgnl.vtk',
-                 'C:\Users\Harry\Documents\Examples\plateDataText_orgnl.vtk']
+    files = [os.path.join('..', 'Examples', 'cantedvortex.omf'),
+             os.path.join('..', 'Examples', 'ellipsoidwrap.omf'),
+             os.path.join('..', 'Examples', 'yoyoleftedge.ohf'),
+             os.path.join('..', 'Examples', 'smallDataText.omf'),
+             os.path.join('..', 'Examples', 'plateDataText.omf')]
+    vtk_files = [os.path.join('..', 'Examples', 'cantedvortex1.vtk'),
+                 os.path.join('..', 'Examples', 'ellipsoidwrap1.vtk'),
+                 os.path.join('..', 'Examples', 'yoyoleftedge1.vtk'),
+                 os.path.join('..', 'Examples', 'smallDataText1.vtk'),
+                 os.path.join('..', 'Examples', 'plateDataText1.vtk')]
+    orgnl_vtk = [os.path.join('..', 'Examples', 'cantedvortex_orgnl.vtk'),
+                 os.path.join('..', 'Examples', 'ellipsoidwrap_orgnl.vtk'),
+                 os.path.join('..', 'Examples', 'yoyoleftedge_orgnl.vtk'),
+                 os.path.join('..', 'Examples', 'smallDataText_orgnl.vtk'),
+                 os.path.join('..', 'Examples', 'plateDataText_orgnl.vtk')]
     cmds = [' --datascale=0 --posscale=0 --add all',
             ' --datascale=1 --posscale=1 -a Ms -a xy -a xz -a divrot',
             ' --datascale=-1.3 --posscale=5 --surface-effects -a Mx -a xy',

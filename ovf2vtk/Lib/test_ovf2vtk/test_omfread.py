@@ -1,5 +1,7 @@
+import os
+
 import sys
-sys.path.append('C:\Users\Harry\Documents\GitHub\ovf2vtk\ovf2vtk\Lib')
+sys.path.append('..')
 
 import numpy as np
 
@@ -28,15 +30,15 @@ keywords = ["Title:",
             "Begin: Segme"]
 
 # list of files that are either binary or ascii format
-filenames = ['C:\Users\Harry\Documents\Examples\cantedvortex.omf',
-             'C:\Users\Harry\Documents\Examples\ellipsoidwrap.omf',
-             'C:\Users\Harry\Documents\Examples\h2hleftedge.ohf',
-             'C:\Users\Harry\Documents\Examples\yoyoleftedge.ohf',
-             'C:\Users\Harry\Documents\Examples\stdprob3v-reg.omf',
-             'C:\Users\Harry\Documents\Examples\stdproba.omf',
-             'C:\Users\Harry\Documents\Examples\smallDataText.omf',
-             'C:\Users\Harry\Documents\Examples\plateDataText.omf',
-             'C:\Users\Harry\Documents\Examples\spiralDataText.omf']
+filenames = [os.path.join('..', 'Examples', 'cantedvortex.omf'),
+             os.path.join('..', 'Examples', 'ellipsoidwrap.omf'),
+             os.path.join('..', 'Examples', 'h2hleftedge.ohf'),
+             os.path.join('..', 'Examples', 'yoyoleftedge.ohf'),
+             os.path.join('..', 'Examples', 'stdprob3v-reg.omf'),
+             os.path.join('..', 'Examples', 'stdproba.omf'),
+             os.path.join('..', 'Examples', 'smallDataText.omf'),
+             os.path.join('..', 'Examples', 'plateDataText.omf'),
+             os.path.join('..', 'Examples', 'spiralDataText.omf')]
 
 filenames_data_types = ['binary4', 'binary4', 'binary8', 'binary8',
                         'binary4', 'binary4', 'ascii', 'ascii', 'ascii']
@@ -56,18 +58,18 @@ ascii_nodes = filenames_nodes[6:]
 ascii_bytes = bytes[6:]
 
 # list of files that are completely read before encountering data.
-non_files = ['C:\Users\Harry\Documents\Examples\small.omf',
-             'C:\Users\Harry\Documents\Examples\plate.omf',
-             'C:\Users\Harry\Documents\Examples\spiral.omf']
+non_files = [os.path.join('..', 'Examples', 'small.omf'),
+             os.path.join('..', 'Examples', 'plate.omf'),
+             os.path.join('..', 'Examples', 'spiral.omf')]
 
 # lists giving bytes and lines values to corresponding file in 'non_files'
 non_bytes = [1205, 580, 804]
 non_lines = [47, 37, 44]
 
 # list of files whose data is read but is not ascii or binary format
-non_binary_ascii = ['C:\Users\Harry\Documents\Examples\smallData.omf',
-                    'C:\Users\Harry\Documents\Examples\plateData.omf',
-                    'C:\Users\Harry\Documents\Examples\spiralData.omf']
+non_binary_ascii = [os.path.join('..', 'Examples', 'smallData.omf'),
+                    os.path.join('..', 'Examples', 'plateData.omf'),
+                    os.path.join('..', 'Examples', 'spiralData.omf')]
 
 # possible verbose values
 verboses = [0, 1]
@@ -201,9 +203,9 @@ def test_read_structured_ascii_oommf_data():
     # These files instead have '# test'.
     # contain same data as equivalent files small/spiral/plate.omf
     # function should recognise incorrect format.
-    ascii_test_files = ['C:\Users\Harry\Documents\Examples\smalltest.omf',
-                        'C:\Users\Harry\Documents\Examples\platetest.omf',
-                        'C:\Users\Harry\Documents\Examples\spiraltest.omf']
+    ascii_test_files = [os.path.join('..', 'Examples', 'smalltest.omf'),
+                        os.path.join('..', 'Examples', 'platetest.omf'),
+                        os.path.join('..', 'Examples', 'spiraltest.omf')]
     test_bytes = bytes[6:]
     test_nodes = filenames_nodes[6:]
     for i in range(len(ascii_test_files)):
@@ -222,7 +224,7 @@ cowardly stopping here\n"""
 
     # test function detects if a vector has more or less than 3 components
     # use example file created
-    example_file = 'C:\Users\Harry\Documents\Examples\smalltest2.omf'
+    example_file = os.path.join('..', 'Examples', 'smalltest2.omf')
     result = StringIO()
     sys.stdout = result
     try:
@@ -236,12 +238,12 @@ datum = -0.89075911     0.01617681   \n"""
     # test if too much/too little data is detected and correct output is...
     # ...returned.
     # Files created that have too little/too much data
-    unexp_data = ['C:\Users\Harry\Documents\Examples\smallmuchdata.omf',
-                  'C:\Users\Harry\Documents\Examples\platemuchdata.omf',
-                  'C:\Users\Harry\Documents\Examples\spiralmuchdata.omf',
-                  'C:\Users\Harry\Documents\Examples\smalllittledata.omf',
-                  'C:\Users\Harry\Documents\Examples\platelittledata.omf',
-                  'C:\Users\Harry\Documents\Examples\spirallittledata.omf']
+    unexp_data = [os.path.join('..', 'Examples', 'smallmuchdata.omf'),
+                  os.path.join('..', 'Examples', 'platemuchdata.omf'),
+                  os.path.join('..', 'Examples', 'spiralmuchdata.omf'),
+                  os.path.join('..', 'Examples', 'smalllittledata.omf'),
+                  os.path.join('..', 'Examples', 'platelittledata.omf'),
+                  os.path.join('..', 'Examples', 'spirallittledata.omf')]
     unexp_bytes = bytes[6:] * 2
     unexp_nodes = filenames_nodes[6:] * 2
     for i in range(len(unexp_data)):
@@ -323,12 +325,12 @@ def test_read_structured_binary_oommf_data():
     # ...binary8 files. Uses edited versions of files from 'filenames'...
     # ...which have tags 7.27159209092e+31 and 4.91466545592e+252...
     # ...rather than 1234567.0 and 123456789012345.0 respectively.
-    b4_b8_files = ['C:\Users\Harry\Documents\Examples\cantedvortextest.omf',
-                   'C:\Users\Harry\Documents\Examples\ellipsoidwraptest.omf',
-                   'C:\Users\Harry\Documents\Examples\h2hleftedgetest.ohf',
-                   'C:\Users\Harry\Documents\Examples\yoyoleftedgetest.ohf',
-                   'C:\Users\Harry\Documents\Examples\stdprob3v-regtest.omf',
-                   'C:\Users\Harry\Documents\Examples\stdprobatest.omf']
+    b4_b8_files = [os.path.join('..', 'Examples', 'cantedvortextest.omf'),
+                   os.path.join('..', 'Examples', 'ellipsoidwraptest.omf'),
+                   os.path.join('..', 'Examples', 'h2hleftedgetest.ohf'),
+                   os.path.join('..', 'Examples', 'yoyoleftedgetest.ohf'),
+                   os.path.join('..', 'Examples', 'stdprob3v-regtest.omf'),
+                   os.path.join('..', 'Examples', 'stdprobatest.omf')]
     for i in range(len(b4_b8_files)):
         result = StringIO()
         sys.stdout = result
