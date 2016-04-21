@@ -138,7 +138,8 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
         if datum[0:16] == "# End: Data Text":
             break
         if datum[0] == "#":
-            print "I found a # in the first column. Complete row is", datum
+            print "I found a # in the first column. Complete row is {}"\
+                .format(datum)
             print "I only expected '# End: Data Text'."
             print "cowardly stopping here"
             raise Exception("FileFormatError, See above for more details")
@@ -147,9 +148,9 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
 
         vector = map(lambda a: float(a), vector_str)
         if len(vector) != 3:
-            print "vector_str=", vector_str
-            print "vector    =", vector
-            print "datum =", datum
+            print "vector_str= {}".format(vector_str)
+            print "vector    = {}".format(vector)
+            print "datum = {}".format(datum)
             raise Exception("Oops, vector_str shold have 3 entries")
 
         vectorfield.append(vector)
