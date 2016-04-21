@@ -38,6 +38,8 @@ keywords = ["Title:",
 
 
 def parse_for_keywords(keywords, line, dic={}):
+    """determines if a keyword is in a line and if so, manipulates it to
+    ensure correct format"""
     for x in keywords:
         if line[0:len(x)+2] == "# "+x:
             dic[x] = line[len(x)+2:]
