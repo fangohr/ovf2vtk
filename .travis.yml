@@ -8,6 +8,7 @@ python:
   - "3.5"
 before_install: cd ovf2vtk
 install: python setup.py -q install
+pip install PyVTK
 # command to run tests
 before_script: cd Lib/test_ovf2vtk
 script: nosetests
