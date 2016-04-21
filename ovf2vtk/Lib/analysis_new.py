@@ -165,10 +165,32 @@ def clean_surfaces(cleanM, M, wipe=0, eps=1e-3, zerovalue=0.0):
     return cleanM
 
 
-def central_differences():
+def central_differences(M, ovf_run):
     """reads the stepsizes of each component x,y,z from the ovf file being
     read, and uses this as well as the vectorfield data to calculate
     the central differences e.g. dMx/dx"""
+
+    # print "a, b, c" as a, b, c
+    dx = float(ovf_run["xstepsize:"])
+    dy = float(ovf_run["ystepsize:"])
+    dz = float(ovf_run["zstepsize:"])
+
+    # total magnitude of curl is irrelevant, re-scale dx, dy, dz to...
+    # ...avoid overflow:
+    scale = min(dx, dy, dz)
+    dx /= scale
+    dy /= scale
+    dz /= scale
+
+    # compute (central differences):
+    dMdx = Numeric.array(M[2:, :, :, :]-M[:-2, :, :, :])
+    dMxdx, dMydx, dMzdx = [dMdx[:, :, :, i]/dx for i in range(3)]
+
+    dMdy = Numeric.array(M[:, 2:, :, :]-M[:, :-2, :, :])
+    dMxdy, dMydy, dMzdy = [dMdy[:, :, :, i]/dx for i in range(3)]
+
+    dMdz = Numeric.array(M[:, :, 2:, :]-M[:, :, :-2, :])
+    dMxdz, dMydz, dMzdz = [dMdz[:, :, :, i]/dx for i in range(3)]
 
 
 def divergence_and_curl(vf, surfaceEffects, ovf_run):
