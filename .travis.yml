@@ -12,4 +12,4 @@ install:
  - pip install PyVTK
 # command to run tests
 before_script: cd Lib/test_ovf2vtk
-script: nosetests
+script: py.test
