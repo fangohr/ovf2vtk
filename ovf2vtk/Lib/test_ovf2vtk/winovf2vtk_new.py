@@ -238,6 +238,7 @@ def ovf2vtk_main():
         print "Will scale data down by {:f}".format(scale)
     else:
         scale = datascale
+    # normalise vectorfield by scale
     vf = Numeric.divide(vf, scale)
 
     datatitle = ovf_run["Title:"]+"/{:g}".format(scale)
