@@ -264,10 +264,20 @@ def ovf2vtk_main():
         yrange = abs(float(ovf_run["ymax:"]) - float(ovf_run["ymin:"]))
         zrange = abs(float(ovf_run["zmax:"]) - float(ovf_run["zmin:"]))
 
-        # find no. of x,y,z nodes
+        # define no. of x,y,z nodes
         xnodes = float(ovf_run["xnodes:"])
         ynodes = float(ovf_run["ynodes:"])
         znodes = float(ovf_run["znodes:"])
+
+        # define stepsizes
+        xstepsize = float(ovf_run["xstepsize:"])
+        ystepsize = float(ovf_run["ystepsize:"])
+        zstepsize = float(ovf_run["zstepsize:"])
+
+        # define bases
+        xbase = float(ovf_run["xbase:"])
+        ybase = float(ovf_run["ybase:"])
+        zbase = float(ovf_run["zbase:"])
 
         # find dx, dy, dz in SI units:
         dx = xrange / xnodes
@@ -276,26 +286,23 @@ def ovf2vtk_main():
 
         # find scale factor that OOMMF uses for xstepsize and xnodes,
         # etc. (Don't know how to get this directly.)
-        xscale = dx * float(ovf_run["xstepsize:"])
-        yscale = dy * float(ovf_run["ystepsize:"])
-        zscale = dz * float(ovf_run["zstepsize:"])
+        xscale = dx * xstepsize
+        yscale = dy * ystepsize
+        zscale = dz * zstepsize
 
         # extract x, y and z positions from ovf file.
         xbasevector = [None] * dimensions[0]  # create empty vector
         for i in range(dimensions[0]):
             # data is stored for 'centre' of each cuboid, therefore (i+0.5)
-            xbasevector[i] = float(ovf_run["xbase:"]) +\
-                (i+0.5) * float(ovf_run["xstepsize:"])*xscale
+            xbasevector[i] = xbase + (i+0.5) * xstepsize * xscale
 
         ybasevector = [None] * dimensions[1]
         for i in range(dimensions[1]):
-            ybasevector[i] = float(ovf_run["ybase:"]) + (i+0.5) * \
-                float(ovf_run["ystepsize:"]) * yscale
+            ybasevector[i] = ybase + (i+0.5) * ystepsize * yscale
 
         zbasevector = [None] * dimensions[2]
         for i in range(dimensions[2]):
-            zbasevector[i] = float(ovf_run["zbase:"]) + (i+0.5) *\
-                float(ovf_run["zstepsize:"]) * zscale
+            zbasevector[i] = zbase + (i+0.5) * zstepsize * zscale
 
         # finally, convert list to numerix (need to have this consistent)
         xbasevector = Numeric.array(xbasevector)/float(posscale)

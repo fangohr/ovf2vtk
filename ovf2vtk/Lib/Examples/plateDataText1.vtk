@@ -1,5 +1,5 @@
 # vtk DataFile Version 2.0
-Output from ovf2vtk (version 0.1.23), Fri Apr 22 16:10:48 2016, infile=..\Examples\plateDataText.omf. Calling command line was 'winovf2vtk_new.py -a xz -a Ms --datascale=1 -a divrot -t ..\Examples\plateDataText.omf ..\Examples\plateDataText1.vtk' executed
+Output from ovf2vtk (version 0.1.23), Fri Apr 22 16:36:38 2016, infile=..\Examples\plateDataText.omf. Calling command line was 'winovf2vtk_new.py -a xz -a Ms --datascale=1 -a divrot -t ..\Examples\plateDataText.omf ..\Examples\plateDataText1.vtk' executed
 ASCII
 DATASET RECTILINEAR_GRID
 DIMENSIONS 3 2 1
