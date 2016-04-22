@@ -10,7 +10,7 @@ OPTIONS:
 
         [--add xy ]
             adding a scalar component to the outfile showing the
-            inplane angle of the magnetisation for the xy -plane.
+            inplane angle of the magnetisation for the xy-plane.
         [--add yz ]
             as --add xy but for the yz-plane.
         [--add xz ]
@@ -22,7 +22,7 @@ OPTIONS:
         [--add Mz ]
            adds scalar fields containing the z-component of M to the file
         [--add divrot]
-           * adds a vector field containing the DIVergence of the magnetisation
+           * adds a vector field containing the Divergence of the magnetisation
            * adds a vector field containing the vorticity (=curl=ROT) of the
              magnetisation
            * adds also components of this vorticity field as scalars
