@@ -157,7 +157,7 @@ def ovf2vtk_main():
     datascale = 0.0  # 0.0 has special meaning -- see help text
     posscale = 0.0   # 0.0 has special meaning -- see help text
 
-    # provide data from getopt.getopt (args) in form of hash table
+    # provide data from getopt.getopt (args) in form of dictionary
     options = {}
     for item in args:
         if item[1] == '':
@@ -166,6 +166,7 @@ def ovf2vtk_main():
             options[item[0]] = item[1]
     keys = options.keys()
 
+    # set system responses to arguments given
     if "--surface-effects" in keys:
         surfaceEffects = True
 
@@ -210,12 +211,12 @@ def ovf2vtk_main():
     print banner_doc
 
     if debug:
-        print "infile  = ", infile
-        print "outfile = ", outfile
-        print "args= ", args
-        print "options = ", options
-        print "datascale=", datascale
-        print "posscale=", posscale
+        print "infile =", infile
+        print "outfile =", outfile
+        print "args =", args
+        print "options =", options
+        print "datascale =", datascale
+        print "posscale =", posscale
 
     # read data from infile
     vf = read_structured_omf_file(infile, debug)

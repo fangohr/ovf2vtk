@@ -66,8 +66,8 @@ bytes = [874, 850, 797, 518, 874, 754, 488, 505, 468]
 # ********************* Command line key print statements ******************* #
 V_version_str = "This is version {}.".format(__version__.__version__)
 
-v_verbose_str = ["running in verbose mode", "infile  =", "outfile =",
-                 "args=", "options =", "datascale= 0.0", "posscale= 0.0",
+v_verbose_str = ["running in verbose mode", "infile =", "outfile =",
+                 "args =", "options =", "datascale = 0.0", "posscale = 0.0",
                  "Number of cells", "Expect floats of length",
                  "Expect to find data in file",
                  "verification_tag is okay (=> reading byte order correctly)"]
@@ -346,20 +346,20 @@ def test_winovf2vtk_example_cmd_lines():
         # test several keys, ascii infile, ascii outfile
         elif i == 1:
             args = [('--datascale', '0.5'), ('--posscale', '1.0'),
-                         ('--add', 'Ms'), ('-a', 'divrot'), ('--add', 'yz'),
-                         ('-v', '')]
+                    ('--add', 'Ms'), ('-a', 'divrot'), ('--add', 'yz'),
+                    ('-v', '')]
             options = {'--posscale': '1.0', '--add': 'yz', '-v': None,
                        '-a': 'divrot', '--datascale': '0.5'}
             exp = "running in verbose mode\n" + 70 * "-" + \
                 "\novf2vtk --- converting ovf files to vtk files" + \
                 "\n" + """Hans Fangohr, Richard Boardman, University of \
 Southampton\n""" + 70 * "-" + "\n" + \
-                """infile  =  {}
-outfile =  {}
-args=  {}
-options =  {}
-datascale= 0.5
-posscale= 1.0
+                """infile = {}
+outfile = {}
+args = {}
+options = {}
+datascale = 0.5
+posscale = 1.0
 Number of cells (Nx=5,Ny=3,Nz=1)
 Hint: Reading ASCII-OOMMF file is slow (that could be changed) \
 and the files are large. Why not save data as binary?
@@ -386,20 +386,20 @@ VtkData.__init__.skipping:
         # test several keys + binary outfile and infile with different name
         elif i == 3:
             args = [('--add', 'all'), ('--verbose', ''), ('--ascii', ''),
-                         ('--surface-effects', '')]
+                    ('--surface-effects', '')]
             options = {'--ascii': None, '--add': 'all',
                        '--surface-effects': None, '--verbose': None}
             exp = "running in verbose mode\n" + 70 * "-" + \
                 "\novf2vtk --- converting ovf files to vtk files" + \
                 "\n" + """Hans Fangohr, Richard Boardman, University of \
 Southampton\n""" + 70 * "-" + "\n" + \
-                "infile  =  {}".format(infiles[1]) + "\n" + \
-                """outfile =  """ \
+                "infile = {}".format(infiles[1]) + "\n" + \
+                """outfile = """ \
                 + os.path.join('..', 'Examples', 'example.vtk') + "\n" + \
-                """args=  {}
-options =  {}
-datascale= 0.0
-posscale= 0.0
+                """args = {}
+options = {}
+datascale = 0.0
+posscale = 0.0
 Number of cells (Nx=24,Ny=8,Nz=4)
 Expect floats of length 4 bytes.
 Expect to find data in file {} at position 850.
