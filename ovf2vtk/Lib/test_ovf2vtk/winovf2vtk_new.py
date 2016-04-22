@@ -141,14 +141,16 @@ def ovf2vtk_main():
         "Hans Fangohr, Richard Boardman, University of Southampton\n"""\
         + 70 * "-"
 
-    # extract command line arguments
-    additions, params = getopt.getopt(sys.argv[1:], 'Vvhbta:',
-                                      ["verbose", "help", "add=", "binary",
-                                       "text", "ascii", "surface-effects",
-                                       "version", "datascale=", "posscale="])
-
+    # extracts command line arguments
+    # if any of the arguments given appear in the command line, a list of...
+    # of these args and and their corresponding values (if any) -> ('args')
+    # any arguments that dont dont match the given ones are retuned in a...
+    # ...separate list -> ('params')
     # Note (fangohr 30/12/2006 20:52): the use of getopt is historic,
-    # and so is the use of the name 'additions'.
+    args, params = getopt.getopt(sys.argv[1:], 'Vvhbta:',
+                                 ["verbose", "help", "add=", "binary",
+                                  "text", "ascii", "surface-effects",
+                                  "version", "datascale=", "posscale="])
 
     # default value
     surfaceEffects = False
@@ -157,7 +159,7 @@ def ovf2vtk_main():
 
     # provide data from getopt.getopt (additions) in form of hash table
     options = {}
-    for item in additions:
+    for item in args:
         if item[1] == '':
             options[item[0]] = None
         else:
@@ -210,7 +212,7 @@ def ovf2vtk_main():
     if debug:
         print "infile  = ", infile
         print "outfile = ", outfile
-        print "additions= ", additions
+        print "args= ", args
         print "options = ", options
         print "datascale=", datascale
         print "posscale=", posscale
@@ -335,7 +337,7 @@ def ovf2vtk_main():
     #
 
     # check whether we should do all
-    keys = map(lambda x: x[1], additions)
+    keys = map(lambda x: x[1], args)
     if "all" in keys:
         additions = []
         for add in add_features:
