@@ -112,16 +112,6 @@ except ImportError:
 you can use the older version 0.1.17 of ovf2vtk."
     raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
-
-# try:
-#    import Numeric
-# except ImportError:
-#    print "This program needs Numpy. Please download and install.
-#    (http://sourceforge.net/projects/numpy)."
-#    raise ImportError,"Couldn't import Numpy -- cannot proceed."
-#
-
-
 # import ovf2vtk
 import ovf2vtk
 
