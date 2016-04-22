@@ -185,7 +185,7 @@ def test_winovf2vtk_no_keys_two_parameters():
     # test two parameters with no keys
     for i in range(len(infiles)):
         # actual result
-        command = ' winovf2vtk_new.py' +\
+        command = 'winovf2vtk_new.py' +\
             " {} {}".format(infiles[i], outfiles[i])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, shell=True)
