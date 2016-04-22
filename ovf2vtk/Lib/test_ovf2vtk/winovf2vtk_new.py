@@ -342,21 +342,20 @@ def ovf2vtk_main():
     # define inputs
     RecGrid = pyvtk.RectilinearGrid(xbasevector.tolist(), ybasevector.tolist(),
                                     zbasevector.tolist())
+
     PData = pyvtk.PointData(pyvtk.Vectors(vf.tolist(), datatitle))
 
     # define vtk file.
     vtk = pyvtk.VtkData(RecGrid, vtkfilecomment, PData, format=vtk_data)
 
-    #
     # now compute all the additional data such as angles, etc
-    #
 
     # check whether we should do all
-    keys = map(lambda x: x[1], args)
-    if "all" in keys:
+    key_values = map(lambda x: x[1], args)
+    if "all" in key_values:
         args = []
-        for add in add_features:
-            args.append(("--add", add))
+        for addition in add_features:
+            args.append(("--add", addition))
 
     # when ovf2vtk was re-written using Numeric, I had to group
     # certain operations to make them fast. Now some switches are
