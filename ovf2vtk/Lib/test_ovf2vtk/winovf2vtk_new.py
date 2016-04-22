@@ -259,14 +259,20 @@ def ovf2vtk_main():
     # scale data by given factor
     if posscale != 0.0:
 
-        # find dx, dy, dz in SI units:
-        Lx = abs(float(ovf_run["xmax:"])-float(ovf_run["xmin:"]))
-        Ly = abs(float(ovf_run["ymax:"])-float(ovf_run["ymin:"]))
-        Lz = abs(float(ovf_run["zmax:"])-float(ovf_run["zmin:"]))
+        # find range between max and min values of components
+        xrange = abs(float(ovf_run["xmax:"]) - float(ovf_run["xmin:"]))
+        yrange = abs(float(ovf_run["ymax:"]) - float(ovf_run["ymin:"]))
+        zrange = abs(float(ovf_run["zmax:"]) - float(ovf_run["zmin:"]))
 
-        dx = Lx / float(ovf_run["xnodes:"])
-        dy = Ly / float(ovf_run["ynodes:"])
-        dz = Lz / float(ovf_run["znodes:"])
+        # find no. of x,y,z nodes
+        xnodes = float(ovf_run["xnodes:"])
+        ynodes = float(ovf_run["ynodes:"])
+        znodes = float(ovf_run["znodes:"])
+
+        # find dx, dy, dz in SI units:
+        dx = xrange / xnodes
+        dy = yrange / ynodes
+        dz = zrange / znodes
 
         # find scale factor that OOMMF uses for xstepsize and xnodes,
         # etc. (Don't know how to get this directly.)
