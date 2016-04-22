@@ -339,12 +339,13 @@ def ovf2vtk_main():
     vtkfilecomment += "Calling command line was '{:s}' executed in '{:s}'"\
         .format(" ".join(sys.argv), os.getcwd())
 
-    vtk = pyvtk.VtkData(pyvtk.RectilinearGrid(xbasevector.tolist(),
-                                              ybasevector.tolist(),
-                                              zbasevector.tolist()),
-                        vtkfilecomment,
-                        pyvtk.PointData(pyvtk.Vectors(vf.tolist(), datatitle)),
-                        format=vtk_data)
+    # define inputs
+    RecGrid = pyvtk.RectilinearGrid(xbasevector.tolist(), ybasevector.tolist(),
+                                    zbasevector.tolist())
+    PData = pyvtk.PointData(pyvtk.Vectors(vf.tolist(), datatitle))
+
+    # define vtk file.
+    vtk = pyvtk.VtkData(RecGrid, vtkfilecomment, PData, format=vtk_data)
 
     #
     # now compute all the additional data such as angles, etc
