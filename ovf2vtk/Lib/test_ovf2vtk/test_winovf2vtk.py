@@ -422,7 +422,7 @@ finished conversion (execution time""".format(outfiles[7])
 
             exp = exp.splitlines()
             # can't predict execution time
-            new_doc[-3] = new_doc[-3][:35]
+            new_doc[-1] = new_doc[-1][:35]
 
         assert exp == new_doc
 
