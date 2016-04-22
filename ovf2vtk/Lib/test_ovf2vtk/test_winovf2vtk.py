@@ -81,9 +81,6 @@ banner_str = [70 * "-", "ovf2vtk --- converting ovf files to vtk files",
 in_out_str = ["cells filled", "Will scale data down by", "saving file",
               "finished conversion (execution time"]
 
-vtk_str = ["VtkData.__init__.skipping:", "striping header string to a length \
-=255"]
-
 add_str = "working on"
 
 # *********************************** Tests *********************************
@@ -204,16 +201,12 @@ def test_winovf2vtk_no_keys_two_parameters():
                 assert item in str_doc
             for item in in_out_str:
                 assert item in str_doc
-            for item in vtk_str:
-                assert item in str_doc
 
         # ascii files
         elif i > 5:
             for item in banner_str:
                 assert item in str_doc
             for item in in_out_str:
-                assert item in str_doc
-            for item in vtk_str:
                 assert item in str_doc
             assert ascii_str in str_doc
 
@@ -250,8 +243,6 @@ def test_winovf2vtk_keys_two_parameters():
                     assert item in str_doc
                 for item in in_out_str:
                     assert item in str_doc
-                for item in vtk_str:
-                    assert item in str_doc
 
             # e.g. '-v asciifile.omf asciifile.vtk'
             elif 1 < i < 4 and j > 6:
@@ -261,8 +252,6 @@ def test_winovf2vtk_keys_two_parameters():
                     assert item in str_doc
                 assert ascii_str in str_doc
                 for item in in_out_str:
-                    assert item in str_doc
-                for item in vtk_str:
                     assert item in str_doc
 
             # e.g. --h infile outfile
@@ -277,16 +266,12 @@ def test_winovf2vtk_keys_two_parameters():
                     assert item in str_doc
                 for item in in_out_str:
                     assert item in str_doc
-                for item in vtk_str:
-                    assert item in str_doc
 
             # e.g. datascale/posscale/surface-effects/b/t asciiin asciiout
             elif 5 < i < 14 and j > 6:
                 for item in banner_str:
                     assert item in str_doc
                 for item in in_out_str:
-                    assert item in str_doc
-                for item in vtk_str:
                     assert item in str_doc
                 assert ascii_str in str_doc
 
@@ -296,8 +281,6 @@ def test_winovf2vtk_keys_two_parameters():
                     assert item in str_doc
                 for item in in_out_str:
                     assert item in str_doc
-                for item in vtk_str:
-                    assert item in str_doc
                 assert add_str in str_doc
 
             # e.g. -a Ms asciiinfile.omf asciioutfile.vtk
@@ -305,8 +288,6 @@ def test_winovf2vtk_keys_two_parameters():
                 for item in banner_str:
                     assert item in str_doc
                 for item in in_out_str:
-                    assert item in str_doc
-                for item in vtk_str:
                     assert item in str_doc
                 assert add_str in str_doc
                 assert ascii_str in str_doc
@@ -370,9 +351,8 @@ working on ('-a', 'divrot')
 working on ('--add', 'yz')
 saving file ({})
 finished conversion (execution time
-\tstriping header string to a length =255""".format(infiles[6], outfiles[6],
-                                                    args, options,
-                                                    outfiles[6])
+""".format(infiles[6], outfiles[6], args, options, outfiles[6])
+
             exp = exp.splitlines()
             # can't predict execution time
             new_doc[-3] = new_doc[-3][:35]
@@ -418,7 +398,7 @@ working on ('--add', 'divrot')""".format(args, options, infiles[1]) +\
                 """saving file (""" \
                 + os.path.join('..', 'Examples', 'example.vtk') + ")\n" + \
                 """finished conversion (execution time
-\tstriping header string to a length =255"""
+"""
 
             exp = exp.splitlines()
             # can't predict execution time
@@ -438,8 +418,8 @@ Will scale data down by 21.954498
 working on ('-a', 'Mx')
 working on ('--add', 'My')
 saving file ({})
-finished conversion (execution time
-\tstriping header string to a length =255""".format(outfiles[7])
+finished conversion (execution time""".format(outfiles[7])
+
             exp = exp.splitlines()
             # can't predict execution time
             new_doc[-3] = new_doc[-3][:35]
