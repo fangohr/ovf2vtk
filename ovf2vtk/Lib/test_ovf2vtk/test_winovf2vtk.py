@@ -67,7 +67,7 @@ bytes = [874, 850, 797, 518, 874, 754, 488, 505, 468]
 V_version_str = "This is version {}.".format(__version__.__version__)
 
 v_verbose_str = ["running in verbose mode", "infile  =", "outfile =",
-                 "additions=", "options =", "datascale= 0.0", "posscale= 0.0",
+                 "args=", "options =", "datascale= 0.0", "posscale= 0.0",
                  "Number of cells", "Expect floats of length",
                  "Expect to find data in file",
                  "verification_tag is okay (=> reading byte order correctly)"]
@@ -345,7 +345,7 @@ def test_winovf2vtk_example_cmd_lines():
 
         # test several keys, ascii infile, ascii outfile
         elif i == 1:
-            additions = [('--datascale', '0.5'), ('--posscale', '1.0'),
+            args = [('--datascale', '0.5'), ('--posscale', '1.0'),
                          ('--add', 'Ms'), ('-a', 'divrot'), ('--add', 'yz'),
                          ('-v', '')]
             options = {'--posscale': '1.0', '--add': 'yz', '-v': None,
@@ -356,7 +356,7 @@ def test_winovf2vtk_example_cmd_lines():
 Southampton\n""" + 70 * "-" + "\n" + \
                 """infile  =  {}
 outfile =  {}
-additions=  {}
+args=  {}
 options =  {}
 datascale= 0.5
 posscale= 1.0
@@ -372,7 +372,7 @@ saving file ({})
 finished conversion (execution time
 VtkData.__init__.skipping:
 \tstriping header string to a length =255""".format(infiles[6], outfiles[6],
-                                                    additions, options,
+                                                    args, options,
                                                     outfiles[6])
             exp = exp.splitlines()
             # can't predict execution time
@@ -385,7 +385,7 @@ VtkData.__init__.skipping:
 
         # test several keys + binary outfile and infile with different name
         elif i == 3:
-            additions = [('--add', 'all'), ('--verbose', ''), ('--ascii', ''),
+            args = [('--add', 'all'), ('--verbose', ''), ('--ascii', ''),
                          ('--surface-effects', '')]
             options = {'--ascii': None, '--add': 'all',
                        '--surface-effects': None, '--verbose': None}
@@ -396,7 +396,7 @@ Southampton\n""" + 70 * "-" + "\n" + \
                 "infile  =  {}".format(infiles[1]) + "\n" + \
                 """outfile =  """ \
                 + os.path.join('..', 'Examples', 'example.vtk') + "\n" + \
-                """additions=  {}
+                """args=  {}
 options =  {}
 datascale= 0.0
 posscale= 0.0
@@ -414,7 +414,7 @@ working on ('--add', 'Mz')
 working on ('--add', 'xy')
 working on ('--add', 'yz')
 working on ('--add', 'xz')
-working on ('--add', 'divrot')""".format(additions, options, infiles[1]) +\
+working on ('--add', 'divrot')""".format(args, options, infiles[1]) +\
                 "\n" + \
                 """saving file (""" \
                 + os.path.join('..', 'Examples', 'example.vtk') + ")\n" + \

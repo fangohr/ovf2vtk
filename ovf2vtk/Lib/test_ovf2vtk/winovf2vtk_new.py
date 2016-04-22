@@ -157,7 +157,7 @@ def ovf2vtk_main():
     datascale = 0.0  # 0.0 has special meaning -- see help text
     posscale = 0.0   # 0.0 has special meaning -- see help text
 
-    # provide data from getopt.getopt (additions) in form of hash table
+    # provide data from getopt.getopt (args) in form of hash table
     options = {}
     for item in args:
         if item[1] == '':
@@ -339,9 +339,9 @@ def ovf2vtk_main():
     # check whether we should do all
     keys = map(lambda x: x[1], args)
     if "all" in keys:
-        additions = []
+        args = []
         for add in add_features:
-            additions.append(("--add", add))
+            args.append(("--add", add))
 
     # when ovf2vtk was re-written using Numeric, I had to group
     # certain operations to make them fast. Now some switches are
@@ -352,7 +352,7 @@ def ovf2vtk_main():
     done_angles = 0
     done_comp = 0
 
-    for add in additions:
+    for add in args:
         if add[0] == "-a" or add[0] == "--add":
             print "working on", add
 
