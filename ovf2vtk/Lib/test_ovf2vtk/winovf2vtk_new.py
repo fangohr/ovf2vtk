@@ -304,15 +304,14 @@ def ovf2vtk_main():
         for i in range(dimensions[2]):
             zbasevector[i] = zbase + (i+0.5) * zstepsize * zscale
 
-        # finally, convert list to numerix (need to have this consistent)
+        # finally, convert list to numeric (need to have this consistent)
         xbasevector = Numeric.array(xbasevector)/float(posscale)
         ybasevector = Numeric.array(ybasevector)/float(posscale)
         zbasevector = Numeric.array(zbasevector)/float(posscale)
 
-    else:  # posscale == 0.0
-        #
+    else:
+        # posscale == 0.0
         # this generally looks better:
-        #
         xbasevector = Numeric.arange(dimensions[0])
         ybasevector = Numeric.arange(dimensions[1])
         zbasevector = Numeric.arange(dimensions[2])
@@ -326,6 +325,7 @@ def ovf2vtk_main():
         vtk_data = 'ascii'
         if debug:
             print "switching to ascii vtk-data"
+
     if '--binary' in keys or '-b' in keys:
         vtk_data = 'binary'
         if debug:
