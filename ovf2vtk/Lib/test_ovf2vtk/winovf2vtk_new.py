@@ -245,7 +245,6 @@ def ovf2vtk_main():
     #
     # need x, y and z vectors for vtk format
     #
-
     # taking actual spacings for dx, dy and dz results generally in
     # poor visualisation results (in particular for thin films, one
     # would like to have some magnification in z-direction).  Also:vtk
@@ -257,7 +256,8 @@ def ovf2vtk_main():
                   int(ovf_run["ynodes:"]),
                   int(ovf_run["znodes:"]))
 
-    if posscale != 0.0:  # scale data by given factor
+    # scale data by given factor
+    if posscale != 0.0:
 
         # find dx, dy, dz in SI units:
         Lx = abs(float(ovf_run["xmax:"])-float(ovf_run["xmin:"]))
