@@ -95,7 +95,7 @@ def test_winovf2vtk_no_inputs():
     useful code found at http://stackoverflow.com/questions/4760215/...
     running-shell-command-from-python-and-capturing-the-output"""
     # compute actual result
-    command = 'python.exe winovf2vtk_new.py'
+    command = 'winovf2vtk_new.py'
     p = subprocess.Popen(command, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT, shell=True)
     doc = p.stdout.readlines()
@@ -117,7 +117,7 @@ def test_winovf2vtk_keys_no_parameters():
     includes a key, but no files to convert."""
     for val in range(len(keys)):
         # compute actual result
-        command = 'python.exe winovf2vtk_new.py' + " {}".format(keys[val])
+        command = 'winovf2vtk_new.py' + " {}".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, shell=True)
         doc = p.stdout.readlines()
@@ -148,7 +148,7 @@ def test_winovf2vtk_keys_one_parameter():
     includes a key and one parameter but no files to convert."""
     for val in range(len(keys)):
         # compute actual result with one input file
-        command = 'python.exe winovf2vtk_new.py' + \
+        command = 'winovf2vtk_new.py' + \
             " {} cantedvortex.omf".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, shell=True)
@@ -185,7 +185,7 @@ def test_winovf2vtk_no_keys_two_parameters():
     # test two parameters with no keys
     for i in range(len(infiles)):
         # actual result
-        command = 'python.exe winovf2vtk_new.py' +\
+        command = ' winovf2vtk_new.py' +\
             " {} {}".format(infiles[i], outfiles[i])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, shell=True)
@@ -224,7 +224,7 @@ def test_winovf2vtk_keys_two_parameters():
     for i in range(len(keys)):
         for j in range(len(infiles)):
             # actual result
-            command = 'python.exe winovf2vtk_new.py' +\
+            command = 'winovf2vtk_new.py' +\
                 " {} {} {}".format(keys[i], infiles[j], outfiles[j])
             p = subprocess.Popen(command, stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT, shell=True)
@@ -316,16 +316,16 @@ def test_winovf2vtk_example_cmd_lines():
     """function that takes example cmd lines not tested by above tests, and
     asserts print statements containing ACTUAL VALUES are outputted."""
 
-    examples = "python.exe winovf2vtk_new.py -V --ascii {} {}"\
+    examples = "winovf2vtk_new.py -V --ascii {} {}"\
         .format(infiles[0], outfiles[0]),\
-        "python.exe winovf2vtk_new.py --datascale=0.5 --posscale 1.0 \
+        "winovf2vtk_new.py --datascale=0.5 --posscale 1.0 \
 --add Ms -a divrot --add yz -v {} {}".format(infiles[6], outfiles[6]),\
-        "python.exe winovf2vtk_new.py -h --binary {} {}"\
+        "winovf2vtk_new.py -h --binary {} {}"\
         .format(infiles[-1], outfiles[-1]),\
-        "python.exe winovf2vtk_new.py --add all --verbose --ascii \
+        "winovf2vtk_new.py --add all --verbose --ascii \
 --surface-effects {} {}"\
         .format(infiles[1], os.path.join('..', 'Examples', 'example.vtk')),\
-        "python.exe winovf2vtk_new.py -a Mx --add My -b \
+        "winovf2vtk_new.py -a Mx --add My -b \
 --datascale=0.0 --surface-effects {} {} Test".format(infiles[7], outfiles[7])
 
     for i in range(len(examples)):
@@ -475,7 +475,7 @@ def test_winovf2vtk_data():
             ' --posscale=10 --surface-effects -a all -b',
             ' -a xz -a Ms --datascale=1 -a divrot -t']
     for i in range(len(files)):
-            subprocess.Popen(("python.exe winovf2vtk_new.py" + cmds[i] + " " +
+            subprocess.Popen(("winovf2vtk_new.py" + cmds[i] + " " +
                              files[i] + " " + vtk_files[i]),
                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              shell=True)
