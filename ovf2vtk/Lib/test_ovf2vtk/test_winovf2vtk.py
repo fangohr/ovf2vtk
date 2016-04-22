@@ -370,7 +370,6 @@ working on ('-a', 'divrot')
 working on ('--add', 'yz')
 saving file ({})
 finished conversion (execution time
-VtkData.__init__.skipping:
 \tstriping header string to a length =255""".format(infiles[6], outfiles[6],
                                                     args, options,
                                                     outfiles[6])
@@ -419,7 +418,6 @@ working on ('--add', 'divrot')""".format(args, options, infiles[1]) +\
                 """saving file (""" \
                 + os.path.join('..', 'Examples', 'example.vtk') + ")\n" + \
                 """finished conversion (execution time
-VtkData.__init__.skipping:
 \tstriping header string to a length =255"""
 
             exp = exp.splitlines()
@@ -441,7 +439,6 @@ working on ('-a', 'Mx')
 working on ('--add', 'My')
 saving file ({})
 finished conversion (execution time
-VtkData.__init__.skipping:
 \tstriping header string to a length =255""".format(outfiles[7])
             exp = exp.splitlines()
             # can't predict execution time
