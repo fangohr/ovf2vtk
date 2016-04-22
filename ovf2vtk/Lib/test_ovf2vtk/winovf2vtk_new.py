@@ -380,22 +380,22 @@ def ovf2vtk_main():
                 (div, rot, rotx, roty, rotz, rotmag) = \
                     divergence_and_curl(vf, surfaceEffects, ovf_run)
                 # change order of observables for upcoming loop
-                obs = (rotx, roty, rotz, rotmag, rot, div)
+                observables = (rotx, roty, rotz, rotmag, rot, div)
 
                 comments = ["curl, x-comp", "curl, y-comp", "curl, z-comp",
                             "curl, magnitude", "curl", "divergence"]
 
                 # append data to vtk file
-                for i in range(len(obs)):
+                for obs, comment in zip(observables, comments):
                     # for rotx, roty, rotz, rotmag, div
-                    if i != 4:
-                        vtk.point_data.append(pyvtk.Scalars(obs[i].tolist(),
-                                                            comments[i],
+                    if comment != "curl":
+                        vtk.point_data.append(pyvtk.Scalars(obs.tolist(),
+                                                            comment,
                                                             lookup_table))
-                    # for curl
+                    # for rot
                     else:
-                        vtk.point_data.append(pyvtk.Vectors(obs[i].tolist(),
-                                                            comments[i]))
+                        vtk.point_data.append(pyvtk.Vectors(obs.tolist(),
+                                                            comment))
 
             # components
             elif arg[1] in ["Mx", "My", "Mz", "Ms"]:
