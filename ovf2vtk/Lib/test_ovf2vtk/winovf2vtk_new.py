@@ -229,9 +229,6 @@ def ovf2vtk_main():
     print "({:5.2f}% of {:d} cells filled)"\
         .format(100.0*Ms_num_of_nonzeros/len(Ms), len(Ms))
 
-    # read metadata in data file
-    ovf_run = analyze(infile)
-
     # scale magnetisation data as required:
     if datascale == 0.0:
         scale = max(Ms)
@@ -241,6 +238,8 @@ def ovf2vtk_main():
     # normalise vectorfield by scale
     vf = Numeric.divide(vf, scale)
 
+    # read metadata in data file
+    ovf_run = analyze(infile)
     datatitle = ovf_run["Title:"]+"/{:g}".format(scale)
 
     #
