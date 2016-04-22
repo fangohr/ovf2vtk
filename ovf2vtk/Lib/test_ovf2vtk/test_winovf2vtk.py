@@ -355,7 +355,7 @@ finished conversion (execution time
 
             exp = exp.splitlines()
             # can't predict execution time
-            new_doc[-3] = new_doc[-3][:35]
+            new_doc[-1] = new_doc[-1][:35]
 
         # test if --help key present, just program documentation is outputted
         elif i == 2:
@@ -402,7 +402,7 @@ working on ('--add', 'divrot')""".format(args, options, infiles[1]) +\
 
             exp = exp.splitlines()
             # can't predict execution time
-            new_doc[-3] = new_doc[-3][:35]
+            new_doc[-1] = new_doc[-1][:35]
 
         # test several keys and ascii files with an extra parameter
         # assert extra parameter ignored
