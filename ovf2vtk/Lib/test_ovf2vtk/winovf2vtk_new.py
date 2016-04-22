@@ -351,11 +351,11 @@ def ovf2vtk_main():
     # now compute all the additional data such as angles, etc
 
     # check whether we should do all
-    key_values = map(lambda x: x[1], args)
-    if "all" in key_values:
+    keys = map(lambda x: x[1], args)
+    if "all" in keys:
         args = []
-        for addition in add_features:
-            args.append(("--add", addition))
+        for add_arg in add_features:
+            args.append(("--add", add_arg))
 
     # when ovf2vtk was re-written using Numeric, I had to group
     # certain operations to make them fast. Now some switches are
@@ -366,75 +366,69 @@ def ovf2vtk_main():
     done_angles = 0
     done_comp = 0
 
-    for add in args:
-        if add[0] == "-a" or add[0] == "--add":
-            print "working on", add
+    for arg in args:
+        if arg[0] == "-a" or arg[0] == "--add":
+            print "working on", arg
 
             data = []
+            lookup_table = 'default'
 
             # compute observables that need more than one field value
             # i.e. div, rot
-            if add[1][0:6] == "divrot":  # rotation = vorticity, curl
+            if arg[1][0:6] == "divrot":  # rotation = vorticity, curl
 
                 (div, rot, rotx, roty, rotz, rotmag) = \
                     divergence_and_curl(vf, surfaceEffects, ovf_run)
+                # change order of observables for upcoming loop
+                obs = (rotx, roty, rotz, rotmag, rot, div)
 
-                comment = "curl, x-comp"
-                vtk.point_data.append(pyvtk.Scalars(rotx.tolist(), comment,
-                                                    lookup_table='default'))
-                comment = "curl, y-comp"
-                vtk.point_data.append(pyvtk.Scalars(roty.tolist(), comment,
-                                                    lookup_table='default'))
-                comment = "curl, z-comp"
-                vtk.point_data.append(pyvtk.Scalars(rotz.tolist(), comment,
-                                                    lookup_table='default'))
-                comment = "curl, magnitude"
-                vtk.point_data.append(pyvtk.Scalars(rotmag.tolist(), comment,
-                                                    lookup_table='default'))
-                comment = "curl"
-                vtk.point_data.append(pyvtk.Vectors(rot.tolist(), comment))
+                comments = ["curl, x-comp", "curl, y-comp", "curl, z-comp",
+                            "curl, magnitude", "curl", "divergence"]
 
-                comment = "divergence"
-                vtk.point_data.append(pyvtk.Scalars(div.tolist(), comment,
-                                                    lookup_table='default'))
+                # append data to vtk file
+                for i in range(len(obs)):
+                    # for rotx, roty, rotz, rotmag, div
+                    if i != 4:
+                        vtk.point_data.append(pyvtk.Scalars(obs[i].tolist(),
+                                                            comments[i],
+                                                            lookup_table))
+                    # for curl
+                    else:
+                        vtk.point_data.append(pyvtk.Vectors(obs[i].tolist(),
+                                                            comments[i]))
 
-            elif add[1] in ["Mx", "My", "Mz", "Ms"]:              # components
-                if not done_comp:
+            # components
+            elif arg[1] in ["Mx", "My", "Mz", "Ms"]:
+                if done_comp == 0:
                     done_comp = 1
-
                     comments = "x-component", "y-component", "z-component"
 
                     for data, comment in zip(components(vf), comments):
                         vtk.point_data.append(pyvtk.Scalars(data.tolist(),
                                                             comment,
-                                                            lookup_table='\
-default'))
+                                                            lookup_table))
 
                     # magnitude of magnitisation
                     Mmag = magnitude(vf)
                     vtk.point_data.append(pyvtk.Scalars(Mmag.tolist(),
                                                         "Magnitude",
-                                                        lookup_table='\
-default'))
+                                                        lookup_table))
 
-            elif add[1] in ["xy", "xz", "yz"]:
-                if not done_angles:
+            elif arg[1] in ["xy", "xz", "yz"]:
+                if done_angles == 0:
                     done_angles = 1
-
                     # in-plane angles
                     comments = ("xy in-plane angle", "yz in-plane angle",
                                 "xz in-plane angle")
-
                     for data, comment in zip(plane_angles(vf), comments):
                         vtk.point_data.append(pyvtk.Scalars(data.tolist(),
                                                             comment,
-                                                            lookup_table='\
-default'))
+                                                            lookup_table))
 
             else:
                 print "only xy, xz, Mx, My, Mz, divergence, Ms, or 'all' \
 allowed after -a or --add"
-                print "Current choice is", add
+                print "Current choice is", arg
                 print __doc__
                 sys.exit(1)
 
