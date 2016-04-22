@@ -1,5 +1,5 @@
 # vtk DataFile Version 2.0
-Output from ovf2vtk (version 0.1.23), Fri Apr 22 22:22:25 2016, infile=..\Examples\ellipsoidwrap.omf. Calling command line was 'winovf2vtk_new.py --add all --verbose --ascii --surface-effects ..\Examples\ellipsoidwrap.omf ..\Examples\example.vtk' executed
+Output from ovf2vtk (version 0.1.23), Fri Apr 22 22:25:24 2016, infile=..\Examples\ellipsoidwrap.omf. Calling command line was 'winovf2vtk_new.py --add all --verbose --ascii --surface-effects ..\Examples\ellipsoidwrap.omf ..\Examples\example.vtk' executed
 ASCII
 DATASET RECTILINEAR_GRID
 DIMENSIONS 24 8 4
