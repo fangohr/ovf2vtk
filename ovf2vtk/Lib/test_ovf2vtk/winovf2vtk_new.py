@@ -115,11 +115,11 @@ you can use the older version 0.1.17 of ovf2vtk."
 # import ovf2vtk
 import ovf2vtk
 
-# import tools toread omf file
-from ovf2vtk.omfread import read_structured_omf_file, analyze
+# import tools to read omf file
+from omfread_new import read_structured_omf_file, analyze
 
 # import tools to compute further observables
-from ovf2vtk.analysis import plane_angles, divergence_and_curl, magnitude, \
+from analysis_new import plane_angles, divergence_and_curl, magnitude, \
     components
 
 # this is the  list of keywords used by --add all
