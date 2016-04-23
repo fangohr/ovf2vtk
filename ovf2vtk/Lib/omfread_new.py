@@ -76,7 +76,7 @@ def what_data(filename, verbose=0):
     startline = integer (lines from beginning of file)
     type      = 'binary4','binary8','ascii'
     """
-    f = open(filename)
+    f = open(filename, "rt")
     lines = 0
     bytes = 0
     ans = {}
