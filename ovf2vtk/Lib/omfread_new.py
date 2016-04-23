@@ -76,12 +76,12 @@ def what_data(filename, verbose=0):
     startline = integer (lines from beginning of file)
     type      = 'binary4','binary8','ascii'
     """
-    f = open(filename, "rb")
+    f = open(filename)
     lines = 0
     bytes = 0
     ans = {}
     while 1:
-        line = f.readline().decode()
+        line = f.readline()
         bytes += len(line)
         lines += 1
         if not line:               # until eof
