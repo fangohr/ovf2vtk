@@ -81,11 +81,11 @@ def what_data(filename, verbose=0):
     bytes = 0
     ans = {}
     while 1:
-        line = f.readline()
+        line = f.readline().decode()
         bytes += len(line)
         lines += 1
         if not line:               # until eof
-            print(unicode('***Reached end of file before encountering data'))
+            print('***Reached end of file before encountering data')
             print("   Cowardly stopping here")
             print("   Some debug info:")
             print("   Have read {} lines and".format(lines))
