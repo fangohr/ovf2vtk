@@ -121,7 +121,8 @@ def test_magnitude():
         # to include negative + larger values
         newarray = (array - 0.5) * 1000
         # ensure array of required shape
-        assert newarray.shape == (long(vf), long(3))
+        shape = [int(dimension) for dimension in newarray.shape]
+        assert shape == [vf, 3]
         # compute expected result
         newarraysq = newarray ** 2
         exp = newarraysq.sum(1) ** 0.5
@@ -144,13 +145,13 @@ def test_convert_flat_fortran_to_3dmatrix():
                                                         Nxs[i], Nys[i], Nzs[i])
             # check returned array of expected type and shape
             assert isinstance(act, np.ndarray)
+            shape = [int(dim) for dim in act.shape]
             if i == 0 and vf != 0:
                 # shape returned differs under these conditions
-                assert act.shape == (long(0),)
+                assert shape == [0]
             else:
                 # expected shape returned
-                assert act.shape == (long(Nzs[i]), long(Nys[i]), long(Nxs[i]),
-                                     long(3))
+                assert shape == [Nzs[i], Nys[i], Nxs[i], 3]
 
 
 def test_convert_fortran_3dmatrix_to_flat():
@@ -168,7 +169,8 @@ def test_convert_fortran_3dmatrix_to_flat():
         for j in M.shape:
             length = length * j
         # test actual result is 1D with same length as expected
-        assert (long(length),) == Mflat.shape
+        shape = [int(dim) for dim in Mflat.shape]
+        assert [length] == shape
 
 
 def test_convert_fortran_3dmatrix_to_flat_vector():
@@ -190,7 +192,8 @@ def test_convert_fortran_3dmatrix_to_flat_vector():
         # check if returned value is a numpy array
         assert isinstance(flatv, np.ndarray)
         # assert returned array of required shape
-        assert flatv.shape == (long(length)/3, long(3))
+        shape = [int(dim) for dim in flatv.shape]
+        assert shape == [length/3, 3]
 
 
 def test_convert_between_fortran_and_c():
@@ -344,11 +347,12 @@ def test_divergence_and_curl():
             nomf.analyze(filename))[1]
         rotmag = nana.magnitude(rotflat)
 
-        assert divflat.shape == (long(node_products[filename]),)
-        assert rotflat.shape == (long(node_products[filename]), long(3))
-        assert rotmag.shape == (long(node_products[filename]),)
+        assert [int(i) for i in divflat.shape] == [node_products[filename]]
+        assert [int(i) for i in rotflat.shape] == [node_products[filename], 3]
+        assert [int(i) for i in rotmag.shape] == [node_products[filename]]
         for i in range(3):
-            assert rotflat[:, i].shape == (long(node_products[filename]),)
+            shape = rotflat[:, i].shape
+            assert [int(j) for j in shape] == [node_products[filename]]
 
         # test the return types are numpy arrays.
         objects = [divflat, rotflat, rotflat[:, 0], rotflat[:, 1],
