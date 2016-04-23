@@ -245,7 +245,7 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
     vectorfield = Numeric.reshape( Numeric.array( vector ), (N, 3) )
     
     if not dimensions[0]*dimensions[1]*dimensions[2] == len( vectorfield ):
-        print dimensions[0]*dimensions[1]*dimensions[2], len( vectorfield )
+        print (dimensions[0]*dimensions[1]*dimensions[2], len( vectorfield ))
         raise ("Oopps", "Miscounted - internal error")
 
     return Numeric.array(vectorfield)
