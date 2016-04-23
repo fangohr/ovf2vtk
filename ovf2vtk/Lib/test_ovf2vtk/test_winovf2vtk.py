@@ -5,7 +5,7 @@ sys.path.append('..')
 
 import subprocess
 
-from test_ovf2vtk import winovf2vtk_new as nwin
+from ovf2vtk import winovf2vtk_new as nwin
 
 import __version__
 

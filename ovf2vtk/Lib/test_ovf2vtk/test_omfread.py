@@ -7,9 +7,9 @@ import numpy as np
 
 from io import BytesIO as StringIO
 
-from test_ovf2vtk import omfread_new as nomf
+from ovf2vtk import omfread_new as nomf
 
-from test_ovf2vtk import omfread_original
+from ovf2vtk import omfread_original
 
 """all the tests developed for the omfread.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 09/04/16"""
