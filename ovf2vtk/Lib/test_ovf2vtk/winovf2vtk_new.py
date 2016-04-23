@@ -192,8 +192,8 @@ def ovf2vtk_main():
 
     if len(params) == 0:
         print(__doc__)
-        print("ERROR: An input file (and an output file need to be \
-        specified).")
+        print("ERROR: An input file (and an output file need to be "
+              "specified).")
         sys.exit(1)
     else:
         infile = params[0]
