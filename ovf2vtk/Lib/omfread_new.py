@@ -85,11 +85,11 @@ def what_data(filename, verbose=0):
         bytes += len(line)
         lines += 1
         if not line:               # until eof
-            print(str("***Reached end of file before encountering data"))
-            print(str("   Cowardly stopping here"))
-            print(str("   Some debug info:"))
-            print(str("   Have read {} lines and".format(lines)))
-            print(str("             {} bytes.".format(bytes)))
+            print(b"***Reached end of file before encountering data")
+            print(b"   Cowardly stopping here")
+            print(b"   Some debug info:")
+            print(b"   Have read {} lines and".format(lines))
+            print(b"             {} bytes.".format(bytes))
             sys.exit(1)
 
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
