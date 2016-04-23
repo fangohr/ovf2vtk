@@ -113,7 +113,7 @@ you can use the older version 0.1.17 of ovf2vtk.")
     raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
 # import ovf2vtk
-import __version__
+from ovf2vtk import __version__ as version
 
 # import tools to read omf file
 import omfread_new as nomf
@@ -186,7 +186,7 @@ def ovf2vtk_main():
         sys.exit(0)
 
     if "-V" in keys or "--version" in keys:
-        print("This is version {:s}.".format(ovf2vtk.__version__))
+        print("This is version {:s}.".format(version))
         sys.exit(0)
 
     if len(params) == 0:
@@ -335,7 +335,7 @@ def ovf2vtk_main():
     # and now open vtk-file
     #
     vtkfilecomment = "Output from ovf2vtk (version {:s}), {:s}, infile={:s}. "\
-        .format(ovf2vtk.__version__, time.asctime(), infile)
+        .format(version, time.asctime(), infile)
     vtkfilecomment += "Calling command line was '{:s}' executed in '{:s}'"\
         .format(" ".join(sys.argv), os.getcwd())
 
