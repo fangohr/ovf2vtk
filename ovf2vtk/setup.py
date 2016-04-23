@@ -46,7 +46,7 @@ Requirements:
 --> See README for most up-to-date version of this text.
 """
 
-doclines = open('README','r').readlines()
+doclines = open('README', 'r').readlines()
 
 classifiers = """\
 Development Status :: 3 - Alpha
@@ -66,18 +66,17 @@ __CVS__version__ = "$Revision: 1.7 $"
 import os
 
 
-#compute revision_version
+# compute revision_version
 major_version = 0
 minor_version = 1
 import tools.get_revision
 revision_version = tools.get_revision.get_revision_version()
-__version__='%d.%d.%d'%(major_version,minor_version,revision_version)
+__version__ = '%d.%d.%d' % (major_version, minor_version, revision_version)
 
-#and write into Lib/__version__.py file
-f = open(os.path.join('Lib','__version__.py'),'w')
-f.write('__version__ = "%s"\n'%(__version__))
+# and write into Lib/__version__.py file
+f = open(os.path.join('Lib', '__version__.py'), 'w')
+f.write('__version__ = "%s"\n' % (__version__))
 f.close()
-
 
 
 from distutils.core import setup, Extension
@@ -91,16 +90,16 @@ if sys.version < '2.2.3':
     DistributionMetadata.download_url = None
     doclines = __doc__.split("\n")
 
-setup(name = "ovf2vtk",
-      version = __version__,
-      author = "Hans Fangohr, Richard Boardman",
-      author_email = "hans.fangohr@physics.org",
-      maintainer = "Hans Fangohr",
-      maintainer_email = "hans.fangohr@physics.org",
-      url = "http://www.soton.ac.uk/~fangohr/software/ovf2vtk",
-      license = "GPL",
-      description = doclines[0],
-      long_description = """
+setup(name="ovf2vtk",
+      version=__version__,
+      author="Hans Fangohr, Richard Boardman",
+      author_email="hans.fangohr@physics.org",
+      maintainer="Hans Fangohr",
+      maintainer_email="hans.fangohr@physics.org",
+      url="http://www.soton.ac.uk/~fangohr/software/ovf2vtk",
+      license="GPL",
+      description=doclines[0],
+      long_description="""
 OVF2VTK -- File format conversion from OVF to VTK.
 
 Hans Fangohr
@@ -138,13 +137,11 @@ OOMMF is the Object Oriented MicroMagnetic Framework
 PyVTK is used to write Python data structures into VTK data
 file. (http://cens.ioc.ee/projects/pyvtk/)
       """,
-      keywords = ["OOMMF", "VTK", "visualisation", "conversion"],
-      platforms = ["any"],
-      download_url = "http://www.soton.ac.uk/~fangohr/software/ovf2vtk",
-      classifiers = filter(None, classifiers.split("\n")),
-      packages = ["ovf2vtk"],
-      package_dir = {'ovf2vtk':'Lib'},
-      scripts = ["bin/ovf2vtk","bin/winovf2vtk.py"]
+      keywords=["OOMMF", "VTK", "visualisation", "conversion"],
+      platforms=["any"],
+      download_url="http://www.soton.ac.uk/~fangohr/software/ovf2vtk",
+      classifiers=filter(None, classifiers.split("\n")),
+      packages=["ovf2vtk"],
+      package_dir={'ovf2vtk': 'Lib'},
+      scripts=["bin/ovf2vtk", "bin/winovf2vtk.py"]
       )
-
-
