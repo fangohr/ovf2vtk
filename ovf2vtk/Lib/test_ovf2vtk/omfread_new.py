@@ -62,8 +62,8 @@ def analyze(filename, verbose=0):
             dic = parse_for_keywords(keywords, line, dic)
             lines.append(line)
     if verbose:
-        print("#Analysing {} : Found {} keywords").format(filename,
-                                                          len(dic.keys()))
+        print("#Analysing {} : Found {} keywords".format(filename,
+                                                         len(dic.keys())))
     f.close()
     return dic
 
@@ -88,8 +88,8 @@ def what_data(filename, verbose=0):
             print("***Reached end of file before encountering data")
             print("   Cowardly stopping here")
             print("   Some debug info:")
-            print("   Have read {} lines and").format(lines)
-            print("             {} bytes.").format(bytes)
+            print("   Have read {} lines and".format(lines))
+            print("             {} bytes.".format(bytes))
             sys.exit(1)
 
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
@@ -101,7 +101,7 @@ def what_data(filename, verbose=0):
             else:
                 print("Data file {} "
                       "appears neither to be a text or"
-                      "a binary file.").format(filename)
+                      "a binary file.".format(filename))
                 print("Cowardly stopping here.")
                 sys.exit(1)
             break
@@ -111,8 +111,8 @@ def what_data(filename, verbose=0):
     f.close()
 
     if verbose == 1:
-        print("Data in {} start in line {} at byte {} and is {}")\
-            .format(filename, lines, bytes, ans["type"])
+        print("Data in {} start in line {} at byte {} and is {}"
+              .format(filename, lines, bytes, ans["type"]))
     return ans
 
 
@@ -139,8 +139,8 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
         if datum[0:16] == "# End: Data Text":
             break
         if datum[0] == "#":
-            print("I found a # in the first column. Complete row is {}")\
-                .format(datum)
+            print("I found a # in the first column. Complete row is {}"
+                  .format(datum))
             print("I only expected '# End: Data Text'.")
             print("cowardly stopping here")
             raise Exception("FileFormatError, See above for more details")
@@ -149,9 +149,9 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
 
         vector = map(lambda a: float(a), vector_str)
         if len(vector) != 3:
-            print("vector_str= {}").format(vector_str)
-            print("vector    = {}").format(vector)
-            print("datum = {}").format(datum)
+            print("vector_str= {}".format(vector_str))
+            print("vector    = {}".format(vector))
+            print("datum = {}".format(datum))
             raise Exception("Oops, vector_str shold have 3 entries")
 
         vectorfield.append(vector)
@@ -161,8 +161,8 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
 
     # if the length of the vectorfield doesnt equal expected amount of data.
     if (data_exp - len(vectorfield)):
-        print("Hmm, expected nx*ny*ny = {} items, but got {} .")\
-            .format((data_exp), len(vectorfield))
+        print("Hmm, expected nx*ny*ny = {} items, but got {} ."
+              .format((data_exp), len(vectorfield)))
         print("Cowardly stopping here.")
         raise Exception("FileFormatError, read too many/too few data")
 
@@ -187,8 +187,8 @@ correctly)")
             filepos = byte + 4
         else:
             print("The first item in a binary file is meant to be 1234567.0")
-            print("but it is not. Instead, I read {}.")\
-                .format(verification_tag)
+            print("but it is not. Instead, I read {}."
+                  .format(verification_tag))
             print("Cowardly stopping here.")
             raise AssertionError
 
@@ -202,8 +202,8 @@ correctly)")
         else:
             print("The first item in a binary file is meant to be \
 123456789012345.0")
-            print("but it is not. Instead, I read {}.")\
-                .format(verification_tag)
+            print("but it is not. Instead, I read {}."
+                  .format(verification_tag))
             print("Cowardly stopping here.")
             raise AssertionError
     else:
@@ -237,13 +237,13 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
         raise NotImplementedError
     else:
         print("unknown datatype (expected  'binary4','binary8' [or 'ascii'],\
- but got {}").format(datatype)
+ but got {}".format(datatype))
         raise Exception
 
     if verbose:
-        print("Expect floats of length {} bytes.").format(floatsize)
-        print("Expect to find data in file {} at position {}.").format(fname,
-                                                                       byte)
+        print("Expect floats of length {} bytes.".format(floatsize))
+        print("Expect to find data in file {} at position {}.".format(fname,
+                                                                      byte))
     # now read file
     data = open(fname, 'rb').read()
     filepos = read_verification_tag(data, floatsize, byte, verbose)
@@ -279,7 +279,7 @@ def read_structured_oommf_data(fname, byte, dimensions, datatype, verbose=0):
                                                  datatype, verbose)
     else:
         print("expected ascii or binary4 or binar8 for datatype, \
-but got {}").format(datatype)
+but got {}".format(datatype))
         raise Exception("Oopps. Something wrong here!")
 
 
@@ -297,8 +297,8 @@ def read_structured_omf_file(infile, debug=False):
                   int(ovf_run["znodes:"]))
 
     if debug:
-        print("Number of cells (Nx={:d},Ny={:d},Nz={:d})")\
-            .format(dimensions[0], dimensions[1], dimensions[2])
+        print("Number of cells (Nx={:d},Ny={:d},Nz={:d})"
+              .format(dimensions[0], dimensions[1], dimensions[2]))
 
     # find byte that contains the first item of data
     ovf_data = what_data(infile)
