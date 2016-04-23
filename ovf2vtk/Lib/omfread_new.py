@@ -85,7 +85,7 @@ def what_data(filename, verbose=0):
         byte += len(line)
         lines += 1
         if not line:               # until eof
-            print(bytes.encode('***Reached end of file before encountering data'))
+            print(bytes.decode('***Reached end of file before encountering data'))
             print("   Cowardly stopping here")
             print("   Some debug info:")
             print("   Have read {} lines and".format(lines))
@@ -112,7 +112,7 @@ def what_data(filename, verbose=0):
 
     if verbose == 1:
         print("Data in {} start in line {} at byte {} and is {}"
-              .format(filename, lines, bytes, ans["type"]))
+              .format(filename, lines, byte, ans["type"]))
     return ans
 
 
