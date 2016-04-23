@@ -39,7 +39,7 @@ def get_revision_version():
                 fn = os.path.join(d, f)
                 if os.path.exists(fn):
                     files.append(fn)
-                    print "  ... %s ..." % (fn)
+                    print("  ... %s ...") % (fn)
                 else:
                     print('File "%s" does not exists. Skipping.') % (fn)
 
