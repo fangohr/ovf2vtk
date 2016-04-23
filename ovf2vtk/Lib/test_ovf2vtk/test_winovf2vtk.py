@@ -301,17 +301,17 @@ def test_winovf2vtk_example_cmd_lines():
     asserts print statements containing ACTUAL VALUES are outputted."""
 
     examples = "python " + os.path.join('..', 'winovf2vtk_new.py') + \
-        "-V --ascii {} {}".format(infiles[0], outfiles[0]),\
+        " -V --ascii {} {}".format(infiles[0], outfiles[0]),\
         "python " + os.path.join('..', 'winovf2vtk_new.py') + \
-        "--datascale=0.5 --posscale 1.0 \
+        " --datascale=0.5 --posscale 1.0 \
 --add Ms -a divrot --add yz -v {} {}".format(infiles[6], outfiles[6]),\
         "python " + os.path.join('..', 'winovf2vtk_new.py') +\
-        "-h --binary {} {}" .format(infiles[-1], outfiles[-1]),\
+        " -h --binary {} {}" .format(infiles[-1], outfiles[-1]),\
         "python " + os.path.join('..', 'winovf2vtk_new.py') +\
-        "--add all --verbose --ascii --surface-effects {} {}"\
+        " --add all --verbose --ascii --surface-effects {} {}"\
         .format(infiles[1], os.path.join('..', 'Examples', 'example.vtk')),\
         "python " + os.path.join('..', 'winovf2vtk_new.py') +\
-        "-a Mx --add My -b \
+        " -a Mx --add My -b \
 --datascale=0.0 --surface-effects {} {} Test".format(infiles[7], outfiles[7])
 
     for i in range(len(examples)):
