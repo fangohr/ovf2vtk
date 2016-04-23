@@ -32,7 +32,7 @@ def get_revision_version():
     """goes through all files in lib and sums the last number in the
     CVS revision strings."""
     files = []
-    print "Considering these files for release tag:"
+    print("Considering these files for release tag:")
     for d in ['Lib', 'bin', ]:
         for f in os.listdir(d):
             if f[-3:] == '.py' or f == 'ovf2vtk':
@@ -41,7 +41,7 @@ def get_revision_version():
                     files.append(fn)
                     print "  ... %s ..." % (fn)
                 else:
-                    print 'File "%s" does not exists. Skipping.' % (fn)
+                    print('File "%s" does not exists. Skipping.') % (fn)
 
     revision_version = 0
     for l in fileinput.input(files):
@@ -50,6 +50,6 @@ def get_revision_version():
             revision_version = revision_version + eval(m.group('rev'))
             fileinput.nextfile()
 
-    print "Done. Version is %s" % str(revision_version)
+    print("Done. Version is %s") % str(revision_version)
 
     return revision_version
