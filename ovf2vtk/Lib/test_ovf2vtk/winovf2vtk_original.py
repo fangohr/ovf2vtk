@@ -92,15 +92,15 @@ import sys,math,getopt,string,time,os
 try:
     import pyvtk
 except ImportError:
-    print "This program needs pyvtk. Please download and install from  (http://cens.ioc.ee/projects/pyvtk/)"
+    print ("This program needs pyvtk. Please download and install from  (http://cens.ioc.ee/projects/pyvtk/)")
     raise ImportError,"Couldn't import pyvtk -- cannot proceed."
 
 
 try:
     import numpy as Numeric
 except ImportError:
-    print "This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy)."
-    print "If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk."
+    print ("This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy).")
+    print ("If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk.")
     raise ImportError,"Couldn't import Numpy -- cannot proceed."
 
 
@@ -176,45 +176,45 @@ def ovf2vtk_main():
         datascale = float(options["--datascale"])
 
     if "-v" in keys or "--verbose" in keys:
-        print "running in verbose mode"
+        print ("running in verbose mode")
         debug = True
     else:
         debug = False
 
     if "-h" in keys or "--help" in keys:
-        print __doc__
+        print(__doc__)
         sys.exit(0)
 
     if "-V" in keys or "--version" in keys:
-        print "This is version %s." % ovf2vtk.__version__
+        print("This is version %s." % ovf2vtk.__version__)
         sys.exit(0)
 
     if len( params ) == 0:
-        print __doc__
-        print "ERROR: An input file (and an output file need to be specified)."
+        print(__doc__)
+        print ("ERROR: An input file (and an output file need to be specified).")
         sys.exit(1)
     else:
         infile = params[0]
 
     if len( params ) == 1:
-        print __doc__
-        print "ERROR: An input file AND an output file need to be specified."
-        print "specify output file"
+        print (__doc__)
+        print ("ERROR: An input file AND an output file need to be specified.")
+        print ("specify output file")
         sys.exit(1)
     else:
         outfile = params[1]
 
     # okay: it seems the essential parameters are given. Let's check for others:
 
-    print banner_doc
+    print (banner_doc)
 
     if debug:
-        print "infile  = ", infile
-        print "outfile = ",outfile
-        print "additions= ",additions
-        print "options = ",options
-        print "datascale=",datascale
-        print "posscale=",posscale
+        print ("infile  = ", infile)
+        print ("outfile = ",outfile)
+        print ("additions= ",additions)
+        print ("options = ",options)
+        print ("datascale=",datascale)
+        print ("posscale=",posscale)
 
     #read data from infile
     vf = read_structured_omf_file( infile, debug )
@@ -224,7 +224,7 @@ def ovf2vtk_main():
     
     # Compute number of cells with non-zero Ms (rpb01r) 
     Ms_num_of_nonzeros = Numeric.sum( Numeric.not_equal( Ms, 0.0 ) ) 
-    print "(%5.2f%% of %d cells filled)" % (100.0*Ms_num_of_nonzeros/len(Ms), len(Ms))
+    print ("(%5.2f%% of %d cells filled)" % (100.0*Ms_num_of_nonzeros/len(Ms), len(Ms)))
 
 
     #read metadata in data file 
@@ -235,7 +235,7 @@ def ovf2vtk_main():
     #scale magnetisation data as required:
     if datascale == 0.0:
         scale = max( Ms )
-        print "Will scale data down by %f" % scale
+        print ("Will scale data down by %f" % scale)
     else:
         scale = datascale
     vf = Numeric.divide( vf, scale )
@@ -313,11 +313,11 @@ def ovf2vtk_main():
     if '--ascii' in keys or '-t' in keys or '--text' in keys:
         vtk_data = 'ascii'
         if debug:
-            print "switching to ascii vtk-data"
+            print ("switching to ascii vtk-data")
     if '--binary' in keys or '-b' in keys:
         vtk_data = 'binary'
         if debug:
-            print "switching to binary vtk-data"
+            print ("switching to binary vtk-data")
 
     #
     #and now open vtk-file
@@ -356,7 +356,7 @@ def ovf2vtk_main():
 
     for add in additions:
         if add[0]=="-a" or add[0]=="--add":
-            print "working on",add
+            print ("working on",add)
 
             data=[]
 
@@ -404,19 +404,19 @@ def ovf2vtk_main():
                         vtk.point_data.append( pyvtk.Scalars( data.tolist(), comment, lookup_table='default' )  )
 
             else:
-                print "only xy, xz, Mx, My, Mz, divergence, Ms, or 'all' allowed after -a or --add"
-                print "Current choice is",add
-                print __doc__
+                print ("only xy, xz, Mx, My, Mz, divergence, Ms, or 'all' allowed after -a or --add")
+                print ("Current choice is",add)
+                print (__doc__)
                 sys.exit(1)
 
 
     #
     #eventually, write the file
     #
-    print "saving file (%s)" % (outfile)
+    print ("saving file (%s)" % (outfile))
     vtk.tofile(outfile,format=vtk_data)
 
-    print "finished conversion (execution time %5.3s seconds)" % (time.time()-start_time)
+    print ("finished conversion (execution time %5.3s seconds)" % (time.time()-start_time))
 
 
 

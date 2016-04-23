@@ -11,8 +11,8 @@ import struct
 try:
     import numpy as Numeric
 except ImportError:
-    print "This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy)."
-    print "If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk."
+    print("This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy).")
+    print("If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk.")
     raise ImportError,"Couldn't import Numpy -- cannot proceed."
 
 
@@ -57,7 +57,7 @@ def analyze( filename, verbose = 0 ):
             dic = parse_for_keywords( keywords, line, dic )
             lines.append(line)
     if verbose :
-        print "#Analysing",filename,": Found",len(dic.keys()),"keywords"
+        print("#Analysing",filename,": Found",len(dic.keys()),"keywords")
     f.close()
     return dic
 
@@ -79,11 +79,11 @@ def what_data( filename, verbose = 0):
         bytes = bytes + len(line)
         lines = lines + 1
         if not line:               #until eof
-            print "***Reached end of file before encountering data"
-            print "   Cowardly stopping here"
-            print "   Some debug info:"
-            print "   Have read",lines,"lines and"
-            print "            ",bytes,"bytes."
+            print("***Reached end of file before encountering data")
+            print("   Cowardly stopping here")
+            print("   Some debug info:")
+            print("   Have read",lines,"lines and")
+            print("            ",bytes,"bytes.")
             sys.exit(1)
 
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
@@ -94,10 +94,10 @@ def what_data( filename, verbose = 0):
                 if bits[3]=="Text":
                     ans["type"]="ascii"
                 else:
-                    print "Data file",filename, \
+                    print("Data file",filename, \
                           "appears neither to be a text or"\
-                          "a binary file."
-                    print "Cowardly stopping here."
+                          "a binary file.")
+                    print ("Cowardly stopping here.")
                     sys.exit(1)
             break
     ans["startbyte"]=bytes 
@@ -106,8 +106,8 @@ def what_data( filename, verbose = 0):
     f.close()
 
     if verbose==1:
-        print "Data in",filename,"start in line",lines,"at byte",\
-              bytes,"and is",ans["type"]
+        print ("Data in",filename,"start in line",lines,"at byte",\
+              bytes,"and is",ans["type"])
 
     return ans
             
@@ -136,18 +136,18 @@ def read_structured_ascii_oommf_data( fname, byte, dimensions, verbose = 0 ):
         if datum[0:16] =="# End: Data Text":
             break
         if datum[0] == "#":
-            print "I found a # in the first column. Complete row is",datum
-            print "I only expected '# End: Data Text'."
-            print "cowardly stopping here"
-            raise "FileFormatError","See above for more details"
+            print ("I found a # in the first column. Complete row is",datum)
+            print ("I only expected '# End: Data Text'.")
+            print ("cowardly stopping here")
+            raise ("FileFormatError","See above for more details")
         
         vector_str = str.split( datum[0:-1] )
 
         vector = map( lambda a : float(a), vector_str)
         if len( vector ) != 3:
-            print "vector_str=",vector_str
-            print "vector    =",vector
-            print "datum =",datum
+            print ("vector_str=",vector_str)
+            print ("vector    =",vector)
+            print ("datum =",datum)
             raise "Oops","vector_str shold have 3 entries"
 
         vectorfield.append( vector )
@@ -156,12 +156,12 @@ def read_structured_ascii_oommf_data( fname, byte, dimensions, verbose = 0 ):
     data_exp = dimensions[0]*dimensions[1]*dimensions[2]
 
     if (data_exp - len(vectorfield)):
-        print "Hmm, expected nx*ny*ny =",data_exp,"items, but got",\
-              len(vectorfield),"."
-        print "Cowardly stopping here."
+        print ("Hmm, expected nx*ny*ny =",data_exp,"items, but got",\
+              len(vectorfield),".")
+        print ("Cowardly stopping here.")
         raise "FileFormatError","read too many/too few data"
 
-    print "Hint: Reading ASCII-OOMMF file is slow (that could be changed) and the files are large. Why not save data as binary?"
+    print ("Hint: Reading ASCII-OOMMF file is slow (that could be changed) and the files are large. Why not save data as binary?")
 
     return Numeric.array(vectorfield)
     
@@ -185,15 +185,15 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
     elif datatype == "binary8":
         floatsize = 8
     elif datatype == "ascii":
-        print "ascii -oommf data not supported here"
+        print ("ascii -oommf data not supported here")
         raise "Not Implemented Error","ascii-oommf data not supported here"
     else:
-        print "unknow datatype (expected  'binary4','binary8' [or 'ascii'], but got ",datatype
+        print ("unknow datatype (expected  'binary4','binary8' [or 'ascii'], but got ",datatype)
         raise "Error"
 
     if verbose:
-        print "Expect floats of length",floatsize,"bytes."
-        print "Expect to find data in file",fname," at position",byte,"."
+        print ("Expect floats of length",floatsize,"bytes.")
+        print ("Expect to find data in file",fname," at position",byte,".")
 
     #now read file                                  
     data = open( fname,'rb' ).read()
@@ -204,13 +204,13 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
 
         if verification_tag == 1234567.0:
             if verbose != 0:
-                print "verification_tag is okay (=> reading byte order correctly)"
+                print ("verification_tag is okay (=> reading byte order correctly)")
             filepos = byte + 4;
             
         else:
-            print "The first item in a binary file is meant to be 1234567.0"
-            print "but it is not. Instead, I read ",verification_tag,"."
-            print "Cowardly stopping here."
+            print ("The first item in a binary file is meant to be 1234567.0")
+            print ("but it is not. Instead, I read ",verification_tag,".")
+            print ("Cowardly stopping here.")
             raise "Assertion Error"
 
     elif floatsize == 8:
@@ -218,12 +218,12 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
         
         if verification_tag == 123456789012345.0:
 	    if verbose != 0:
-                print "verification_tag is okay (=> reading byte order correctly)"
+                print ("verification_tag is okay (=> reading byte order correctly)")
             filepos = byte + 8;
         else:
-            print "The first item in a binary file is meant to be 123456789012345.0"
-            print "but it is not. Instead, I read ",verification_tag,"."
-            print "Cowardly stopping here."
+            print ("The first item in a binary file is meant to be 123456789012345.0")
+            print ("but it is not. Instead, I read ",verification_tag,".")
+            print ("Cowardly stopping here.")
             raise "Assertion Error"
     else:
         raise "Not Implemented Error", "We only do binary files here"
@@ -256,7 +256,7 @@ def read_structured_oommf_data( fname, byte, dimensions, datatype, verbose = 0 )
     elif datatype == 'binary4' or datatype == 'binary8':
         return read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbose)
     else:
-        print "expected ascii or binary4 or binar8 for datatype, but got",datatype
+        print ("expected ascii or binary4 or binar8 for datatype, but got",datatype)
         raise "Oopps","Something wrong here!"
 
 
@@ -277,7 +277,7 @@ def read_structured_omf_file( infile, debug = False ):
                    int( ovf_run["znodes:"] ))
 
     if debug:
-        print "Number of cells (Nx=%d,Ny=%d,Nz=%d)" % (dimensions[0],dimensions[1],dimensions[2])
+        print ("Number of cells (Nx=%d,Ny=%d,Nz=%d)" % (dimensions[0],dimensions[1],dimensions[2]))
 
     #find byte that contains the first item of data
     ovf_data = what_data( infile )
