@@ -300,16 +300,18 @@ def test_winovf2vtk_example_cmd_lines():
     """function that takes example cmd lines not tested by above tests, and
     asserts print statements containing ACTUAL VALUES are outputted."""
 
-    examples = "python winovf2vtk_new.py -V --ascii {} {}"\
-        .format(infiles[0], outfiles[0]),\
-        "python winovf2vtk_new.py --datascale=0.5 --posscale 1.0 \
+    examples = "python " + os.path.join('ovf2vtk', 'winovf2vtk_new.py') + \
+        "-V --ascii {} {}".format(infiles[0], outfiles[0]),\
+        "python " + os.path.join('ovf2vtk', 'winovf2vtk_new.py') + \
+        "--datascale=0.5 --posscale 1.0 \
 --add Ms -a divrot --add yz -v {} {}".format(infiles[6], outfiles[6]),\
-        "python winovf2vtk_new.py -h --binary {} {}"\
-        .format(infiles[-1], outfiles[-1]),\
-        "python winovf2vtk_new.py --add all --verbose --ascii \
---surface-effects {} {}"\
+        "python " + os.path.join('ovf2vtk', 'winovf2vtk_new.py') +\
+        "-h --binary {} {}" .format(infiles[-1], outfiles[-1]),\
+        "python " + os.path.join('ovf2vtk', 'winovf2vtk_new.py') +\
+        "--add all --verbose --ascii --surface-effects {} {}"\
         .format(infiles[1], os.path.join('..', 'Examples', 'example.vtk')),\
-        "python winovf2vtk_new.py -a Mx --add My -b \
+        "python " + os.path.join('ovf2vtk', 'winovf2vtk_new.py') +\
+        "-a Mx --add My -b \
 --datascale=0.0 --surface-effects {} {} Test".format(infiles[7], outfiles[7])
 
     for i in range(len(examples)):
