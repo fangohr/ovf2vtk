@@ -113,13 +113,13 @@ you can use the older version 0.1.17 of ovf2vtk.")
     raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
 # import ovf2vtk
-from ovf2vtk import __version__
+import __version__
 
 # import tools to read omf file
-from ovf2vtk import omfread_new as nomf
+import omfread_new as nomf
 
 # import tools to compute further observables
-from ovf2vtk import analysis_new as nana
+import analysis_new as nana
 
 # this is the  list of keywords used by --add all
 add_features = ["Ms", "Mx", "My", "Mz", "xy", "yz", "xz", "divrot"]
