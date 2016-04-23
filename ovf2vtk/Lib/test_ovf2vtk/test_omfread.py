@@ -5,7 +5,7 @@ sys.path.append('..')
 
 import numpy as np
 
-from io import StringIO
+from io import BytesIO as StringIO
 
 from test_ovf2vtk import omfread_new as nomf
 
