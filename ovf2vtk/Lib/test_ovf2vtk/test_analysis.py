@@ -5,11 +5,11 @@ sys.path.append('..')
 
 import numpy as np
 
-import analysis_new as nana
+from test_ovf2vtk import analysis_new as nana
 
-import omfread_new as nomf
+from test_ovf2vtk import omfread_new as nomf
 
-import analysis_original
+from test_ovf2vtk import analysis_original
 
 """all the tests developed for the analysis.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 04/11/15"""

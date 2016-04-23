@@ -5,11 +5,11 @@ sys.path.append('..')
 
 import numpy as np
 
-from StringIO import StringIO
+from io import StringIO
 
-import omfread_new as nomf
+from test_ovf2vtk import omfread_new as nomf
 
-import omfread_original
+from test_ovf2vtk import omfread_original
 
 """all the tests developed for the omfread.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 09/04/16"""
