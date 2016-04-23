@@ -116,15 +116,10 @@ you can use the older version 0.1.17 of ovf2vtk.")
 import ovf2vtk
 
 # import tools to read omf file
-from test_ovf2vtk.omfread_new import read_structured_omf_file
-
-from test_ovf2vtk.omfread_new import analyze
+from test_ovf2vtk import omfread_new as nomf
 
 # import tools to compute further observables
-from test_ovf2vtk.analysis_new import plane_angles
-from test_ovf2vtk.analysis_new import divergence_and_curl
-from test_ovf2vtk.analysis_new import magnitude
-from test_ovf2vtk.analysis_new import components
+from test_ovf2vtk import analysis_new as nana
 
 # this is the  list of keywords used by --add all
 add_features = ["Ms", "Mx", "My", "Mz", "xy", "yz", "xz", "divrot"]
@@ -224,10 +219,10 @@ def ovf2vtk_main():
         print("posscale ="), posscale
 
     # read data from infile
-    vf = read_structured_omf_file(infile, debug)
+    vf = nomf.read_structured_omf_file(infile, debug)
 
     # compute magnitude for all cells
-    Ms = magnitude(vf)
+    Ms = nana.magnitude(vf)
 
     # Compute number of cells with non-zero Ms (rpb01r)
     Ms_num_of_nonzeros = Numeric.sum(Numeric.not_equal(Ms, 0.0))
@@ -244,7 +239,7 @@ def ovf2vtk_main():
     vf = Numeric.divide(vf, scale)
 
     # read metadata in data file
-    ovf_run = analyze(infile)
+    ovf_run = nomf.analyze(infile)
     datatitle = ovf_run["Title:"]+"/{:g}".format(scale)
 
     #
@@ -383,7 +378,7 @@ def ovf2vtk_main():
             if arg[1][0:6] == "divrot":  # rotation = vorticity, curl
 
                 (div, rot, rotx, roty, rotz, rotmag) = \
-                    divergence_and_curl(vf, surfaceEffects, ovf_run)
+                    nana.divergence_and_curl(vf, surfaceEffects, ovf_run)
                 # change order of observables for upcoming loop
                 observables = (rotx, roty, rotz, rotmag, rot, div)
 
@@ -408,13 +403,13 @@ def ovf2vtk_main():
                     done_comp = 1
                     comments = "x-component", "y-component", "z-component"
 
-                    for data, comment in zip(components(vf), comments):
+                    for data, comment in zip(nana.components(vf), comments):
                         vtk.point_data.append(pyvtk.Scalars(data.tolist(),
                                                             comment,
                                                             lookup_table))
 
                     # magnitude of magnitisation
-                    Mmag = magnitude(vf)
+                    Mmag = nana.magnitude(vf)
                     vtk.point_data.append(pyvtk.Scalars(Mmag.tolist(),
                                                         "Magnitude",
                                                         lookup_table))
@@ -425,7 +420,7 @@ def ovf2vtk_main():
                     # in-plane angles
                     comments = ("xy in-plane angle", "yz in-plane angle",
                                 "xz in-plane angle")
-                    for data, comment in zip(plane_angles(vf), comments):
+                    for data, comment in zip(nana.plane_angles(vf), comments):
                         vtk.point_data.append(pyvtk.Scalars(data.tolist(),
                                                             comment,
                                                             lookup_table))
