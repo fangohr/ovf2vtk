@@ -85,7 +85,7 @@ def what_data(filename, verbose=0):
         bytes += len(line)
         lines += 1
         if not line:               # until eof
-            print(str.encode('***Reached end of file before encountering data'))
+            print('***Reached end of file before encountering data'.encode('ascii'))
             print(b"   Cowardly stopping here")
             print(b"   Some debug info:")
             print(b"   Have read {} lines and".format(lines))
