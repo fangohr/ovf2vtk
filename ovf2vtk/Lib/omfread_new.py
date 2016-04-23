@@ -5,7 +5,6 @@ Part of ovf2vtk.
 Hans Fangohr, hans.fangohr@physics.org
 
 """
-from codecs import encode
 
 import sys
 
