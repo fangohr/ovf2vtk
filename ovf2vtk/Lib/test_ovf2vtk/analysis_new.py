@@ -27,10 +27,10 @@ Hans Fangohr, hans.fangohr@physics.org
 try:
     import numpy as Numeric
 except ImportError:
-    print "This program needs Numpy. Please download and install. \
-(http://sourceforge.net/projects/numpy)."
-    print "If you are using Numeric, you can use the older version \
-0.1.17 of ovf2vtk."
+    print("This program needs Numpy. Please download and install. \
+(http://sourceforge.net/projects/numpy).")
+    print("If you are using Numeric, you can use the older version \
+0.1.17 of ovf2vtk.")
     raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
 __version__ = "$Revision: 1.3 $"
@@ -244,8 +244,8 @@ Input data is:
 
     # special 2d-case (only one layer in z)
     if Nz == 1:
-        print "-->Nz==1, special 2d case, will only compute \
-z-component of curl"
+        print("-->Nz==1, special 2d case, will only compute \
+z-component of curl")
         rot[1:-1, 1:-1, 0, 2] = dMydx[:, 1:-1, 0] - dMxdy[1:-1, :, 0]
 
     if not surfaceEffects:
