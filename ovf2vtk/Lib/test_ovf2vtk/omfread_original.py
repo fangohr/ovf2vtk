@@ -159,7 +159,7 @@ def read_structured_ascii_oommf_data( fname, byte, dimensions, verbose = 0 ):
         print ("Hmm, expected nx*ny*ny =",data_exp,"items, but got",\
               len(vectorfield),".")
         print ("Cowardly stopping here.")
-        raise "FileFormatError","read too many/too few data"
+        raise ("FileFormatError","read too many/too few data")
 
     print ("Hint: Reading ASCII-OOMMF file is slow (that could be changed) and the files are large. Why not save data as binary?")
 
@@ -186,10 +186,10 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
         floatsize = 8
     elif datatype == "ascii":
         print ("ascii -oommf data not supported here")
-        raise "Not Implemented Error","ascii-oommf data not supported here"
+        raise ("Not Implemented Error","ascii-oommf data not supported here")
     else:
         print ("unknow datatype (expected  'binary4','binary8' [or 'ascii'], but got ",datatype)
-        raise "Error"
+        raise ("Error")
 
     if verbose:
         print ("Expect floats of length",floatsize,"bytes.")
@@ -211,7 +211,7 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
             print ("The first item in a binary file is meant to be 1234567.0")
             print ("but it is not. Instead, I read ",verification_tag,".")
             print ("Cowardly stopping here.")
-            raise "Assertion Error"
+            raise ("Assertion Error")
 
     elif floatsize == 8:
         (verification_tag,) = struct.unpack('!d',data[byte:byte+8])
@@ -224,9 +224,9 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
             print ("The first item in a binary file is meant to be 123456789012345.0")
             print ("but it is not. Instead, I read ",verification_tag,".")
             print ("Cowardly stopping here.")
-            raise "Assertion Error"
+            raise ("Assertion Error")
     else:
-        raise "Not Implemented Error", "We only do binary files here"
+        raise ("Not Implemented Error", "We only do binary files here")
 
     Nx, Ny, Nz = dimensions
 
@@ -240,13 +240,13 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
         vector = struct.unpack('!'+'ddd'*N,data[ filepos: filepos + 3*8*N])
         filepos += 3*8*N
     else:
-        raise "Hmmm", "This should not happen. Reference 1"
+        raise ("Hmmm", "This should not happen. Reference 1")
 
     vectorfield = Numeric.reshape( Numeric.array( vector ), (N, 3) )
     
     if not dimensions[0]*dimensions[1]*dimensions[2] == len( vectorfield ):
         print dimensions[0]*dimensions[1]*dimensions[2], len( vectorfield )
-        raise "Oopps", "Miscounted - internal error"
+        raise ("Oopps", "Miscounted - internal error")
 
     return Numeric.array(vectorfield)
 
@@ -257,7 +257,7 @@ def read_structured_oommf_data( fname, byte, dimensions, datatype, verbose = 0 )
         return read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbose)
     else:
         print ("expected ascii or binary4 or binar8 for datatype, but got",datatype)
-        raise "Oopps","Something wrong here!"
+        raise ("Oopps","Something wrong here!")
 
 
 
