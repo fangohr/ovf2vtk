@@ -187,7 +187,7 @@ def ovf2vtk_main():
         sys.exit(0)
 
     if "-V" in keys or "--version" in keys:
-        print("This is version {:s}.").format(ovf2vtk.__version__)
+        print("This is version {:s}.".format(ovf2vtk.__version__))
         sys.exit(0)
 
     if len(params) == 0:
@@ -227,13 +227,13 @@ def ovf2vtk_main():
 
     # Compute number of cells with non-zero Ms (rpb01r)
     Ms_num_of_nonzeros = Numeric.sum(Numeric.not_equal(Ms, 0.0))
-    print("({:5.2f}% of {:d} cells filled)")\
-        .format(100.0*Ms_num_of_nonzeros/len(Ms), len(Ms))
+    print("({:5.2f}% of {:d} cells filled)"
+          .format(100.0*Ms_num_of_nonzeros/len(Ms), len(Ms)))
 
     # scale magnetisation data as required:
     if datascale == 0.0:
         scale = max(Ms)
-        print("Will scale data down by {:f}").format(scale)
+        print("Will scale data down by {:f}".format(scale))
     else:
         scale = datascale
     # normalise vectorfield by scale
@@ -429,18 +429,18 @@ def ovf2vtk_main():
             else:
                 print("only xy, xz, Mx, My, Mz, divergence, Ms, or 'all' \
 allowed after -a or --add")
-                print("Current choice is {}").format(arg)
+                print("Current choice is {}".format(arg))
                 print(__doc__)
                 sys.exit(1)
 
     #
     # eventually, write the file
     #
-    print("saving file ({:s})").format(outfile)
+    print("saving file ({:s})".format(outfile))
     vtk.tofile(outfile, format=vtk_data)
 
-    print("finished conversion (execution time {:5.3s} seconds)")\
-        .format(str(time.time()-start_time))
+    print("finished conversion (execution time {:5.3s} seconds)"
+          .format(str(time.time()-start_time)))
 
 # ==============================================================================
 # =

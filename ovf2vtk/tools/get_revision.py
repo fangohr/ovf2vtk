@@ -39,9 +39,9 @@ def get_revision_version():
                 fn = os.path.join(d, f)
                 if os.path.exists(fn):
                     files.append(fn)
-                    print("  ... {} ...").format(fn)
+                    print("  ... {} ...".format(fn))
                 else:
-                    print('File {} does not exists. Skipping.').format(fn)
+                    print('File {} does not exists. Skipping.'.format(fn))
 
     revision_version = 0
     for l in fileinput.input(files):
@@ -50,6 +50,6 @@ def get_revision_version():
             revision_version = revision_version + eval(m.group('rev'))
             fileinput.nextfile()
 
-    print("Done. Version is %s").format(str(revision_version))
+    print("Done. Version is %s".format(str(revision_version)))
 
     return revision_version
