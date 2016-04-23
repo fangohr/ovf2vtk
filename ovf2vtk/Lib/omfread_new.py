@@ -5,6 +5,7 @@ Part of ovf2vtk.
 Hans Fangohr, hans.fangohr@physics.org
 
 """
+from codecs import encode
 
 import sys
 
@@ -86,7 +87,7 @@ def what_data(filename, verbose=0):
         lines += 1
         if not line:               # until eof
             f.close()
-            print('***Reached end of file before encountering data')
+            print(encode(b'***Reached end of file before encountering data', 'hex'))
             print("   Cowardly stopping here")
             print("   Some debug info:")
             print("   Have read {} lines and".format(lines))
