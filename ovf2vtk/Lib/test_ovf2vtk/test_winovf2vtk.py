@@ -5,9 +5,9 @@ sys.path.append('..')
 
 import subprocess
 
-from ovf2vtk import winovf2vtk_new as nwin
+import ovf2vtk
 
-from test_ovf2vtk import ovf2vtk
+from ovf2vtk import winovf2vtk_new as nwin
 
 
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in

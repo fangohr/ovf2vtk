@@ -113,7 +113,7 @@ you can use the older version 0.1.17 of ovf2vtk.")
     raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
 # import ovf2vtk
-import ovf2vtk
+import __version__
 
 # import tools to read omf file
 import omfread_new as nomf
