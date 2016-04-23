@@ -92,7 +92,7 @@ def test_winovf2vtk_no_inputs():
     useful code found at http://stackoverflow.com/questions/4760215/...
     running-shell-command-from-python-and-capturing-the-output"""
     # compute actual result
-    command = 'python ' + os.join('ovf2vtk', 'winovf2vtk_new.py')
+    command = 'python ' + os.path.join('ovf2vtk', 'winovf2vtk_new.py')
     p = subprocess.Popen(command, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT, shell=True)
     doc = p.stdout.readlines()
@@ -114,7 +114,7 @@ def test_winovf2vtk_keys_no_parameters():
     includes a key, but no files to convert."""
     for val in range(len(keys)):
         # compute actual result
-        command = 'python ' + os.join('ovf2vtk', 'winovf2vtk_new.py') + \
+        command = 'python ' + os.path.join('ovf2vtk', 'winovf2vtk_new.py') + \
                   " {}".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, shell=True)
@@ -146,7 +146,7 @@ def test_winovf2vtk_keys_one_parameter():
     includes a key and one parameter but no files to convert."""
     for val in range(len(keys)):
         # compute actual result with one input file
-        command = 'python ' + os.join('ovf2vtk', 'winovf2vtk_new.py') + \
+        command = 'python ' + os.path.join('ovf2vtk', 'winovf2vtk_new.py') + \
             " {} cantedvortex.omf".format(keys[val])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, shell=True)
@@ -183,7 +183,7 @@ def test_winovf2vtk_no_keys_two_parameters():
     # test two parameters with no keys
     for i in range(len(infiles)):
         # actual result
-        command = 'python ' + os.join('ovf2vtk', 'winovf2vtk_new.py') +\
+        command = 'python ' + os.path.join('ovf2vtk', 'winovf2vtk_new.py') +\
             " {} {}".format(infiles[i], outfiles[i])
         p = subprocess.Popen(command, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, shell=True)
@@ -218,8 +218,9 @@ def test_winovf2vtk_keys_two_parameters():
     for i in range(len(keys)):
         for j in range(len(infiles)):
             # actual result
-            command = 'python ' + os.join('ovf2vtk', 'winovf2vtk_new.py') +\
-                " {} {} {}".format(keys[i], infiles[j], outfiles[j])
+            command = 'python ' + \
+                      os.path.join('ovf2vtk', 'winovf2vtk_new.py') +\
+                      " {} {} {}".format(keys[i], infiles[j], outfiles[j])
             p = subprocess.Popen(command, stdout=subprocess.PIPE,
                                  stderr=subprocess.STDOUT, shell=True)
             doc = p.stdout.readlines()
@@ -454,7 +455,7 @@ def test_winovf2vtk_data():
             ' -a xz -a Ms --datascale=1 -a divrot -t']
     for i in range(len(files)):
             subprocess.Popen(("python " +
-                             os.join('ovf2vtk', 'winovf2vtk_new.py') +
+                             os.path.join('ovf2vtk', 'winovf2vtk_new.py') +
                              cmds[i] + " " + files[i] + " " + vtk_files[i]),
                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                              shell=True)
