@@ -13,7 +13,7 @@ try:
 except ImportError:
     print("This program needs Numpy. Please download and install. (http://sourceforge.net/projects/numpy).")
     print("If you are using Numeric, you can use the older version 0.1.17 of ovf2vtk.")
-    raise ImportError,"Couldn't import Numpy -- cannot proceed."
+    raise ImportError("Couldn't import Numpy -- cannot proceed.")
 
 
 

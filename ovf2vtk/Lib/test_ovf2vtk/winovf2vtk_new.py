@@ -199,7 +199,7 @@ def ovf2vtk_main():
         infile = params[0]
 
     if len(params) == 1:
-        print __doc__
+        print(__doc__)
         print("ERROR: An input file AND an output file need to be specified.")
         print("specify output file")
         sys.exit(1)
