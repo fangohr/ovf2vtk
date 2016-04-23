@@ -366,7 +366,7 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
         assert type(act) == np.ndarray
         assert len(act) == filenames_nodes[i][0] * filenames_nodes[i][1] *\
             filenames_nodes[i][2]
-        assert act.shape == (long(len(act)), long(3))
+        assert [int(dim) for dim in act.shape] == [len(act), 3]
         # check data matches that of of orginal function
         exp = omfread_original.read_structured_binary_oommf_data(file, byte,
                                                                  nodes, data)
@@ -409,7 +409,7 @@ def test_read_structured_oommf_data():
         # all files retuned as numpy arrays
         assert type(act) == np.ndarray
         assert len(act) == nodes[0] * nodes[1] * nodes[2]
-        assert act.shape == (long(len(act)), long(3))
+        assert [int(dim) for dim in act.shape] == [len(act), 3]
 
         # check binary4, binary8 files return expected data values
         if i < 6:
@@ -445,7 +445,7 @@ def test_read_structured_omf_file():
         # all files should be retuned as numpy arrays
         assert type(act) == np.ndarray
         assert len(act) == nodes[0] * nodes[1] * nodes[2]
-        assert act.shape == (long(len(act)), long(3))
+        assert [int(dim) for dim in act.shape] == [len(act), 3]
 
         # check binary4, binary8 files return expected data values
         if i < 6:
