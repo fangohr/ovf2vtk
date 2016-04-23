@@ -100,7 +100,7 @@ def test_winovf2vtk_no_inputs():
     # remove '\r\n' characters
     new_doc = []
     for i in range(len(doc)):
-        line = doc[i].strip('\r\n')
+        line = doc[i].strip(b'\r\n')
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
@@ -123,7 +123,7 @@ def test_winovf2vtk_keys_no_parameters():
         # remove '\r\n' characters
         new_doc = []
         for i in range(len(doc)):
-            line = doc[i].strip('\r\n')
+            line = doc[i].strip(b'\r\n')
             new_doc.append(line)
         # compute expected result for each key separately
         if val < 2:
@@ -155,7 +155,7 @@ def test_winovf2vtk_keys_one_parameter():
         # remove '\r\n' characters
         new_doc = []
         for i in range(len(doc)):
-            line = doc[i].strip('\r\n')
+            line = doc[i].strip(b'\r\n')
             new_doc.append(line)
         # compute expected result for each key separately
         if val < 2:
@@ -192,7 +192,7 @@ def test_winovf2vtk_no_keys_two_parameters():
         # remove '\r\n' characters
         new_doc = []
         for j in range(len(doc)):
-            line = doc[j].strip('\r\n')
+            line = doc[j].strip(b'\r\n')
             new_doc.append(line)
         str_doc = str(new_doc)
 
@@ -228,7 +228,7 @@ def test_winovf2vtk_keys_two_parameters():
             # remove '\r\n' characters
             new_doc = []
             for k in range(len(doc)):
-                line = doc[k].strip('\r\n')
+                line = doc[k].strip(b'\r\n')
                 new_doc.append(line)
             str_doc = str(new_doc)
 
@@ -322,7 +322,7 @@ def test_winovf2vtk_example_cmd_lines():
         # remove '\r\n' characters
         new_doc = []
         for k in range(len(doc)):
-            line = doc[k].strip('\r\n')
+            line = doc[k].strip(b'\r\n')
             new_doc.append(line)
 
         # test if -V present, only version string is displayed
