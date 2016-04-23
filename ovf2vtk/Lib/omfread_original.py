@@ -217,7 +217,7 @@ def read_structured_binary_oommf_data( fname, byte, dimensions, datatype, verbos
         (verification_tag,) = struct.unpack('!d',data[byte:byte+8])
         
         if verification_tag == 123456789012345.0:
-	    if verbose != 0:
+            if verbose != 0:
                 print ("verification_tag is okay (=> reading byte order correctly)")
             filepos = byte + 8;
         else:
