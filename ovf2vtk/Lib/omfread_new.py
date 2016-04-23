@@ -78,18 +78,18 @@ def what_data(filename, verbose=0):
     """
     f = open(filename, "rb")
     lines = 0
-    bytes = 0
+    byte = 0
     ans = {}
     while 1:
         line = f.readline()
-        bytes += len(line)
+        byte += len(line)
         lines += 1
         if not line:               # until eof
-            print(str('***Reached end of file before encountering data'))
+            print(bytes('***Reached end of file before encountering data'))
             print("   Cowardly stopping here")
             print("   Some debug info:")
             print("   Have read {} lines and".format(lines))
-            print("             {} bytes.".format(bytes))
+            print("             {} bytes.".format(byte))
             sys.exit(1)
 
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
@@ -105,7 +105,7 @@ def what_data(filename, verbose=0):
                 print("Cowardly stopping here.")
                 sys.exit(1)
             break
-    ans["startbyte"] = bytes
+    ans["startbyte"] = byte
     ans["startline"] = lines
 
     f.close()
