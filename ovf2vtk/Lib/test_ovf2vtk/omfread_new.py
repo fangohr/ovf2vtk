@@ -99,9 +99,9 @@ def what_data(filename, verbose=0):
             elif bits[3] == "Text":
                 ans["type"] = "ascii"
             else:
-                print("Data file {}".format(filename),
+                print("Data file {} "
                       "appears neither to be a text or"
-                      "a binary file.")
+                      "a binary file.").format(filename)
                 print("Cowardly stopping here.")
                 sys.exit(1)
             break
