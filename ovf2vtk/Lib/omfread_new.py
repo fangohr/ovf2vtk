@@ -147,7 +147,7 @@ def read_structured_ascii_oommf_data(fname, byte, dimensions, verbose=0):
 
         vector_str = str.split(datum[0:-1])
 
-        vector = map(lambda a: float(a), vector_str)
+        vector = [float(a) for a in vector_str]
         if len(vector) != 3:
             print("vector_str= {}".format(vector_str))
             print("vector    = {}".format(vector))
