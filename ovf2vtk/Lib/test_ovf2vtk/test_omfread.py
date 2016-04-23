@@ -346,7 +346,7 @@ def test_read_structured_binary_oommf_data():
                 assert result_string == """The first item in a binary file is \
 meant to be 1234567.0
 but it is not. Instead, I read {}.
-Cowardly stopping here.\n""".format(7.27159209092e+31)
+Cowardly stopping here.\n""".format(7.271592090916425e+31)
             # if binary8, tag = 4.91466545592e+252
             if 1 < i < 4:
                 assert result_string == """The first item in a binary file is \
