@@ -228,11 +228,11 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
 
     The returned value is a list of 3-tuples. """
 
-    if datatype == b"binary4":
+    if datatype == b'binary4':
         floatsize = 4
-    elif datatype == b"binary8":
+    elif datatype == b'binary8':
         floatsize = 8
-    elif datatype == b"ascii":
+    elif datatype == b'ascii':
         print("ascii -oommf data not supported here")
         raise NotImplementedError
     else:
