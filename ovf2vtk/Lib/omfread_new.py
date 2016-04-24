@@ -23,18 +23,18 @@ older version 0.1.17 of ovf2vtk.")
 __version__ = "$Revision: 1.6 $"
 
 # keyword list from ovf-file:
-keywords = [b"Title:",
-            b"Desc: Applied field (T):",
-            b"Desc: Iteration:",
-            b"meshtype:", b"meshunit:",
-            b"xbase:", b"ybase:", b"zbase:",
-            b"xstepsize:", b"ystepsize:", b"zstepsize:",
-            b"xnodes:", b"ynodes:", b"znodes:",
-            b"xmin:", b"ymin:", b"zmin:", b"xmax:", b"ymax:", b"zmax:",
-            b"boundary:", b"valueunit:", b"valuemultiplier:",
-            b"ValueRangeMinMag:", b"ValueRangeMaxMag:",
-            b"End: Head:", b"Begin: Data:", b"OOMMF:",
-            b"Segment count:", b"Begin: Segme"]
+keywords = ["Title:",
+            "Desc: Applied field (T):",
+            "Desc: Iteration:",
+            "meshtype:", "meshunit:",
+            "xbase:", "ybase:", "zbase:",
+            "xstepsize:", "ystepsize:", "zstepsize:",
+            "xnodes:", "ynodes:", "znodes:",
+            "xmin:", "ymin:", "zmin:", "xmax:", "ymax:", "zmax:",
+            "boundary:", "valueunit:", "valuemultiplier:",
+            "ValueRangeMinMag:", "ValueRangeMaxMag:",
+            "End: Head:", "Begin: Data:", "OOMMF:",
+            "Segment count:", "Begin: Segme"]
 
 
 def parse_for_keywords(keywords, line, dic={}):
@@ -58,6 +58,9 @@ def analyze(filename, verbose=0):
         # until eof
         if not line:
             break
+        # python 3 intially returns bytes value rather than string.
+        if sys.version_info[0] == 3:
+            line.decode('ascii')
         if line[0] == "#":
             dic = parse_for_keywords(keywords, line, dic)
             lines.append(line)
