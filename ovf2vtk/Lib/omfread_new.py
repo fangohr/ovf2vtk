@@ -297,8 +297,10 @@ def read_structured_omf_file(infile, debug=False):
                   int(ovf_run[b"znodes:"]))
 
     if debug:
-        print("Number of cells (Nx={:d},Ny={:d},Nz={:d})"
-              .format(dimensions[0], dimensions[1], dimensions[2]))
+        print("Number of cells (Nx={:d},Ny={:d},Nz={:d})".format(dimensions[0],
+                                                                 dimensions[1],
+                                                                 dimensions[2])
+                                                                 )
 
     # find byte that contains the first item of data
     ovf_data = what_data(infile)
