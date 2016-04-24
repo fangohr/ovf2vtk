@@ -211,12 +211,12 @@ def ovf2vtk_main():
     print(banner_doc)
 
     if debug:
-        print("infile ="), infile
-        print("outfile ="), outfile
-        print("args ="), args
-        print("options ="), options
-        print("datascale ="), datascale
-        print("posscale ="), posscale
+        print("infile = {}".format(infile))
+        print("outfile = {}".format(outfile))
+        print("args = {}".format(args))
+        print("options = {}".format(options))
+        print("datascale = {}".format(datascale))
+        print("posscale = {}".format(posscale))
 
     # read data from infile
     vf = nomf.read_structured_omf_file(infile, debug)
