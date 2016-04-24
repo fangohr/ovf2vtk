@@ -292,9 +292,9 @@ def read_structured_omf_file(infile, debug=False):
     # learn about infile
     ovf_run = analyze(infile)
 
-    dimensions = (int(ovf_run[b"xnodes:"]),
-                  int(ovf_run[b"ynodes:"]),
-                  int(ovf_run[b"znodes:"]))
+    dimensions = (int(ovf_run["xnodes:"]),
+                  int(ovf_run["ynodes:"]),
+                  int(ovf_run["znodes:"]))
 
     if debug:
         print("Number of cells (Nx={:d},Ny={:d},Nz={:d})".format(dimensions[0],
