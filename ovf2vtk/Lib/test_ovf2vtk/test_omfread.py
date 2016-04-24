@@ -38,8 +38,8 @@ filenames = [os.path.join('..', 'Examples', 'cantedvortex.omf'),
              os.path.join('..', 'Examples', 'plateDataText.omf'),
              os.path.join('..', 'Examples', 'spiralDataText.omf')]
 
-filenames_data_types = ['binary4', 'binary4', 'binary8', 'binary8',
-                        'binary4', 'binary4', 'ascii', 'ascii', 'ascii']
+filenames_data_types = [b'binary4', b'binary4', b'binary8', b'binary8',
+                        b'binary4', b'binary4', b'ascii', b'ascii', b'ascii']
 
 # list of node values for each corresponding filename in 'filenames'
 filenames_nodes = [(32, 32, 32), (24, 8, 4), (160, 40, 4), (500, 6, 2),
