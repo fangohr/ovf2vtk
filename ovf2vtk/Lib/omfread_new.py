@@ -95,9 +95,9 @@ def what_data(filename, verbose=0):
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
             bits = line.split()
             if bits[3] == b"Binary":
-                ans["type"] = "binary" + bits[4]
+                ans["type"] = b"binary" + bits[4]
             elif bits[3] == b"Text":
-                ans["type"] = "ascii"
+                ans["type"] = b"ascii"
             else:
                 print("Data file {} "
                       "appears neither to be a text or"
@@ -292,9 +292,9 @@ def read_structured_omf_file(infile, debug=False):
     # learn about infile
     ovf_run = analyze(infile)
 
-    dimensions = (int(ovf_run["xnodes:"]),
-                  int(ovf_run["ynodes:"]),
-                  int(ovf_run["znodes:"]))
+    dimensions = (int(ovf_run[b"xnodes:"]),
+                  int(ovf_run[b"ynodes:"]),
+                  int(ovf_run[b"znodes:"]))
 
     if debug:
         print("Number of cells (Nx={:d},Ny={:d},Nz={:d})"
