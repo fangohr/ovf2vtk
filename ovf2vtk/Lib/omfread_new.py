@@ -94,9 +94,9 @@ def what_data(filename, verbose=0):
 
         if line[0:len(DATAKEYWORD)] == DATAKEYWORD:
             bits = line.split()
-            if bits[3] == "Binary":
+            if bits[3] == b"Binary":
                 ans["type"] = "binary" + bits[4]
-            elif bits[3] == "Text":
+            elif bits[3] == b"Text":
                 ans["type"] = "ascii"
             else:
                 print("Data file {} "
