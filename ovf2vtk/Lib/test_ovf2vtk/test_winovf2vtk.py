@@ -9,7 +9,7 @@ from ovf2vtk import __version__ as version
 
 from ovf2vtk import winovf2vtk_new as nwin
 
-nwin.__doc__ = bytearray(nwin.__doc__)
+nwin.__doc__ = bytearray(nwin.__doc__, 'utf-8')
 
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 15/04/16"""
