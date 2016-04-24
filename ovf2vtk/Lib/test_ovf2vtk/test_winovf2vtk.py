@@ -462,8 +462,6 @@ finished conversion (execution time""".format(outfiles[7])
             assert exp == new_doc
         else:
             # check length of docstring lists match.
-            assert len(new_doc) == len(exp)
-            # check length of each line is as expected.
             for i in range(len(new_doc)):
                 assert len(new_doc[i]) == len(exp[i])
 
