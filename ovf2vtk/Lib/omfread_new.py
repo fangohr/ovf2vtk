@@ -69,7 +69,7 @@ def analyze(filename, verbose=0):
 
 
 def what_data(filename, verbose=0):
-    DATAKEYWORD = "# Begin: Data"
+    DATAKEYWORD = b"# Begin: Data"
 
     """returns a dictionary:
     startbyte = integer (bytes from beginning of file)
