@@ -271,10 +271,10 @@ def read_structured_binary_oommf_data(fname, byte, dimensions, datatype,
 
 def read_structured_oommf_data(fname, byte, dimensions, datatype, verbose=0):
     """returns the vectorfield for the correspinding datatype"""
-    if datatype == 'ascii':
+    if datatype == b'ascii':
         return read_structured_ascii_oommf_data(fname, byte, dimensions,
                                                 verbose)
-    elif datatype == 'binary4' or datatype == 'binary8':
+    elif datatype == b'binary4' or datatype == b'binary8':
         return read_structured_binary_oommf_data(fname, byte, dimensions,
                                                  datatype, verbose)
     else:
