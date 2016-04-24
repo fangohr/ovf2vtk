@@ -78,7 +78,7 @@ BUGS etc
     Please report bugs, problems and other feedback to Hans Fangohr
     (hans.fangohr@physics.org)
 
-""")
+"""
 
 __CVS__header__ = "$Header: /var/local/cvs/micromagnetics/mm0/released\
 /ovf2vtk/bin/ovf2vtk,v 1.7 2006-12-30 22:07:50 fangohr Exp $"
