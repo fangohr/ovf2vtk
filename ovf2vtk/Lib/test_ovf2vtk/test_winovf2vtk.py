@@ -104,8 +104,8 @@ def test_winovf2vtk_no_inputs():
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
-    exp = nwin.__doc__ + "\nERROR: An input file (and an output file \
-need to be specified)."
+    exp = b'{}'.format(nwin.__doc__) + b"\nERROR: An input file (and an \
+output file need to be specified)."
     exp = exp.splitlines()
     assert new_doc == exp
 
