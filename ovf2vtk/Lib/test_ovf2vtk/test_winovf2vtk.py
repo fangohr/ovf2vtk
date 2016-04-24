@@ -15,6 +15,9 @@ one place. By Harry Wilson. Last updated 15/04/16"""
 
 # ****************************** Global Variables ***************************
 
+# check whether Python 2 or Python 3:
+sysvers = sys.version_info[0]
+
 # list of keys that can be implemented in command line
 keys = ['-V', '--version', '-v', '--verbose', '-h', '--help',
         '--surface-effects', '--datascale=0.0', '--posscale=0.0', '-b',
@@ -108,11 +111,16 @@ def test_winovf2vtk_no_inputs():
     exp = nwin.__doc__ + "\nERROR: An input file (and an \
 output file need to be specified)."
     exp = exp.splitlines()
-    # check length of docstring lists match.
-    assert len(new_doc) == len(exp)
-    # check lenght of each line is as expected.
-    for i in range(len(new_doc)):
-        assert len(new_doc[i]) == len(exp[i])
+    if sysvers == 2:
+        assert exp == new_doc
+    else:
+        # different method used for Python 3, due to it working with byte...
+        # ...strings. Couldn't determine way Tests not 100% reliable
+        # check length of docstring lists match.
+        assert len(new_doc) == len(exp)
+        # check length of each line is as expected.
+        for i in range(len(new_doc)):
+            assert len(new_doc[i]) == len(exp[i])
 
 
 def test_winovf2vtk_keys_no_parameters():
