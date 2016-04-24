@@ -101,7 +101,7 @@ def test_winovf2vtk_no_inputs():
     new_doc = []
     for i in range(len(doc)):
         line = doc[i].strip(b'\r\n')
-        line = line[1:]
+        # remove byte character 'b' from beginning of line.
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
@@ -109,7 +109,7 @@ def test_winovf2vtk_no_inputs():
 output file need to be specified)."
     exp = exp.splitlines()
     # check winovf2vtk documentation in script, then remove it
-    assert new_doc == exp
+    assert new_doc == bytearray(exp, 'hex')
 
 
 def test_winovf2vtk_keys_no_parameters():
