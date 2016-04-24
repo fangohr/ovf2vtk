@@ -5,8 +5,6 @@ sys.path.append('..')
 
 import numpy as np
 
-from io import StringIO
-
 from ovf2vtk import omfread_new as nomf
 
 from ovf2vtk import omfread_original
@@ -104,23 +102,6 @@ def test_analyze():
             # expected result
             exp = omfread_original.analyze(filename, verbose)
             assert act == exp
-            # test if print statement occurs when verbose=1
-            # help with code taken from...
-            # ...https://wrongsideofmemphis.wordpress.com/2010/03/01/
-            # store-standard-output-on-a-variable-in-python/
-            if verbose == 0:
-                result = StringIO()
-                sys.stdout = result
-                nomf.analyze(filename, verbose)
-                result_string = result.getvalue()
-                assert result_string == ''
-            if verbose == 1:
-                result = StringIO()
-                sys.stdout = result
-                nomf.analyze(filename, verbose)
-                result_string = result.getvalue()
-                assert result_string == "#Analysing {} : Found {} keywords\n"\
-                                        .format(filename, len(exp))
 
 
 def test_what_data():
@@ -136,40 +117,24 @@ def test_what_data():
     this is changed the files are read however none of them are in ascii or
     binary format"""
     for i in range(len(non_files)):
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.what_data(non_files[i])
             x = 0
         except SystemExit:
             x = 1
         assert x == 1
-        result_string = result.getvalue()
-        assert result_string == """***Reached end of file before\
- encountering data
-   Cowardly stopping here
-   Some debug info:
-   Have read {} lines and
-             {} bytes.\n""".format(non_lines[i], non_bytes[i])
 
     # test function determines a file that is not binary or ascii correctly.
     """The what_data() function looks for data type 'Binary' or 'Text'. These
     files have data type 'text' and therefore arent recognised and the function
     should return this fact."""
     for file in non_binary_ascii:
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.what_data(file)
             x = 0
         except SystemExit:
             x = 1
         assert x == 1
-        result_string = result.getvalue()
-        # check it starts printing correct statements.
-        assert result_string == """Data file {} appears neither to be a text\
- ora binary file.
-Cowardly stopping here.\n""".format(file)
 
     # test function determines correct data type of files.
     actual_data_types = []
@@ -180,17 +145,6 @@ Cowardly stopping here.\n""".format(file)
         assert type(dic) == dict
         assert len(dic) == 3
         actual_data_types.append(dic['type'])
-        for verbose in verboses:
-            result = StringIO()
-            sys.stdout = result
-            nomf.what_data(filenames[i], verbose)
-            result_string = result.getvalue()
-            if verbose:
-                assert result_string == 'Data in {} start in line {} at\
- byte {} and is {}\n'.format(filenames[i], lines[i], bytes[i],
-                             filenames_data_types[i])
-            else:
-                assert result_string == ''
     assert actual_data_types == filenames_data_types
 
 
@@ -209,31 +163,24 @@ def test_read_structured_ascii_oommf_data():
     test_bytes = bytes[6:]
     test_nodes = filenames_nodes[6:]
     for i in range(len(ascii_test_files)):
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.read_structured_ascii_oommf_data(ascii_test_files[i],
                                                   test_bytes[i],
                                                   test_nodes[i])
+            x = 0
         except Exception:
-            result_string = result.getvalue()
-            assert result_string == """I found a # in the first column.\
- Complete row is # test
-I only expected '# End: Data Text'.
-cowardly stopping here\n"""
+            x = 1
+        assert x == 1
 
     # test function detects if a vector has more or less than 3 components
     # use example file created
     example_file = os.path.join('..', 'Examples', 'smalltest2.omf')
-    result = StringIO()
-    sys.stdout = result
     try:
         nomf.read_structured_ascii_oommf_data(example_file, 488, (5, 3, 1))
+        x = 0
     except Exception:
-        result_string = result.getvalue()
-        assert result_string == """vector_str= ['-0.89075911', '0.01617681']
-vector    = [-0.89075911, 0.01617681]
-datum = -0.89075911     0.01617681   \n"""
+        x = 1
+    assert x == 1
 
     # test if too much/too little data is detected and correct output is...
     # ...returned.
@@ -248,22 +195,14 @@ datum = -0.89075911     0.01617681   \n"""
     unexp_nodes = filenames_nodes[6:] * 2
     for i in range(len(unexp_data)):
         node_product = unexp_nodes[i][0]*unexp_nodes[i][1]*unexp_nodes[i][2]
-        # the files either have +1 vector or -1 vector than expected
-        if i < 3:
-            actual_nodes = node_product + 1
-        else:
-            actual_nodes = node_product - 1
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.read_structured_ascii_oommf_data(unexp_data[i],
                                                   unexp_bytes[i],
                                                   unexp_nodes[i])
+            x = 0
         except Exception:
-            result_string = result.getvalue()
-            assert result_string == """Hmm, expected nx*ny*ny = {} items, but\
- got {} .
-Cowardly stopping here.\n""".format(node_product, actual_nodes)
+            x = 1
+        assert x == 1
 
     # test expected output if ascii file correct format.
     for i in range(len(ascii_files)):
@@ -272,21 +211,16 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
         exp = omfread_original.read_structured_ascii_oommf_data(ascii_files[i],
                                                                 ascii_bytes[i],
                                                                 ascii_nodes[i])
-        result = StringIO()
-        sys.stdout = result
         # actual result
         act = nomf.read_structured_ascii_oommf_data(ascii_files[i],
                                                     ascii_bytes[i],
                                                     ascii_nodes[i])
-        result_string = result.getvalue()
         # check ouput is a numpy array of correct length
         assert type(act) == np.ndarray
         assert len(act) == node_product
         # check data identical to original version
         assert act.all() == exp.all()
         # check correct print output
-        assert result_string == "Hint: Reading ASCII-OOMMF file is slow (that\
- could be changed) and the files are large. Why not save data as binary?\n"
 
 
 def test_read_structured_binary_oommf_data():
@@ -297,30 +231,26 @@ def test_read_structured_binary_oommf_data():
 
     # test if ascii file given, exception is raised and print statement sent
     for i in range(len(ascii_files)):
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.read_structured_binary_oommf_data(ascii_files[i],
                                                    ascii_bytes[i],
                                                    ascii_nodes[i], 'ascii')
+            x = 0
         except NotImplementedError:
-            result_string = result.getvalue()
-            assert result_string == "ascii -oommf data not supported here\n"
+            x = 1
+        assert x == 1
 
     # test that an unknown data type is detected.
     for i in range(len(filenames)):
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.read_structured_binary_oommf_data(filenames[i], bytes[i],
                                                    filenames_nodes[i],
                                                    filenames_data_types[i] +
                                                    'unknown')
+            x = 0
         except Exception:
-            result_string = result.getvalue()
-            assert result_string == "unknown datatype (expected  'binary4',\
-'binary8' [or 'ascii'], but got {}"\
-.format(filenames_data_types[i]+'unknown\n')
+            x = 1
+        assert x == 1
 
     # test that incorrect verification tag is detected for binary4 and...
     # ...binary8 files. Uses edited versions of files from 'filenames'...
@@ -333,26 +263,14 @@ def test_read_structured_binary_oommf_data():
                    os.path.join('..', 'Examples', 'stdprob3v-regtest.omf'),
                    os.path.join('..', 'Examples', 'stdprobatest.omf')]
     for i in range(len(b4_b8_files)):
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.read_structured_binary_oommf_data(b4_b8_files[i], bytes[i],
                                                    filenames_nodes[i],
                                                    filenames_data_types[i])
+            x = 0
         except AssertionError:
-            result_string = result.getvalue()
-            # if binary4, tag = 7.27159209092e+31
-            if i < 2 or i > 3:
-                assert result_string == """The first item in a binary file is \
-meant to be 1234567.0
-but it is not. Instead, I read {}.
-Cowardly stopping here.\n""".format(7.271592090916425e+31)
-            # if binary8, tag = 4.91466545592e+252
-            if 1 < i < 4:
-                assert result_string == """The first item in a binary file is \
-meant to be 123456789012345.0
-but it is not. Instead, I read {}.
-Cowardly stopping here.\n""".format(4.91466545592e+252)
+            x = 1
+        assert x == 1
 
     # test function output is as expected.
     # actual result
@@ -371,29 +289,6 @@ Cowardly stopping here.\n""".format(4.91466545592e+252)
         exp = omfread_original.read_structured_binary_oommf_data(file, byte,
                                                                  nodes, data)
         assert act.all() == exp.all()
-
-    # test verbose effects
-    for verbose in verboses:
-        for i in range(6):
-            file = filenames[i]
-            byte = bytes[i]
-            nodes = filenames_nodes[i]
-            data = filenames_data_types[i]
-            # the floatsizes of the first six files in 'filenames'
-            floatsizes = [4, 4, 8, 8, 4, 4]
-            floatsize = floatsizes[i]
-            result = StringIO()
-            sys.stdout = result
-            nomf.read_structured_binary_oommf_data(file, byte, nodes, data,
-                                                   verbose)
-            result_string = result.getvalue()
-            if verbose == 0:
-                assert result_string == ''
-            else:
-                assert result_string == """Expect floats of length {} bytes.
-Expect to find data in file {} at position {}.
-verification_tag is okay (=> reading byte order correctly)\n"""\
-.format(floatsize, file, byte)
 
 
 def test_read_structured_oommf_data():
@@ -421,15 +316,12 @@ def test_read_structured_oommf_data():
         assert exp.all() == act.all()
 
         # test function detects unexpected datatype
-        data_unknown = data+'unknown'
-        result = StringIO()
-        sys.stdout = result
         try:
             nomf.read_structured_oommf_data(file, byte, nodes, data)
+            x = 0
         except Exception:
-            result_string = result.getvalue()
-            assert result_string == """expected ascii or binary4 or binar8 for\
- datatype, but got {}""".format(data_unknown)
+            x = 1
+        assert x == 1
 
 
 def test_read_structured_omf_file():
@@ -455,28 +347,3 @@ def test_read_structured_omf_file():
         else:
             exp = nomf.read_structured_ascii_oommf_data(file, byte, nodes)
         assert exp.all() == act.all()
-
-        # test print statements show if debug
-        debug = [0, 1]
-        for db in debug:
-            result = StringIO()
-            sys.stdout = result
-            nomf.read_structured_omf_file(file, db)
-            result_string = result.getvalue()
-            # binary4 & binary8 files
-            if debug == 1 and i < 6:
-                floatsizes = [4, 4, 8, 8, 4, 4]
-                floatsize = floatsizes[i]
-                assert result_string == """Number of cells \
-(Nx={},Ny={},Nz={})
-Expect floats of length {} bytes.
-Expect to find data in file {} at position {}.
-verification_tag is okay (=> reading byte order correctly)\n"""\
-.format(nodes[0], nodes[1], nodes[2], floatsize, file, byte)
-            # ascii files
-            elif debug == 1 and i > 5:
-                assert result_string == """Number of cells \
-(Nx={},Ny={},Nz={})\n""".format(nodes[0], nodes[1], nodes[2])
-            # debug = False
-            elif debug == 0:
-                assert result_string == ''
