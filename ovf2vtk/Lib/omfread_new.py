@@ -292,15 +292,13 @@ def read_structured_omf_file(infile, debug=False):
     # learn about infile
     ovf_run = analyze(infile)
 
-    dimensions = (int(ovf_run[b"xnodes:"]),
-                  int(ovf_run[b"ynodes:"]),
-                  int(ovf_run[b"znodes:"]))
+    dimensions = (int(ovf_run["\bxnodes:"]),
+                  int(ovf_run["\bynodes:"]),
+                  int(ovf_run["\bznodes:"]))
 
     if debug:
         print("Number of cells (Nx={:d},Ny={:d},Nz={:d})".format(dimensions[0],
-                                                                 dimensions[1],
-                                                                 dimensions[2])
-                                                                 )
+              dimensions[1], dimensions[2]))
 
     # find byte that contains the first item of data
     ovf_data = what_data(infile)
