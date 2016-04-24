@@ -9,7 +9,6 @@ from ovf2vtk import __version__ as version
 
 from ovf2vtk import winovf2vtk_new as nwin
 
-nwin.__doc__ = bytearray(nwin.__doc__, 'utf-8')
 
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 15/04/16"""
@@ -102,14 +101,14 @@ def test_winovf2vtk_no_inputs():
     new_doc = []
     for i in range(len(doc)):
         line = doc[i].strip(b'\r\n')
+        line = line[1:]
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
-    exp = nwin.__doc__ + b"\nERROR: An input file (and an \
+    exp = nwin.__doc__ + "\nERROR: An input file (and an \
 output file need to be specified)."
     exp = exp.splitlines()
     # check winovf2vtk documentation in script, then remove it
-    assert len(exp) == len(new_doc)
     assert new_doc == exp
 
 
