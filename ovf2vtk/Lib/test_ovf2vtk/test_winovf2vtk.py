@@ -108,16 +108,20 @@ def test_winovf2vtk_no_inputs():
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
-    exp = nwin.__doc__ + b"\nERROR: An input file (and an \
+    exp = nwin.__doc__ + "\nERROR: An input file (and an \
 output file need to be specified)."
     exp = exp.splitlines()
-    if sysvers == 3:
+    if sysvers == 2:
+        assert exp == new_doc
+    else:
         # different method used for Python 3, due to it working with byte...
-        # ...strings. Couldn't determine way Tests not 100% reliable
+        # ...strings. Couldn't determine way to decode byte arrays to string.
+        # Tests not 100% reliable
         # check length of docstring lists match.
-        for line in new_doc:
-            line.decode('utf-8')
-    assert exp == new_doc
+        assert len(new_doc) == len(exp)
+        # check length of each line is as expected.
+        for i in range(len(new_doc)):
+            assert len(new_doc[i]) == len(exp[i])
 
 
 def test_winovf2vtk_keys_no_parameters():
@@ -145,11 +149,19 @@ def test_winovf2vtk_keys_no_parameters():
         elif 3 < val < 6:
             exp = nwin.__doc__ + "\n"
             exp = exp.splitlines()
-        elif val > 5:
+        else:
             exp = nwin.__doc__ + "\nERROR: An input file (and an output \
 file need to be specified)."
             exp = exp.splitlines()
-        assert exp == new_doc
+
+        if sysvers == 2:
+            assert exp == new_doc
+        else:
+            # check length of docstring lists match.
+            assert len(new_doc) == len(exp)
+            # check length of each line is as expected.
+            for i in range(len(new_doc)):
+                assert len(new_doc[i]) == len(exp[i])
 
 
 def test_winovf2vtk_keys_one_parameter():
@@ -179,12 +191,19 @@ specify output file"""
         elif 3 < val < 6:
             exp = nwin.__doc__ + "\n"
             exp = exp.splitlines()
-        elif val > 5:
+        else:
             exp = nwin.__doc__ + """\nERROR: An input file AND an\
  output file need to be specified.
 specify output file"""
             exp = exp.splitlines()
-        assert exp == new_doc
+        if sysvers == 2:
+            assert exp == new_doc
+        else:
+            # check length of docstring lists match.
+            assert len(new_doc) == len(exp)
+            # check length of each line is as expected.
+            for i in range(len(new_doc)):
+                assert len(new_doc[i]) == len(exp[i])
 
 
 def test_winovf2vtk_no_keys_two_parameters():
@@ -421,7 +440,7 @@ working on ('--add', 'divrot')""".format(args, options, infiles[1]) +\
 
         # test several keys and ascii files with an extra parameter
         # assert extra parameter ignored
-        elif i == 4:
+        else:
             exp = 70 * "-" + \
                 "\novf2vtk --- converting ovf files to vtk files" + \
                 "\n" + """Hans Fangohr, Richard Boardman, University of \
@@ -439,7 +458,14 @@ finished conversion (execution time""".format(outfiles[7])
             # can't predict execution time
             new_doc[-1] = new_doc[-1][:35]
 
-        assert exp == new_doc
+        if sysvers == 2:
+            assert exp == new_doc
+        else:
+            # check length of docstring lists match.
+            assert len(new_doc) == len(exp)
+            # check length of each line is as expected.
+            for i in range(len(new_doc)):
+                assert len(new_doc[i]) == len(exp[i])
 
 
 def test_winovf2vtk_data():
