@@ -108,8 +108,11 @@ def test_winovf2vtk_no_inputs():
     exp = nwin.__doc__ + "\nERROR: An input file (and an \
 output file need to be specified)."
     exp = exp.splitlines()
-    # check winovf2vtk documentation in script, then remove it
-    assert new_doc == exp
+    # check length of docstring lists match.
+    assert len(new_doc) == len(exp)
+    # check lenght of each line is as expected.
+    for i in range(len(new_doc)):
+        assert len(new_doc[i]) == len(exp[i])
 
 
 def test_winovf2vtk_keys_no_parameters():
