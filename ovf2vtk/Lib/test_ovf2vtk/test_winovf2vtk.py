@@ -108,19 +108,16 @@ def test_winovf2vtk_no_inputs():
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
-    exp = nwin.__doc__ + "\nERROR: An input file (and an \
+    exp = nwin.__doc__ + b"\nERROR: An input file (and an \
 output file need to be specified)."
     exp = exp.splitlines()
-    if sysvers == 2:
-        assert exp == new_doc
-    else:
+    if sysvers == 3:
         # different method used for Python 3, due to it working with byte...
         # ...strings. Couldn't determine way Tests not 100% reliable
         # check length of docstring lists match.
-        assert len(new_doc) == len(exp)
-        # check length of each line is as expected.
-        for i in range(len(new_doc)):
-            assert len(new_doc[i]) == len(exp[i])
+        for line in new_doc:
+            line.decode('utf-8')
+    assert exp == new_doc
 
 
 def test_winovf2vtk_keys_no_parameters():
