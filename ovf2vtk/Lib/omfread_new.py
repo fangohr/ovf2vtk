@@ -23,18 +23,18 @@ older version 0.1.17 of ovf2vtk.")
 __version__ = "$Revision: 1.6 $"
 
 # keyword list from ovf-file:
-keywords = ["Title:",
-            "Desc: Applied field (T):",
-            "Desc: Iteration:",
-            "meshtype:", "meshunit:",
-            "xbase:", "ybase:", "zbase:",
-            "xstepsize:", "ystepsize:", "zstepsize:",
-            "xnodes:", "ynodes:", "znodes:",
-            "xmin:", "ymin:", "zmin:", "xmax:", "ymax:", "zmax:",
-            "boundary:", "valueunit:", "valuemultiplier:",
-            "ValueRangeMinMag:", "ValueRangeMaxMag:",
-            "End: Head:", "Begin: Data:", "OOMMF:",
-            "Segment count:", "Begin: Segme"]
+keywords = [b"Title:",
+            b"Desc: Applied field (T):",
+            b"Desc: Iteration:",
+            b"meshtype:", b"meshunit:",
+            b"xbase:", b"ybase:", b"zbase:",
+            b"xstepsize:", b"ystepsize:", b"zstepsize:",
+            b"xnodes:", b"ynodes:", b"znodes:",
+            b"xmin:", b"ymin:", b"zmin:", b"xmax:", b"ymax:", b"zmax:",
+            b"boundary:", b"valueunit:", b"valuemultiplier:",
+            b"ValueRangeMinMag:", b"ValueRangeMaxMag:",
+            b"End: Head:", b"Begin: Data:", b"OOMMF:",
+            b"Segment count:", b"Begin: Segme"]
 
 
 def parse_for_keywords(keywords, line, dic={}):
@@ -292,9 +292,9 @@ def read_structured_omf_file(infile, debug=False):
     # learn about infile
     ovf_run = analyze(infile)
 
-    dimensions = (int(ovf_run["xnodes:"]),
-                  int(ovf_run["ynodes:"]),
-                  int(ovf_run["znodes:"]))
+    dimensions = (int(ovf_run[b"xnodes:"]),
+                  int(ovf_run[b"ynodes:"]),
+                  int(ovf_run[b"znodes:"]))
 
     if debug:
         print("Number of cells (Nx={:d},Ny={:d},Nz={:d})".format(dimensions[0],
