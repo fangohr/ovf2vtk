@@ -60,7 +60,10 @@ def analyze(filename, verbose=0):
             break
         # python 3 intially returns bytes value rather than string.
         if sys.version_info[0] == 3:
-            line.decode('ascii')
+            try:
+                line.decode('ascii')
+            except UnicodeDecodeError:
+                pass
         if line[0] == "#":
             dic = parse_for_keywords(keywords, line, dic)
             lines.append(line)
