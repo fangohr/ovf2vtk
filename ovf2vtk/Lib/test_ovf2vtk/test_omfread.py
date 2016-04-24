@@ -317,7 +317,7 @@ def test_read_structured_oommf_data():
 
         # test function detects unexpected datatype
         try:
-            nomf.read_structured_oommf_data(file, byte, nodes, data)
+            nomf.read_structured_oommf_data(file, byte, nodes, data+'unknown')
             x = 0
         except Exception:
             x = 1
