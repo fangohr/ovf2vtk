@@ -234,7 +234,7 @@ def test_read_structured_binary_oommf_data():
         try:
             nomf.read_structured_binary_oommf_data(ascii_files[i],
                                                    ascii_bytes[i],
-                                                   ascii_nodes[i], 'ascii')
+                                                   ascii_nodes[i], b'ascii')
             x = 0
         except NotImplementedError:
             x = 1
