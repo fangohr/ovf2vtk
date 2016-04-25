@@ -294,7 +294,9 @@ def test_winovf2vtk_keys_two_parameters():
                     for line in new_doc:
                         act = []
                         act.append(line.decode('ascii'))
-                assert exp == act
+                        assert exp == act
+                else:
+                    assert exp == new_doc
 
             # e.g. datascale/posscale/surface-effects/b/t binaryin binaryout
             elif 5 < i < 14 and j < 6:
