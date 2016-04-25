@@ -482,7 +482,7 @@ finished conversion (execution time""".format(outfiles[7])
                         assert term in act[8]
                 elif i == 3:
                     assert act[9:] == exp[9:]
-                    assert act[:8] == exp[9:]
+                    assert act[:8] == exp[:8]
                     terms = ["'--ascii': None", "'--add': 'all'",
                              "'--surface-effects': None", "'--verbose': None"]
                     for term in terms:
