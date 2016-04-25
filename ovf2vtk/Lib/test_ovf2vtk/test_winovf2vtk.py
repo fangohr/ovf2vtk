@@ -480,6 +480,13 @@ finished conversion (execution time""".format(outfiles[7])
                              "'--datascale': '0.5'"]
                     for term in terms:
                         assert term in act[8]
+                elif i == 3:
+                    assert act[9:] == exp[9:]
+                    assert act[:8] == exp[9:]
+                    terms = ["'--ascii': None", "'--add': 'all'",
+                             "'--surface-effects': None", "'--verbose': None"]
+                    for term in terms:
+                        assert term in act[8]
                 else:
                     assert exp == act
             else:
