@@ -294,7 +294,7 @@ def test_winovf2vtk_keys_two_parameters():
                     for line in new_doc:
                         act = []
                         act.append(line.decode('ascii'))
-                        assert exp == act
+                    assert exp == act
                 else:
                     assert exp == new_doc
 
