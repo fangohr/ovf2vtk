@@ -53,6 +53,15 @@ def analyze( filename, verbose = 0 ):
         line=f.readline()
         if not line:               #until eof
             break
+        # python 3 intially returns bytes value rather than string.
+        if sys.version_info[0] == 3:
+            try:
+                a = line.decode('ascii')
+                if a[0] == "#":
+                    dic = parse_for_keywords(keywords, a, dic)
+                    lines.append(a)
+            except UnicodeDecodeError:
+                pass
         if line[0] == "#":
             dic = parse_for_keywords( keywords, line, dic )
             lines.append(line)
