@@ -291,8 +291,8 @@ def test_winovf2vtk_keys_two_parameters():
                 exp = nwin.__doc__ + "\n"
                 exp = exp.splitlines()
                 if sysvers == 3:
+                    act = []
                     for line in new_doc:
-                        act = []
                         act.append(line.decode('ascii'))
                     assert exp == act
                 else:
