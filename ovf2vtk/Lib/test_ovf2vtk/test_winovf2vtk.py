@@ -111,17 +111,15 @@ def test_winovf2vtk_no_inputs():
     exp = nwin.__doc__ + "\nERROR: An input file (and an \
 output file need to be specified)."
     exp = exp.splitlines()
-    if sysvers == 2:
-        assert exp == new_doc
+
+    # decode data stored in bytes if using Python 3, then compare lists.
+    if sysvers == 3:
+        act = []
+        for line in new_doc:
+            act.append(line.decode('ascii'))
+        assert exp == act
     else:
-        # different method used for Python 3, due to it working with byte...
-        # ...strings. Couldn't determine way to decode byte arrays to string.
-        # Tests not 100% reliable
-        # check length of docstring lists match.
-        assert len(new_doc) == len(exp)
-        # check length of each line is as expected.
-        for i in range(len(new_doc)):
-            assert len(new_doc[i]) == len(exp[i])
+        assert exp == new_doc
 
 
 def test_winovf2vtk_keys_no_parameters():
@@ -154,14 +152,14 @@ def test_winovf2vtk_keys_no_parameters():
 file need to be specified)."
             exp = exp.splitlines()
 
-        if sysvers == 2:
-            assert exp == new_doc
+        # decode data stored in bytes if using Python 3, then compare lists.
+        if sysvers == 3:
+            act = []
+            for line in new_doc:
+                act.append(line.decode('ascii'))
+            assert exp == act
         else:
-            # check length of docstring lists match.
-            assert len(new_doc) == len(exp)
-            # check length of each line is as expected.
-            for i in range(len(new_doc)):
-                assert len(new_doc[i]) == len(exp[i])
+            assert exp == new_doc
 
 
 def test_winovf2vtk_keys_one_parameter():
@@ -196,14 +194,15 @@ specify output file"""
  output file need to be specified.
 specify output file"""
             exp = exp.splitlines()
-        if sysvers == 2:
-            assert exp == new_doc
+
+        # decode data stored in bytes if using Python 3, then compare lists.
+        if sysvers == 3:
+            act = []
+            for line in new_doc:
+                act.append(line.decode('ascii'))
+            assert exp == act
         else:
-            # check length of docstring lists match.
-            assert len(new_doc) == len(exp)
-            # check length of each line is as expected.
-            for i in range(len(new_doc)):
-                assert len(new_doc[i]) == len(exp[i])
+            assert exp == new_doc
 
 
 def test_winovf2vtk_no_keys_two_parameters():
@@ -290,6 +289,7 @@ def test_winovf2vtk_keys_two_parameters():
             elif 3 < i < 6:
                 exp = nwin.__doc__ + "\n"
                 exp = exp.splitlines()
+                # decode data if using Python3, then compare lists.
                 if sysvers == 3:
                     act = []
                     for line in new_doc:
@@ -464,12 +464,14 @@ finished conversion (execution time""".format(outfiles[7])
             # can't predict execution time
             new_doc[-1] = new_doc[-1][:35]
 
-        if sysvers == 2:
-            assert exp == new_doc
+        # decode data stored in bytes if using Python 3, then compare lists.
+        if sysvers == 3:
+            act = []
+            for line in new_doc:
+                act.append(line.decode('ascii'))
+            assert exp == act
         else:
-            # check length of docstring lists match.
-            for i in range(len(new_doc)):
-                assert len(new_doc[i]) == len(exp[i])
+            assert exp == new_doc
 
 
 def test_winovf2vtk_data():
