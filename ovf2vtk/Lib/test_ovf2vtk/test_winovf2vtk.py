@@ -290,6 +290,9 @@ def test_winovf2vtk_keys_two_parameters():
             elif 3 < i < 6:
                 exp = nwin.__doc__ + "\n"
                 exp = exp.splitlines()
+                if sysvers == 3:
+                    for line in new_doc:
+                        line.decode('ascii')
                 assert exp == new_doc
 
             # e.g. datascale/posscale/surface-effects/b/t binaryin binaryout
