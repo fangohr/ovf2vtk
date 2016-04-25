@@ -468,11 +468,11 @@ finished conversion (execution time""".format(outfiles[7])
             # order of options dict fluctuates, cannot predict it.
             assert new_doc[9:] == exp[9:]
             assert new_doc[:8] == exp[8:]
-            options = ["'--posscale': '1.0'", "'--add': 'yz'", "'-v': None",
-                       "'-a': 'divrot'", "'--datascale': '0.5'"]
+            list = ["'--posscale': '1.0'", "'--add': 'yz'", "'-v': None",
+                    "'-a': 'divrot'", "'--datascale': '0.5'"]
             # determine values are still in list.
-            for option in options:
-                assert option in new_doc[8]
+            for item in list:
+                assert item in new_doc[8]
         else:
             # decode data stored in bytes if using Python 3, then compare lists
             if sysvers == 3:
