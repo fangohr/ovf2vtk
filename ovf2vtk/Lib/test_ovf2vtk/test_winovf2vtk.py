@@ -369,13 +369,8 @@ def test_winovf2vtk_example_cmd_lines():
             args = [('--datascale', '0.5'), ('--posscale', '1.0'),
                     ('--add', 'Ms'), ('-a', 'divrot'), ('--add', 'yz'),
                     ('-v', '')]
-            # options dicts ordered differently on Python2 and Python3
-            if sysvers == 2:
-                options = {'--posscale': '1.0', '--add': 'yz', '-v': None,
-                           '-a': 'divrot', '--datascale': '0.5'}
-            else:
-                options = {'-v': None, '--posscale': '1.0', '-a': 'divrot',
-                           '--datascale': '0.5', '--add': 'yz'}
+            options = {'--posscale': '1.0', '--add': 'yz', '-v': None,
+                       '-a': 'divrot', '--datascale': '0.5'}
             exp = "running in verbose mode\n" + 70 * "-" + \
                 "\novf2vtk --- converting ovf files to vtk files" + \
                 "\n" + """Hans Fangohr, Richard Boardman, University of \
