@@ -11,4 +11,4 @@ and can be used to convert ovf files to vtk from the command prompt.
 hans.fangohr@physics.org (fangohr 02/05/2005 14:33)
 """
 
-from __version__ import __version__
+from ovf2vtk import __version__
