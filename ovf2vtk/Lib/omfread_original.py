@@ -5,6 +5,7 @@ Part of ovf2vtk.
 Hans Fangohr, hans.fangohr@physics.org
 
 """
+import sys
 
 import struct
 
