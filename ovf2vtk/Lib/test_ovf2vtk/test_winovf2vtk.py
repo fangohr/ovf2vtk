@@ -10,7 +10,7 @@ import ovf2vtk
 # set version variqble
 version = ovf2vtk.__version__.__version__
 
-from ovf2vtk import winovf2vtk_new as nwin
+from ovf2vtk import winovf2vtk as win
 
 
 """all the tests developed for the winovf2vtk.py script for ovf2vtk stored in
@@ -111,7 +111,7 @@ def test_winovf2vtk_no_inputs():
         new_doc.append(line)
     # compute expected result
     # zero parameters, therefore error message
-    exp = nwin.__doc__ + "\nERROR: An input file (and an \
+    exp = win.__doc__ + "\nERROR: An input file (and an \
 output file need to be specified)."
     exp = exp.splitlines()
 
@@ -144,14 +144,14 @@ def test_winovf2vtk_keys_no_parameters():
         if val < 2:
             exp = ["This is version {}.".format(version)]
         elif 1 < val < 4:
-            exp = "running in verbose mode\n" + nwin.__doc__ + "\nERROR:\
+            exp = "running in verbose mode\n" + win.__doc__ + "\nERROR:\
  An input file (and an output file need to be specified)."
             exp = exp.splitlines()
         elif 3 < val < 6:
-            exp = nwin.__doc__ + "\n"
+            exp = win.__doc__ + "\n"
             exp = exp.splitlines()
         else:
-            exp = nwin.__doc__ + "\nERROR: An input file (and an output \
+            exp = win.__doc__ + "\nERROR: An input file (and an output \
 file need to be specified)."
             exp = exp.splitlines()
 
@@ -184,16 +184,16 @@ def test_winovf2vtk_keys_one_parameter():
         if val < 2:
             exp = ["This is version {}.".format(version)]
         elif 1 < val < 4:
-            exp = "running in verbose mode\n" + nwin.__doc__ + \
+            exp = "running in verbose mode\n" + win.__doc__ + \
                 """\nERROR: An input file AND an output file need to \
 be specified.
 specify output file"""
             exp = exp.splitlines()
         elif 3 < val < 6:
-            exp = nwin.__doc__ + "\n"
+            exp = win.__doc__ + "\n"
             exp = exp.splitlines()
         else:
-            exp = nwin.__doc__ + """\nERROR: An input file AND an\
+            exp = win.__doc__ + """\nERROR: An input file AND an\
  output file need to be specified.
 specify output file"""
             exp = exp.splitlines()
@@ -290,7 +290,7 @@ def test_winovf2vtk_keys_two_parameters():
 
             # e.g. --h infile outfile
             elif 3 < i < 6:
-                exp = nwin.__doc__ + "\n"
+                exp = win.__doc__ + "\n"
                 exp = exp.splitlines()
                 # decode data if using Python3, then compare lists.
                 if sysvers == 3:
@@ -402,7 +402,7 @@ finished conversion (execution time
 
         # test if --help key present, just program documentation is outputted
         elif i == 2:
-            exp = nwin.__doc__ + "\n"
+            exp = win.__doc__ + "\n"
             exp = exp.splitlines()
 
         # test several keys + binary outfile and infile with different name
