@@ -368,7 +368,7 @@ def ovf2vtk_main():
 
     for arg in args:
         if arg[0] == "-a" or arg[0] == "--add":
-            print("working on{}".format(arg))
+            print("working on {}".format(arg))
 
             data = []
             lookup_table = 'default'
