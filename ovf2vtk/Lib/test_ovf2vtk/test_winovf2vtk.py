@@ -467,7 +467,7 @@ finished conversion (execution time""".format(outfiles[7])
         if i == 1:
             # order of options dict fluctuates, cannot predict it.
             assert new_doc[9:] == exp[9:]
-            assert new_doc[:8] == exp[8:]
+            assert new_doc[:8] == exp[:8]
             list = ["'--posscale': '1.0'", "'--add': 'yz'", "'-v': None",
                     "'-a': 'divrot'", "'--datascale': '0.5'"]
             # determine values are still in list.
