@@ -464,14 +464,24 @@ finished conversion (execution time""".format(outfiles[7])
             # can't predict execution time
             new_doc[-1] = new_doc[-1][:35]
 
-        # decode data stored in bytes if using Python 3, then compare lists.
-        if sysvers == 3:
-            act = []
-            for line in new_doc:
-                act.append(line.decode('ascii'))
-            assert exp == act
+        if i == 1:
+            # order of options dict fluctuates, cannot predict it.
+            assert new_doc[9:] == exp[9:]
+            assert new_doc[:8] == exp[8:]
+            options = ["'--posscale': '1.0'", "'--add': 'yz'", "'-v': None",
+                       "'-a': 'divrot'", "'--datascale': '0.5'"]
+            # determine values are still in list.
+            for option in options:
+                assert option in new_doc[8]
         else:
-            assert exp == new_doc
+            # decode data stored in bytes if using Python 3, then compare lists
+            if sysvers == 3:
+                act = []
+                for line in new_doc:
+                    act.append(line.decode('ascii'))
+                assert exp == act
+            else:
+                assert exp == new_doc
 
 
 def test_winovf2vtk_data():
