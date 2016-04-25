@@ -62,6 +62,9 @@ def analyze(filename, verbose=0):
         if sys.version_info[0] == 3:
             try:
                 line.decode('ascii')
+                if line[0] == "#":
+                    dic = parse_for_keywords(keywords, line, dic)
+                    lines.append(line)
             except UnicodeDecodeError:
                 pass
         if line[0] == "#":
