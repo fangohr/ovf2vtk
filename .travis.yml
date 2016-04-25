@@ -7,7 +7,7 @@ before_install: cd ovf2vtk
 install:
  - python setup.py -q install
  - pip install PyVTK
- - pip install coverage
+ - pip install pytest-cov
 # command to run tests
 before_script:
 script: make test
