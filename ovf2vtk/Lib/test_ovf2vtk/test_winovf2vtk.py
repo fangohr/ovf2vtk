@@ -5,7 +5,10 @@ sys.path.append('..')
 
 import subprocess
 
-from ovf2vtk import __version__ as version
+import ovf2vtk
+
+# set version variqble
+version = ovf2vtk.__version__.__version__
 
 from ovf2vtk import winovf2vtk_new as nwin
 
