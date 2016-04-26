@@ -1,2 +1,2 @@
 test:
-	cd Lib/test_ovf2vtk && py.test -v --cov=.. --cov-report=html .
+	cd Lib && python winovf2vtk.py --add all Examples/cantedvortex.omf Examples/cantedvortex.vtk
