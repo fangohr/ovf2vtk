@@ -1,2 +1,2 @@
 test:
-	cd Lib/test_ovf2vtk && py.test -v test_omfread
+	cd Lib/test_ovf2vtk && py.test -v test_omfread.py
