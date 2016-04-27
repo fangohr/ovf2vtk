@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.append('..')
 
-from io import StringIO
+from io import BytesIO
 
 import numpy as np
 
@@ -112,7 +112,7 @@ def test_analyze():
             # ...https://wrongsideofmemphis.wordpress.com/2010/03/01/
             # store-standard-output-on-a-variable-in-python/
             if verbose == 0:
-                result = StringIO()
+                result = BytesIO()
                 sys.stdout = result
                 omf.analyze(filename, verbose)
                 result_string = result.getvalue()
@@ -121,7 +121,7 @@ def test_analyze():
                 else:
                     assert result_string.decode('ascii') == ''
             else:
-                result = StringIO()
+                result = BytesIO()
                 sys.stdout = result
                 omf.analyze(filename, verbose)
                 result_string = result.getvalue()
