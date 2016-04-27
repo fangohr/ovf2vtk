@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.append('..')
 
-from io import StringIO
+from StringIO import StringIO
 
 import numpy as np
 
