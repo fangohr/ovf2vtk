@@ -465,8 +465,8 @@ def test_read_structured_oommf_data():
         assert exp.all() == act.all()
 
         # test function detects unexpected datatype
-        data_unknown = data+'unknown'
         if sysvers == 2:
+            data_unknown = data+'unknown'
             result = StringIO()
             sys.stdout = result
         try:
