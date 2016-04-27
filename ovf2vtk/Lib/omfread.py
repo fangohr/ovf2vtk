@@ -287,7 +287,7 @@ def read_structured_oommf_data(fname, byte, dimensions, datatype, verbose=0):
         return read_structured_binary_oommf_data(fname, byte, dimensions,
                                                  datatype, verbose)
     else:
-        print("expected ascii or binary4 or binar8 for datatype, \
+        print("expected ascii or binary4 or binary8 for datatype, \
 but got {}".format(datatype))
         raise Exception("Oopps. Something wrong here!")
 
