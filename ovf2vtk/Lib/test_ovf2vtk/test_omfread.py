@@ -477,7 +477,7 @@ def test_read_structured_oommf_data():
             if sysvers == 2:
                 result_string = result.getvalue()
                 assert result_string == """expected ascii or binary4 or binary8 for\
- datatype, but got {}""".format(data_unknown)
+ datatype, but got {}\n""".format(data_unknown)
         assert x == 1
 
 
