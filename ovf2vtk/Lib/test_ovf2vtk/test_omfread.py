@@ -3,16 +3,21 @@ import os
 import sys
 sys.path.append('..')
 
+from io import StringIO
+
 import numpy as np
 
 from ovf2vtk import omfread as omf
 
 from ovf2vtk import omfread_original
 
+
 """all the tests developed for the omfread.py script for ovf2vtk stored in
 one place. By Harry Wilson. Last updated 09/04/16"""
 
 # *************************** Global Variables ***************************** #
+
+sysvers = sys.version_info[0]
 
 keywords = ["Title:",
             "Desc: Applied field (T):",
@@ -102,6 +107,30 @@ def test_analyze():
             # expected result
             exp = omfread_original.analyze(filename, verbose)
             assert act == exp
+            # test if print statement occurs when verbose=1
+            # help with code taken from...
+            # ...https://wrongsideofmemphis.wordpress.com/2010/03/01/
+            # store-standard-output-on-a-variable-in-python/
+            if verbose == 0:
+                result = StringIO()
+                sys.stdout = result
+                omf.analyze(filename, verbose)
+                result_string = result.getvalue()
+                if sysvers == 2:
+                    assert result_string == ''
+                else:
+                    assert result_string.decode('ascii') == ''
+            else:
+                result = StringIO()
+                sys.stdout = result
+                omf.analyze(filename, verbose)
+                result_string = result.getvalue()
+                if sysvers == 2:
+                    assert result_string == "#Analysing {} : Found {} \
+keywords\n".format(filename, len(exp))
+                else:
+                    assert result_string.decode('ascii') == "#Analysing {} : \
+Found {} keywords\n".format(filename, len(exp))
 
 
 def test_what_data():
