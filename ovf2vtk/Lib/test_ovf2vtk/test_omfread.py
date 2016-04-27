@@ -3,7 +3,9 @@ import os
 import sys
 sys.path.append('..')
 
-from StringIO import StringIO
+sysvers = sys.version_info[0]
+if sysvers == 2:
+    from StringIO import StringIO
 
 import numpy as np
 
@@ -16,8 +18,6 @@ from ovf2vtk import omfread_original
 one place. By Harry Wilson. Last updated 09/04/16"""
 
 # *************************** Global Variables ***************************** #
-
-sysvers = sys.version_info[0]
 
 keywords = ["Title:",
             "Desc: Applied field (T):",
@@ -151,11 +151,11 @@ def test_what_data():
         result_string = result.getvalue()
         if sysvers == 2:
             assert result_string == """***Reached end of file before\
-encountering data
-Cowardly stopping here
-Some debug info:
-Have read {} lines and
-          {} bytes.\n""".format(non_lines[i], non_bytes[i])
+ encountering data
+   Cowardly stopping here
+   Some debug info:
+   Have read {} lines and
+             {} bytes.\n""".format(non_lines[i], non_bytes[i])
 
     # test function determines a file that is not binary or ascii correctly.
     """The what_data() function looks for data type 'Binary' or 'Text'. These
@@ -227,7 +227,7 @@ def test_read_structured_ascii_oommf_data():
             x = 1
             result_string = result.getvalue()
             if sysvers == 2:
-                assert result_string == """I found a # in the first column.\
+                assert result_string == """I found a # in the first column. \
 Complete row is # test
 I only expected '# End: Data Text'.
 cowardly stopping here\n"""
@@ -465,7 +465,7 @@ def test_read_structured_oommf_data():
             x = 1
             result_string = result.getvalue()
             if sysvers == 2:
-                assert result_string == """expected ascii or binary4 or binar8 for\
+                assert result_string == """expected ascii or binary4 or binary8 for\
  datatype, but got {}""".format(data_unknown)
         assert x == 1
 
