@@ -140,16 +140,17 @@ def test_what_data():
     this is changed the files are read however none of them are in ascii or
     binary format"""
     for i in range(len(non_files)):
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.what_data(non_files[i])
             x = 0
         except SystemExit:
             x = 1
         assert x == 1
-        result_string = result.getvalue()
         if sysvers == 2:
+            result_string = result.getvalue()
             assert result_string == """***Reached end of file before\
  encountering data
    Cowardly stopping here
@@ -162,16 +163,17 @@ def test_what_data():
     files have data type 'text' and therefore arent recognised and the function
     should return this fact."""
     for file in non_binary_ascii:
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.what_data(file)
             x = 0
         except SystemExit:
             x = 1
         assert x == 1
-        result_string = result.getvalue()
         if sysvers == 2:
+            result_string = result.getvalue()
             # check it starts printing correct statements.
             assert result_string == """Data file {} appears neither to be a \
 text ora binary file.
@@ -216,8 +218,9 @@ def test_read_structured_ascii_oommf_data():
     test_bytes = bytes[6:]
     test_nodes = filenames_nodes[6:]
     for i in range(len(ascii_test_files)):
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.read_structured_ascii_oommf_data(ascii_test_files[i],
                                                  test_bytes[i],
@@ -225,8 +228,8 @@ def test_read_structured_ascii_oommf_data():
             x = 0
         except Exception:
             x = 1
-            result_string = result.getvalue()
             if sysvers == 2:
+                result_string = result.getvalue()
                 assert result_string == """I found a # in the first column. \
 Complete row is # test
 I only expected '# End: Data Text'.
@@ -236,15 +239,16 @@ cowardly stopping here\n"""
     # test function detects if a vector has more or less than 3 components
     # use example file created
     example_file = os.path.join('..', 'Examples', 'smalltest2.omf')
-    result = StringIO()
-    sys.stdout = result
+    if sysvers == 2:
+        result = StringIO()
+        sys.stdout = result
     try:
         omf.read_structured_ascii_oommf_data(example_file, 488, (5, 3, 1))
         x = 0
     except Exception:
         x = 1
-        result_string = result.getvalue()
         if sysvers == 2:
+            result_string = result.getvalue()
             assert result_string == """vector_str= ['-0.89075911', '0.01617681']
 vector    = [-0.89075911, 0.01617681]
 datum = -0.89075911     0.01617681   \n"""
@@ -268,8 +272,9 @@ datum = -0.89075911     0.01617681   \n"""
             actual_nodes = node_product + 1
         else:
             actual_nodes = node_product - 1
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.read_structured_ascii_oommf_data(unexp_data[i],
                                                  unexp_bytes[i],
@@ -291,22 +296,23 @@ Cowardly stopping here.\n""".format(node_product, actual_nodes)
         exp = omfread_original.read_structured_ascii_oommf_data(ascii_files[i],
                                                                 ascii_bytes[i],
                                                                 ascii_nodes[i])
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         # actual result
         act = omf.read_structured_ascii_oommf_data(ascii_files[i],
                                                    ascii_bytes[i],
                                                    ascii_nodes[i])
-        result_string = result.getvalue()
+        if sysvers == 2:
+            result_string = result.getvalue()
+            assert result_string == "Hint: Reading ASCII-OOMMF file is slow (that\
+ could be changed) and the files are large. Why not save data as binary?\n"
         # check ouput is a numpy array of correct length
         assert type(act) == np.ndarray
         assert len(act) == node_product
         # check data identical to original version
         assert act.all() == exp.all()
         # check correct print output
-        if sysvers == 2:
-            assert result_string == "Hint: Reading ASCII-OOMMF file is slow (that\
- could be changed) and the files are large. Why not save data as binary?\n"
 
 
 def test_read_structured_binary_oommf_data():
@@ -317,8 +323,9 @@ def test_read_structured_binary_oommf_data():
 
     # test if ascii file given, exception is raised and print statement sent
     for i in range(len(ascii_files)):
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.read_structured_binary_oommf_data(ascii_files[i],
                                                   ascii_bytes[i],
@@ -334,8 +341,9 @@ here\n"
 
     # test that an unknown data type is detected.
     for i in range(len(filenames)):
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.read_structured_binary_oommf_data(filenames[i], bytes[i],
                                                   filenames_nodes[i],
@@ -344,8 +352,8 @@ here\n"
             x = 0
         except Exception:
             x = 1
-            result_string = result.getvalue()
             if sysvers == 2:
+                result_string = result.getvalue()
                 assert result_string == "unknown datatype (expected  'binary4',\
 'binary8' [or 'ascii'], but got {}"\
 .format(filenames_data_types[i]+'unknown\n')
@@ -361,9 +369,11 @@ here\n"
                    os.path.join('..', 'Examples', 'yoyoleftedgetest.ohf'),
                    os.path.join('..', 'Examples', 'stdprob3v-regtest.omf'),
                    os.path.join('..', 'Examples', 'stdprobatest.omf')]
+
     for i in range(len(b4_b8_files)):
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.read_structured_binary_oommf_data(b4_b8_files[i], bytes[i],
                                                   filenames_nodes[i],
@@ -371,8 +381,8 @@ here\n"
             x = 0
         except AssertionError:
             x = 1
-            result_string = result.getvalue()
             if sysvers == 2:
+                result_string = result.getvalue()
                 # if binary4, tag = 7.27159209092e+31
                 if i < 2 or i > 3:
                     assert result_string == """The first item in a binary file is \
@@ -456,15 +466,16 @@ def test_read_structured_oommf_data():
 
         # test function detects unexpected datatype
         data_unknown = data+'unknown'
-        result = StringIO()
-        sys.stdout = result
+        if sysvers == 2:
+            result = StringIO()
+            sys.stdout = result
         try:
             omf.read_structured_oommf_data(file, byte, nodes, data+'unknown')
             x = 0
         except Exception:
             x = 1
-            result_string = result.getvalue()
             if sysvers == 2:
+                result_string = result.getvalue()
                 assert result_string == """expected ascii or binary4 or binary8 for\
  datatype, but got {}""".format(data_unknown)
         assert x == 1
